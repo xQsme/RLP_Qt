@@ -84,7 +84,7 @@ void Population::calculateFitnesses(Problem problem)
 
 int Population::generateNewPopulation()
 {
-    if(generation >= generations){
+    if(generation++ >= generations){
         return 0;
     }
 
@@ -136,8 +136,6 @@ int Population::generateNewPopulation()
             }
         }
     }
-
-    generation++;
 
     return 1;
 }

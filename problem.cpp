@@ -74,14 +74,11 @@ void Problem::setUpProblem(QString filename){
                    if(hasWeight==1){
                        list = line.split("\t");
                    }else{
-                       list = line.split(" ");
+                       list = line.split("  ");
                    }
                    foreach(QString value, list)
                    {
-                       if(value != "")
-                       {
-                           nodes[idx] << (value.toInt() == 0 ? 0 : 1);
-                       }
+                       nodes[idx] << (value.toInt() == 0 ? 0 : 1);
                    }
                    if (++idx == total) {
                        break;
