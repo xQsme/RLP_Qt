@@ -76,8 +76,12 @@ void Problem::setUpProblem(QString filename){
                    }else{
                        list = line.split(" ");
                    }
-                   foreach(QString value, list) {
-                       nodes[idx] << (value.toInt() == 0 ? 0 : 1);
+                   foreach(QString value, list)
+                   {
+                       if(value != "")
+                       {
+                           nodes[idx] << (value.toInt() == 0 ? 0 : 1);
+                       }
                    }
                    if (++idx == total) {
                        break;

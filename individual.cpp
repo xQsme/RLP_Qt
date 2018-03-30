@@ -63,3 +63,16 @@ int Individual::setValue(int index, int value)
 {
     solution[index]=value;
 }
+
+int Individual::setFitness(int fitness)
+{
+    this->fitness=fitness;
+}
+int Individual::setDisconnected(int disconnected)
+{
+    this->disconnected=disconnected;
+}
+int Individual::setRegenerators(int regenerators)
+{
+    this->regenerators=regenerators;
+}

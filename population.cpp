@@ -16,16 +16,59 @@ void Population::setUpPopulation(int seed, int populationSize, int generations, 
     this->generations=generations;
     this->elitism=elitism * 0.01;
     this->mutation=mutation * 0.01;
+    this->problem=problem;
 }
 
-void Population::calculateFitnesses(Problem problem)
+void Population::calculateFitnesses()
 {
-    for(int i = 0; i < individuals.length(); i++)
-    {
-        individuals[i].calculateFitness(problem);
+    int fitness;
+    int disconnected;
+    int regenerators;
+    QVector<int> currentSolution;
+    QVector<int> weights;
+    if(problem.hasWeights()){
+        weights=problem.getWeights();
     }
-    //reorder individuals
+    QVector<QVector<int>> nodes = problem.getNodes();
 
+    int match;
+    for(int ind = 0; ind < individuals.length(); ind++)
+    {
+        currentSolution = individuals[ind].getSolution();
+        fitness=0;
+        disconnected=0;
+        regenerators=0;
+        for (int i = 0; i < currentSolution.length(); i++) {
+            match = 0;
+            for (int j = 0; j < currentSolution.length(); j++) {
+                if (nodes[i][j] == 1) {
+                    if (currentSolution[j] == 1) {
+                        match++;
+                        break;
+                    }
+                }
+            }
+            if (match == 0) {
+                disconnected++; //guarda o numero de ligações sem regenerador
+                fitness+=500;
+            }
+        }
+        for (int i = 0; i < currentSolution.length(); i++) {
+            if (currentSolution[i] == 1) {
+                regenerators++; //guarda o total de regeneradores
+                if(problem.hasWeights() == 1){
+                    fitness += 100 * weights[i];
+                }else{
+                    fitness += 100;
+                }
+            }
+        }
+        individuals[ind].setFitness(fitness);
+        individuals[ind].setDisconnected(disconnected);
+        individuals[ind].setRegenerators(regenerators);
+    }
+
+    //reorder individuals
     for (int i = 0; i < individuals.length(); i++) //Ordenar fitness crescente e população por fitness crescente
     {
         for (int j = 0; j < individuals.length() - 1; j++)

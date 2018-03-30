@@ -14,6 +14,9 @@ public:
     int getDisconnected();
     int getRegenerators();
     int setValue(int index, int value);
+    int setFitness(int fitness);
+    int setDisconnected(int disconnected);
+    int setRegenerators(int regenerators);
 private:
     QVector<int> solution;
     int fitness=0;

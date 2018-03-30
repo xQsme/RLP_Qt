@@ -21,6 +21,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void updateForm();
+    void solve();
 
 private slots:
     void on_pushButtonRead_clicked();
@@ -32,7 +33,6 @@ private:
     QChart *chart;
     QLineSeries *series;
     QChartView *chartView;
-    Problem problem;
     Population population;
 };
 
