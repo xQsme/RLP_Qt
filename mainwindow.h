@@ -33,6 +33,7 @@ private:
     QChart *chart;
     QLineSeries *series;
     QChartView *chartView;
+    Problem problem;
     Population population;
 };
 

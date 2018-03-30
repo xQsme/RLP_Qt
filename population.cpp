@@ -16,10 +16,9 @@ void Population::setUpPopulation(int seed, int populationSize, int generations, 
     this->generations=generations;
     this->elitism=elitism * 0.01;
     this->mutation=mutation * 0.01;
-    this->problem=problem;
 }
 
-void Population::calculateFitnesses()
+void Population::calculateFitnesses(Problem problem)
 {
     int fitness;
     int disconnected;

@@ -29,7 +29,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButtonRead_clicked()
 {
-    Problem problem;
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Open txt"), "../RLP_Qt/DataSets", tr("Text Files (*.txt)"));
     try{
@@ -43,7 +42,7 @@ void MainWindow::on_pushButtonRead_clicked()
                                ui->lineEditElitism->text().toInt(),
                                ui->lineEditMutation->text().toInt(),
                                problem);
-    population.calculateFitnesses();
+    population.calculateFitnesses(problem);
     ui->labelNodes->setText("Nodes: " + QString::number(problem.getTotal()) + " Connections: " + QString::number(problem.getConnections()));
     chart->axisY()->setRange(0,population.getBestIndividual().getFitness());
     updateForm();
@@ -56,7 +55,7 @@ void MainWindow::on_pushButtonSolve_clicked()
 
 void MainWindow::solve(){
     while(population.generateNewPopulation() == 1){
-        population.calculateFitnesses();
+        population.calculateFitnesses(problem);
         updateForm();
     }
 }
