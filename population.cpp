@@ -5,30 +5,41 @@ Population::Population()
 
 }
 
-void Population::setUpPopulation(int seed, int populationSize, int generations, int elitism, int mutation, Problem problem)
+void Population::setUpPopulation(int seed, int populationSize, int generations, int elitism, int mutation, Problem* problem)
 {
     srand(seed);
+    individuals.clear();
     for(int i = 0; i < populationSize; i++)
     {
-        individuals << Individual(problem.getTotal());
+        individuals << Individual(problem->getTotal());
     }
-    individualSize = problem.getTotal();
+    this->generation=0;
+    this->seed=seed;
+    this->populationSize=populationSize;
+    individualSize = problem->getTotal();
     this->generations=generations;
     this->elitism=elitism * 0.01;
     this->mutation=mutation * 0.01;
 }
 
-void Population::calculateFitnesses(Problem problem)
+void Population::setUpPopulation(int generations, int elitism, int mutation)
+{
+    this->generations=generations;
+    this->elitism=elitism * 0.01;
+    this->mutation=mutation * 0.01;
+}
+
+void Population::calculateFitnesses(Problem* problem)
 {
     int fitness;
     int disconnected;
     int regenerators;
     QVector<int> currentSolution;
     QVector<int> weights;
-    if(problem.hasWeights()){
-        weights=problem.getWeights();
+    if(problem->hasWeights()){
+        weights=problem->getWeights();
     }
-    QVector<QVector<int>> nodes = problem.getNodes();
+    QVector<QVector<int>> nodes = problem->getNodes();
 
     int match;
     for(int ind = 0; ind < individuals.length(); ind++)
@@ -55,7 +66,7 @@ void Population::calculateFitnesses(Problem problem)
         for (int i = 0; i < currentSolution.length(); i++) {
             if (currentSolution[i] == 1) {
                 regenerators++; //guarda o total de regeneradores
-                if(problem.hasWeights() == 1){
+                if(problem->hasWeights() == 1){
                     fitness += 100 * weights[i];
                 }else{
                     fitness += 100;
@@ -150,4 +161,27 @@ int Population::getGeneration()
     return generation;
 }
 
+int Population::getGenerations()
+{
+    return generations;
+}
 
+int Population::getPopulationSize()
+{
+    return populationSize;
+}
+
+int Population::getElitism()
+{
+    return (int) elitism*100;
+}
+
+int Population::getMutation()
+{
+    return (int) mutation*100;
+}
+
+int Population::getSeed()
+{
+    return seed;
+}

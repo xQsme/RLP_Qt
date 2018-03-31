@@ -42,26 +42,57 @@ void MainWindow::on_pushButtonRead_clicked()
                                ui->lineEditGenerations->text().toInt(),
                                ui->lineEditElitism->text().toInt(),
                                ui->lineEditMutation->text().toInt(),
-                               problem);
-    population.calculateFitnesses(problem);
+                               &problem);
+    population.calculateFitnesses(&problem);
     ui->labelNodes->setText("Nodes: " + QString::number(problem.getTotal()) + " Connections: " + QString::number(problem.getConnections()));
     chart->axisY()->setRange(0, population.getBestIndividual().getFitness());
-    updateForm();
+    clearGraph();
 }
 
 void MainWindow::on_pushButtonSolve_clicked()
 {
-    mainThread = new MainThread(population, problem);
-    connect(mainThread, SIGNAL(dataChanged(QString)), this, SLOT(onDataChanged(QString)));
-    mainThread->start();
+    if(ui->pushButtonSolve->text() == "Solve"){
+        if(problem.getTotal()==0){
+            QMessageBox::information(this, "Error", "Read a file first.");
+            return;
+        }
+        if(population.getGeneration() >= population.getGenerations() ||
+                population.getGenerations() != ui->lineEditGenerations->text().toInt() ||
+                population.getPopulationSize() != ui->lineEditPopulation->text().toInt() ||
+                population.getElitism() != ui->lineEditElitism->text().toInt() ||
+                population.getMutation() != ui->lineEditMutation->text().toInt() ||
+                population.getSeed() != ui->lineEditSeed->text().toInt()){
+            if(population.getSeed() != ui->lineEditSeed->text().toInt() ||
+                    population.getPopulationSize() != ui->lineEditPopulation->text().toInt() ||
+                    population.getGeneration() >= population.getGenerations()){
+                population.setUpPopulation(ui->lineEditSeed->text().toInt(),
+                                           ui->lineEditPopulation->text().toInt(),
+                                           ui->lineEditGenerations->text().toInt(),
+                                           ui->lineEditElitism->text().toInt(),
+                                           ui->lineEditMutation->text().toInt(),
+                                           &problem);
+                population.calculateFitnesses(&problem);
+                clearGraph();
+            }else{
+                population.setUpPopulation(ui->lineEditGenerations->text().toInt(),
+                                           ui->lineEditElitism->text().toInt(),
+                                           ui->lineEditMutation->text().toInt());
+            }
+        }
+        mainThread = new MainThread(&population, &problem);
+        connect(mainThread, SIGNAL(dataChanged(QString)), this, SLOT(onDataChanged(QString)));
+        mainThread->start();
+        disableForm();
+    }else{
+        mainThread->terminate();
+        enableForm();
+    }
 }
 
-void MainWindow::solve(){
-
-}
-
-void MainWindow::updateForm(){
-
+void MainWindow::clearGraph(){
+    series->clear();
+    series->append(population.getGeneration(), population.getBestIndividual().getFitness());
+    chart->axisX()->setRange(0, 1);
 }
 
 void MainWindow::onDataChanged(QString stuff)
@@ -72,4 +103,27 @@ void MainWindow::onDataChanged(QString stuff)
     ui->labelDisconnected->setText("Disconnected: " + moreStuff[1]);
     ui->labelRegenerators->setText("Regenerators: " + moreStuff[2]);
     ui->labelFitness->setText("Fitness: " + moreStuff[0]);
+    if(moreStuff[4] == "1"){
+        enableForm();
+    }
+}
+
+void MainWindow::disableForm(){
+    ui->lineEditSeed->setDisabled(true);
+    ui->lineEditPopulation->setDisabled(true);
+    ui->lineEditGenerations->setDisabled(true);
+    ui->lineEditElitism->setDisabled(true);
+    ui->lineEditMutation->setDisabled(true);
+    ui->pushButtonRead->setDisabled(true);
+    ui->pushButtonSolve->setText("Stop");
+}
+
+void MainWindow::enableForm(){
+    ui->lineEditSeed->setDisabled(false);
+    ui->lineEditPopulation->setDisabled(false);
+    ui->lineEditGenerations->setDisabled(false);
+    ui->lineEditElitism->setDisabled(false);
+    ui->lineEditMutation->setDisabled(false);
+    ui->pushButtonRead->setDisabled(false);
+    ui->pushButtonSolve->setText("Solve");
 }

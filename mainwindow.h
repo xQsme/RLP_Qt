@@ -21,8 +21,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void updateForm();
-    void solve();
+    void clearGraph();
+    void disableForm();
+    void enableForm();
 
 private slots:
     void on_pushButtonRead_clicked();

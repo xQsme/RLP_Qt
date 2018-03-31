@@ -1,15 +1,15 @@
-#ifndef MAINTHREAD_H
-#define MAINTHREAD_H
+#ifndef MULTITHREAD_H
+#define MULTITHREAD_H
 #include <QtCore>
 #include "population.h"
 #include "problem.h"
 
-class MainThread : public QThread
+class MultiThread : public QThread
 {
     Q_OBJECT
 public:
-    MainThread();
-    MainThread(Population* population, Problem* problem);
+    MultiThread();
+    MultiThread(Population* population, Problem* problem);
     void run();
 private:
     Population* population;
@@ -18,4 +18,4 @@ signals:
     void dataChanged(QString);
 };
 
-#endif // MAINTHREAD_H
+#endif // MULTITHREAD_H

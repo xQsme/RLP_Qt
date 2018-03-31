@@ -1,17 +1,17 @@
-#include "mainthread.h"
+#include "multithread.h"
 
-MainThread::MainThread()
+MultiThread::MultiThread()
 {
 
 }
 
-MainThread::MainThread(Population* population, Problem* problem)
+MultiThread::MultiThread(Population* population, Problem* problem)
 {
     this->population=population;
     this->problem=problem;
 }
 
-void MainThread::run()
+void MultiThread::run()
 {
     while(population->generateNewPopulation() == 1){
         population->calculateFitnesses(problem);

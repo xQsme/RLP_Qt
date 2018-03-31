@@ -29,14 +29,16 @@ SOURCES += \
     problem.cpp \
     population.cpp \
     individual.cpp \
-    mainthread.cpp
+    mainthread.cpp \
+    multithread.cpp
 
 HEADERS += \
         mainwindow.h \
     problem.h \
     population.h \
     individual.h \
-    mainthread.h
+    mainthread.h \
+    multithread.h
 
 FORMS += \
         mainwindow.ui
