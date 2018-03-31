@@ -8,15 +8,14 @@ class Individual
 public:
     Individual();
     Individual(int nodes);
-    void calculateFitness(Problem problem);
     QVector<int> getSolution();
     int getFitness();
     int getDisconnected();
     int getRegenerators();
-    int setValue(int index, int value);
-    int setFitness(int fitness);
-    int setDisconnected(int disconnected);
-    int setRegenerators(int regenerators);
+    void setValue(int index, int value);
+    void setFitness(int fitness);
+    void setDisconnected(int disconnected);
+    void setRegenerators(int regenerators);
 private:
     QVector<int> solution;
     int fitness=0;
