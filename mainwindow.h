@@ -8,6 +8,7 @@
 #include "problem.h"
 #include "individual.h"
 #include "population.h"
+#include "mainthread.h"
 
 namespace Ui {
 class MainWindow;
@@ -35,6 +36,10 @@ private:
     QChartView *chartView;
     Problem problem;
     Population population;
+    MainThread* mainThread;
+
+public slots:
+    void onDataChanged(QString);
 };
 
 #endif // MAINWINDOW_H

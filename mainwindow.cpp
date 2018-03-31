@@ -29,6 +29,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButtonRead_clicked()
 {
+
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Open txt"), "../RLP_Qt/DataSets", tr("Text Files (*.txt)"));
     try{
@@ -44,27 +45,31 @@ void MainWindow::on_pushButtonRead_clicked()
                                problem);
     population.calculateFitnesses(problem);
     ui->labelNodes->setText("Nodes: " + QString::number(problem.getTotal()) + " Connections: " + QString::number(problem.getConnections()));
-    chart->axisY()->setRange(0,population.getBestIndividual().getFitness());
+    chart->axisY()->setRange(0, population.getBestIndividual().getFitness());
     updateForm();
 }
 
 void MainWindow::on_pushButtonSolve_clicked()
 {
-    solve();
+    mainThread = new MainThread(population, problem);
+    connect(mainThread, SIGNAL(dataChanged(QString)), this, SLOT(onDataChanged(QString)));
+    mainThread->start();
 }
 
 void MainWindow::solve(){
-    while(population.generateNewPopulation() == 1){
-        population.calculateFitnesses(problem);
-        updateForm();
-    }
+
 }
 
 void MainWindow::updateForm(){
-    Individual bestIndividual = population.getBestIndividual();
-    series->append(population.getGeneration(), bestIndividual.getFitness());
-    chart->axisX()->setRange(0,population.getGeneration());
-    ui->labelDisconnected->setText("Disconnected: " + QString::number(bestIndividual.getDisconnected()));
-    ui->labelRegenerators->setText("Regenerators: " + QString::number(bestIndividual.getRegenerators()));
-    ui->labelFitness->setText("Fitness: " + QString::number(bestIndividual.getFitness()));
+
+}
+
+void MainWindow::onDataChanged(QString stuff)
+{
+    QList<QString> moreStuff = stuff.split(" ");
+    series->append(moreStuff[3].toInt(), moreStuff[0].toInt());
+    chart->axisX()->setRange(0, moreStuff[3].toInt());
+    ui->labelDisconnected->setText("Disconnected: " + moreStuff[1]);
+    ui->labelRegenerators->setText("Regenerators: " + moreStuff[2]);
+    ui->labelFitness->setText("Fitness: " + moreStuff[0]);
 }

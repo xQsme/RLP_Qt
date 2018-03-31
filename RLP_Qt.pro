@@ -28,13 +28,15 @@ SOURCES += \
         mainwindow.cpp \
     problem.cpp \
     population.cpp \
-    individual.cpp
+    individual.cpp \
+    mainthread.cpp
 
 HEADERS += \
         mainwindow.h \
     problem.h \
     population.h \
-    individual.h
+    individual.h \
+    mainthread.h
 
 FORMS += \
         mainwindow.ui
