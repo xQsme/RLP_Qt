@@ -93,7 +93,7 @@ void Population::calculateFitnesses(Problem* problem)
     }
 }
 
-int Population::generateNewPopulation()
+int Population::generateNewPopulation(/*int thread, int threadCount*/)
 {
     if(generation++ >= generations){
         return 0;
