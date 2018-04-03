@@ -8,6 +8,7 @@
 #include "problem.h"
 #include "individual.h"
 #include "population.h"
+#include "geneticalgorithm.h"
 #include "mainthread.h"
 
 namespace Ui {
@@ -37,6 +38,7 @@ private:
     QChartView *chartView;
     Problem problem;
     Population population;
+    GeneticAlgorithm algorithm;
     MainThread* mainThread;
 
 public slots:

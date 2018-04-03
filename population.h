@@ -7,25 +7,17 @@ class Population
 {
 public:
     Population();
-    void setUpPopulation(int seed, int populationSize, int generations, int elitism, int mutation, Problem* problem);
-    void setUpPopulation(int generations, int elitism, int mutation);
+    void setUpPopulation(int seed, int populationSize, Problem* problem);
     void calculateFitnesses(Problem* problem);
-    int generateNewPopulation();
+    QVector<Individual> getIndividuals();
+    void setValue(int i, int j, int value);
     Individual getBestIndividual();
-    int getGeneration();
-    int getGenerations();
     int getPopulationSize();
-    int getElitism();
-    int getMutation();
     int getSeed();
 private:
     QVector<Individual> individuals;
     int populationSize;
     int individualSize;
-    float elitism;
-    float mutation;
-    int generation;
-    int generations;
     int seed;
 };
 

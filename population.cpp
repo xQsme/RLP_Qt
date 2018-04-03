@@ -5,7 +5,7 @@ Population::Population()
 
 }
 
-void Population::setUpPopulation(int seed, int populationSize, int generations, int elitism, int mutation, Problem* problem)
+void Population::setUpPopulation(int seed, int populationSize, Problem* problem)
 {
     srand(seed);
     individuals.clear();
@@ -13,20 +13,9 @@ void Population::setUpPopulation(int seed, int populationSize, int generations, 
     {
         individuals << Individual(problem->getTotal());
     }
-    this->generation=0;
     this->seed=seed;
     this->populationSize=populationSize;
     individualSize = problem->getTotal();
-    this->generations=generations;
-    this->elitism=elitism * 0.01;
-    this->mutation=mutation * 0.01;
-}
-
-void Population::setUpPopulation(int generations, int elitism, int mutation)
-{
-    this->generations=generations;
-    this->elitism=elitism * 0.01;
-    this->mutation=mutation * 0.01;
 }
 
 void Population::calculateFitnesses(Problem* problem)
@@ -93,62 +82,13 @@ void Population::calculateFitnesses(Problem* problem)
     }
 }
 
-int Population::generateNewPopulation(/*int thread, int threadCount*/)
+void Population::setValue(int i, int j, int value){
+    individuals[i].setValue(j, value);
+}
+
+QVector<Individual> Population::getIndividuals()
 {
-    if(generation++ >= generations){
-        return 0;
-    }
-
-    //Selected é o indice onde acabam os individuos que foram mantidos (Elitismo), estes não são alterados
-    int selected = elitism * individuals.length();
-    //Reprodução
-    for (int i = selected; i < individuals.length(); i++) {
-        for (int j = 0; j < individualSize; j++) {
-            if (selected != 0) { //Para nao dividir por 0
-                individuals[i].setValue(j, individuals[rand() % selected].getSolution()[j]);
-                //cada nó dum individuo não selecionado, toma um valor dum nó dum individuo selecionado
-            }
-        }
-    }
-    //Mutação
-    int zeroes, ones;
-    for (int j = 0; j < individualSize; j++) {
-        zeroes = ones = 0;
-        for (int i = 0; i < selected; i++) {
-            if (individuals[i].getSolution()[j] == 0) {
-                zeroes++;
-            }
-            else {
-                ones++;
-            }
-        }
-        //A partir do selecionados até metade dos restantes
-        //quando naquela coluna os selecionados apenas têm 1s
-        if (zeroes == 0) {
-            for (int i = selected; i < (individuals.length() - selected) / 2 + selected; i++) {
-                if (rand() % (int)(1 / mutation) == 0) { //conforme a probabilidade de mutação
-                    individuals[i].setValue(j, 0); //alguns nós passam a 0
-                }
-            }
-        }
-        //quando naquela coluna os selecionados apenas têm 0s
-        if (ones == 0) {
-            for (int i = selected; i < (individuals.length() - selected) / 2 + selected; i++) {
-                if (rand() % (int)(1 / mutation) == 0) {
-                    individuals[i].setValue(j, 1); //alguns nós passam a 1
-                }
-            }
-        }
-
-        //A partir de metade dos restantes até ao final da população
-        for (int i = (individuals.length() - selected) / 2 + selected; i < individuals.length(); i++) {
-            if (rand() % (int)(1 / mutation) == 0) { //Conforme a probabilidade de mutação
-                individuals[i].setValue(j, rand() % 2); //É atribuido um valor 0 ou 1 random
-            }
-        }
-    }
-
-    return 1;
+    return individuals;
 }
 
 Individual Population::getBestIndividual()
@@ -156,29 +96,9 @@ Individual Population::getBestIndividual()
     return individuals[0];
 }
 
-int Population::getGeneration()
-{
-    return generation;
-}
-
-int Population::getGenerations()
-{
-    return generations;
-}
-
 int Population::getPopulationSize()
 {
     return populationSize;
-}
-
-int Population::getElitism()
-{
-    return (int) elitism*100;
-}
-
-int Population::getMutation()
-{
-    return (int) mutation*100;
 }
 
 int Population::getSeed()

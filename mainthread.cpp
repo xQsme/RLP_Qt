@@ -5,10 +5,11 @@ MainThread::MainThread()
 
 }
 
-MainThread::MainThread(Population* population, Problem* problem/*, int threads*/)
+MainThread::MainThread(Population* population, Problem* problem, GeneticAlgorithm* algorithm/*, int threads*/)
 {
     this->population=population;
     this->problem=problem;
+    this->algorithm=algorithm;
     /*this->threadCount=threads;
     for(int i =0; i<threads; i++){
         mutexes << new QMutex();
@@ -22,10 +23,10 @@ void MainThread::run()
     /*for(int i =0; i<threadCount; i++){
         threads[i].start();
     }*/
-    while(population->generateNewPopulation() == 1){
+    while(algorithm->generateNewPopulation(population, problem) == 1){
         population->calculateFitnesses(problem);
         QString ended;
-        if(population->getGeneration() >= population->getGenerations()){
+        if(algorithm->getGeneration() >= algorithm->getGenerations()){
             ended = " 1";
         }else{
             ended = " 0";
@@ -33,7 +34,7 @@ void MainThread::run()
         QString stuff = QString::number(population->getBestIndividual().getFitness()) + " " +
                 QString::number(population->getBestIndividual().getDisconnected()) + " " +
                 QString::number(population->getBestIndividual().getRegenerators()) + " " +
-                QString::number(population->getGeneration()) + ended;
+                QString::number(algorithm->getGeneration()) + ended;
         emit dataChanged(stuff);
     }
 }
