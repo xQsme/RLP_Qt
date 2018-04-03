@@ -5,6 +5,7 @@
 #include <QMutex>
 #include "population.h"
 #include "problem.h"
+#include "geneticalgorithm.h"
 #include "multithread.h"
 
 class MainThread : public QThread
@@ -12,11 +13,12 @@ class MainThread : public QThread
     Q_OBJECT
 public:
     MainThread();
-    MainThread(Population* population, Problem* problem/*, int threads*/);
+    MainThread(Population* population, Problem* problem, GeneticAlgorithm* algorithm/*, int threads*/);
     void run();
 private:
     Population* population;
     Problem* problem;
+    GeneticAlgorithm* algorithm;
 /*    int threadCount;
     QVector<MultiThread> threads;
     QVector<QMutex> mutexes;*/

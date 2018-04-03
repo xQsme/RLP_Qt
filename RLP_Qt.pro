@@ -30,7 +30,8 @@ SOURCES += \
     population.cpp \
     individual.cpp \
     mainthread.cpp \
-    multithread.cpp
+    multithread.cpp \
+    geneticalgorithm.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -38,7 +39,8 @@ HEADERS += \
     population.h \
     individual.h \
     mainthread.h \
-    multithread.h
+    multithread.h \
+    geneticalgorithm.h
 
 FORMS += \
         mainwindow.ui

@@ -39,10 +39,10 @@ void MainWindow::on_pushButtonRead_clicked()
     }
     population.setUpPopulation(ui->lineEditSeed->text().toInt(),
                                ui->lineEditPopulation->text().toInt(),
-                               ui->lineEditGenerations->text().toInt(),
-                               ui->lineEditElitism->text().toInt(),
-                               ui->lineEditMutation->text().toInt(),
                                &problem);
+    algorithm.setUpAlgorithm(ui->lineEditElitism->text().toInt(),
+                             ui->lineEditMutation->text().toInt(),
+                             ui->lineEditGenerations->text().toInt());
     population.calculateFitnesses(&problem);
     ui->labelNodes->setText("Nodes: " + QString::number(problem.getTotal()) + " Connections: " + QString::number(problem.getConnections()));
     chart->axisY()->setRange(0, population.getBestIndividual().getFitness());
@@ -56,30 +56,29 @@ void MainWindow::on_pushButtonSolve_clicked()
             QMessageBox::information(this, "Error", "Read a file first.");
             return;
         }
-        if(population.getGeneration() >= population.getGenerations() ||
-                population.getGenerations() != ui->lineEditGenerations->text().toInt() ||
+        if(algorithm.getGeneration() >= algorithm.getGenerations() ||
+                algorithm.getGenerations() != ui->lineEditGenerations->text().toInt() ||
                 population.getPopulationSize() != ui->lineEditPopulation->text().toInt() ||
-                population.getElitism() != ui->lineEditElitism->text().toInt() ||
-                population.getMutation() != ui->lineEditMutation->text().toInt() ||
+                algorithm.getElitism() != ui->lineEditElitism->text().toInt() ||
+                algorithm.getMutation() != ui->lineEditMutation->text().toInt() ||
                 population.getSeed() != ui->lineEditSeed->text().toInt()){
             if(population.getSeed() != ui->lineEditSeed->text().toInt() ||
-                    population.getPopulationSize() != ui->lineEditPopulation->text().toInt() ||
-                    population.getGeneration() >= population.getGenerations()){
+                    population.getPopulationSize() != ui->lineEditPopulation->text().toInt()){
                 population.setUpPopulation(ui->lineEditSeed->text().toInt(),
                                            ui->lineEditPopulation->text().toInt(),
-                                           ui->lineEditGenerations->text().toInt(),
-                                           ui->lineEditElitism->text().toInt(),
-                                           ui->lineEditMutation->text().toInt(),
                                            &problem);
+                algorithm.setUpAlgorithm(ui->lineEditElitism->text().toInt(),
+                                         ui->lineEditMutation->text().toInt(),
+                                         ui->lineEditGenerations->text().toInt());
                 population.calculateFitnesses(&problem);
                 clearGraph();
             }else{
-                population.setUpPopulation(ui->lineEditGenerations->text().toInt(),
-                                           ui->lineEditElitism->text().toInt(),
-                                           ui->lineEditMutation->text().toInt());
+                algorithm.setUpAlgorithm(ui->lineEditElitism->text().toInt(),
+                                         ui->lineEditMutation->text().toInt(),
+                                         ui->lineEditGenerations->text().toInt());
             }
         }
-        mainThread = new MainThread(&population, &problem/*, ui->lineEditThreads->text().toInt()*/);
+        mainThread = new MainThread(&population, &problem, &algorithm/*, ui->lineEditThreads->text().toInt()*/);
         connect(mainThread, SIGNAL(dataChanged(QString)), this, SLOT(onDataChanged(QString)));
         mainThread->start();
         disableForm();
@@ -91,8 +90,11 @@ void MainWindow::on_pushButtonSolve_clicked()
 
 void MainWindow::clearGraph(){
     series->clear();
-    series->append(population.getGeneration(), population.getBestIndividual().getFitness());
+    series->append(algorithm.getGeneration(), population.getBestIndividual().getFitness());
     chart->axisX()->setRange(0, 1);
+    ui->labelDisconnected->setText("Disconnected: " + QString::number(population.getBestIndividual().getDisconnected()));
+    ui->labelRegenerators->setText("Regenerators: " + QString::number(population.getBestIndividual().getRegenerators()));
+    ui->labelFitness->setText("Fitness: " + QString::number(population.getBestIndividual().getFitness()));
 }
 
 void MainWindow::onDataChanged(QString stuff)
