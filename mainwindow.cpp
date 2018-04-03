@@ -64,7 +64,9 @@ void MainWindow::on_pushButtonSolve_clicked()
                 population.getSeed() != ui->lineEditSeed->text().toInt()){
             if(population.getSeed() != ui->lineEditSeed->text().toInt() ||
                     population.getPopulationSize() != ui->lineEditPopulation->text().toInt() ||
-                    population.getGeneration() >= population.getGenerations()){
+                    population.getGeneration() >= population.getGenerations() ||
+                    population.getElitism() != ui->lineEditElitism->text().toInt() ||
+                    population.getMutation() != ui->lineEditMutation->text().toInt()){
                 population.setUpPopulation(ui->lineEditSeed->text().toInt(),
                                            ui->lineEditPopulation->text().toInt(),
                                            ui->lineEditGenerations->text().toInt(),
@@ -93,6 +95,9 @@ void MainWindow::clearGraph(){
     series->clear();
     series->append(population.getGeneration(), population.getBestIndividual().getFitness());
     chart->axisX()->setRange(0, 1);
+    ui->labelDisconnected->setText("Disconnected: " + QString::number(population.getBestIndividual().getDisconnected()));
+    ui->labelRegenerators->setText("Regenerators: " + QString::number(population.getBestIndividual().getRegenerators()));
+    ui->labelFitness->setText("Fitness: " + QString::number(population.getBestIndividual().getFitness()));
 }
 
 void MainWindow::onDataChanged(QString stuff)
