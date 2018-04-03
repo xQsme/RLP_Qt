@@ -81,7 +81,7 @@ void MainWindow::on_pushButtonSolve_clicked()
                                            ui->lineEditMutation->text().toInt());
             }
         }
-        mainThread = new MainThread(&population, &problem);
+        mainThread = new MainThread(&population, &problem/*, ui->lineEditThreads->text().toInt()*/);
         connect(mainThread, SIGNAL(dataChanged(QString)), this, SLOT(onDataChanged(QString)));
         mainThread->start();
         disableForm();

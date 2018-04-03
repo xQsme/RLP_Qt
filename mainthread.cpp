@@ -5,14 +5,23 @@ MainThread::MainThread()
 
 }
 
-MainThread::MainThread(Population* population, Problem* problem)
+MainThread::MainThread(Population* population, Problem* problem/*, int threads*/)
 {
     this->population=population;
     this->problem=problem;
+    /*this->threadCount=threads;
+    for(int i =0; i<threads; i++){
+        mutexes << new QMutex();
+        threads << new MultiThread(population, problem, i, threads, &mutexes);
+    }
+    connect(threads[threadCount-1], SIGNAL(dataChanged(QString)), this, SLOT(onDataChanged(QString)));*/
 }
 
 void MainThread::run()
 {
+    /*for(int i =0; i<threadCount; i++){
+        threads[i].start();
+    }*/
     while(population->generateNewPopulation() == 1){
         population->calculateFitnesses(problem);
         QString ended;
@@ -29,3 +38,7 @@ void MainThread::run()
     }
 }
 
+/*void MainThread::onDataChanged(QString stuff)
+{
+    emit dataChanged(stuff);
+}*/

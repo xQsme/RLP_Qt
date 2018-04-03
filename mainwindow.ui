@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>571</width>
-    <height>279</height>
+    <height>313</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>150</x>
       <y>20</y>
       <width>411</width>
-      <height>251</height>
+      <height>281</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
@@ -29,13 +29,26 @@
      </property>
     </layout>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QLabel" name="labelNodes">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>10</y>
+      <width>181</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Nodes: 0 Connections: 0</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
+      <y>13</y>
       <width>141</width>
-      <height>259</height>
+      <height>287</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -87,6 +100,16 @@
           <widget class="QLabel" name="label_5">
            <property name="text">
             <string>Mutation</string>
+           </property>
+           <property name="buddy">
+            <cstring>lineEditMutation</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>Threads</string>
            </property>
            <property name="buddy">
             <cstring>lineEditMutation</cstring>
@@ -171,6 +194,16 @@
             </widget>
            </item>
           </layout>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEditThreads">
+           <property name="text">
+            <string>6</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -272,19 +305,6 @@
       </widget>
      </item>
     </layout>
-   </widget>
-   <widget class="QLabel" name="labelNodes">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>10</y>
-      <width>181</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Nodes: 0 Connections: 0</string>
-    </property>
    </widget>
   </widget>
  </widget>
