@@ -31,7 +31,11 @@ SOURCES += \
     individual.cpp \
     mainthread.cpp \
     multithread.cpp \
-    geneticalgorithm.cpp
+    geneticalgorithm.cpp \
+    dialogcustom.cpp \
+    dialogbeecolony.cpp \
+    dialogbeealgorithm.cpp \
+    dialogantcolony.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -40,10 +44,18 @@ HEADERS += \
     individual.h \
     mainthread.h \
     multithread.h \
-    geneticalgorithm.h
+    geneticalgorithm.h \
+    dialogcustom.h \
+    dialogbeecolony.h \
+    dialogbeealgorithm.h \
+    dialogantcolony.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    dialogcustom.ui \
+    dialogbeecolony.ui \
+    dialogbeealgorithm.ui \
+    dialogantcolony.ui
 
 DISTFILES += \
     qml.qml

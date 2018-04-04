@@ -2,14 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QtCharts>
-#include <QFileDialog>
-#include <QMessageBox>
-#include "problem.h"
-#include "individual.h"
-#include "population.h"
-#include "geneticalgorithm.h"
-#include "mainthread.h"
+#include "dialogantcolony.h"
+#include "dialogbeealgorithm.h"
+#include "dialogbeecolony.h"
+#include "dialogcustom.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,27 +18,20 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void clearGraph();
-    void disableForm();
-    void enableForm();
-
 private slots:
-    void on_pushButtonRead_clicked();
 
-    void on_pushButtonSolve_clicked();
+    void on_pushButtonCustom_clicked();
+
+    void on_pushButtonAntColony_clicked();
+
+    void on_pushButtonBeeAlgorithm_clicked();
+
+    void on_pushButtonBeeColony_clicked();
 
 private:
     Ui::MainWindow *ui;
-    QChart *chart;
-    QLineSeries *series;
-    QChartView *chartView;
-    Problem problem;
-    Population population;
-    GeneticAlgorithm algorithm;
-    MainThread* mainThread;
 
 public slots:
-    void onDataChanged(QString);
 };
 
 #endif // MAINWINDOW_H
