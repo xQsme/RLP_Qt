@@ -10,12 +10,12 @@ class GeneticAlgorithm
 {
 public:
     GeneticAlgorithm();
-    void setUpAlgorithm(int elitism, int mutation, int generations);
+    void setUpAlgorithm(int generation, int elitism, int mutation, int generations);
     int generateNewPopulation(Population* population, Problem* problem);
     int getGeneration();
     int getGenerations();
-    int getElitism();
-    int getMutation();
+    float getElitism();
+    float getMutation();
 private:
     float elitism;
     float mutation;

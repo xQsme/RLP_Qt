@@ -5,9 +5,11 @@ GeneticAlgorithm::GeneticAlgorithm()
 
 }
 
-void GeneticAlgorithm::setUpAlgorithm(int elitism, int mutation, int generations)
+void GeneticAlgorithm::setUpAlgorithm(int generation, int elitism, int mutation, int generations)
 {
-    this->generation=0;
+    if(generation == 0){
+        this->generation=generation;
+    }
     this->generations=generations;
     this->elitism=elitism * 0.01;
     this->mutation=mutation * 0.01;
@@ -81,12 +83,12 @@ int GeneticAlgorithm::getGenerations()
     return generations;
 }
 
-int GeneticAlgorithm::getElitism()
+float GeneticAlgorithm::getElitism()
 {
-    return (int) elitism*100;
+    return elitism;
 }
 
-int GeneticAlgorithm::getMutation()
+float GeneticAlgorithm::getMutation()
 {
-    return (int) mutation*100;
+    return mutation;
 }

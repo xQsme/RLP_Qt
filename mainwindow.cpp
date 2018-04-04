@@ -40,7 +40,7 @@ void MainWindow::on_pushButtonRead_clicked()
     population.setUpPopulation(ui->lineEditSeed->text().toInt(),
                                ui->lineEditPopulation->text().toInt(),
                                &problem);
-    algorithm.setUpAlgorithm(ui->lineEditElitism->text().toInt(),
+    algorithm.setUpAlgorithm(0, ui->lineEditElitism->text().toInt(),
                              ui->lineEditMutation->text().toInt(),
                              ui->lineEditGenerations->text().toInt());
     population.calculateFitnesses(&problem);
@@ -59,23 +59,38 @@ void MainWindow::on_pushButtonSolve_clicked()
         if(algorithm.getGeneration() >= algorithm.getGenerations() ||
                 algorithm.getGenerations() != ui->lineEditGenerations->text().toInt() ||
                 population.getPopulationSize() != ui->lineEditPopulation->text().toInt() ||
-                algorithm.getElitism() != ui->lineEditElitism->text().toInt() ||
-                algorithm.getMutation() != ui->lineEditMutation->text().toInt() ||
-                population.getSeed() != ui->lineEditSeed->text().toInt()){
+                algorithm.getElitism() - ui->lineEditElitism->text().toInt() * 0.01 >= 0.001 ||
+                algorithm.getElitism() - ui->lineEditElitism->text().toInt() * 0.01 <= -0.001 ||
+                algorithm.getMutation() - ui->lineEditMutation->text().toInt() * 0.01 >= 0.001 ||
+                algorithm.getMutation() - ui->lineEditMutation->text().toInt() * 0.01 <= -0.001 ||
+                population.getSeed() != ui->lineEditSeed->text().toInt()){ //Se mudou alguma coisa ou chegou ao fim
             if(population.getSeed() != ui->lineEditSeed->text().toInt() ||
-                    population.getPopulationSize() != ui->lineEditPopulation->text().toInt()){
+                    population.getPopulationSize() != ui->lineEditPopulation->text().toInt()){ //Se a população mudou
                 population.setUpPopulation(ui->lineEditSeed->text().toInt(),
                                            ui->lineEditPopulation->text().toInt(),
                                            &problem);
-                algorithm.setUpAlgorithm(ui->lineEditElitism->text().toInt(),
+                algorithm.setUpAlgorithm(0, ui->lineEditElitism->text().toInt(),
                                          ui->lineEditMutation->text().toInt(),
                                          ui->lineEditGenerations->text().toInt());
                 population.calculateFitnesses(&problem);
                 clearGraph();
-            }else{
-                algorithm.setUpAlgorithm(ui->lineEditElitism->text().toInt(),
+            }else if(ui->lineEditGenerations->text().toInt() > algorithm.getGeneration() &&
+                     algorithm.getElitism() - ui->lineEditElitism->text().toInt() * 0.01 <= 0.001 &&
+                     algorithm.getElitism() - ui->lineEditElitism->text().toInt() * 0.01 >= -0.001 &&
+                     algorithm.getMutation() - ui->lineEditMutation->text().toInt() * 0.01 <= 0.001 &&
+                     algorithm.getMutation() - ui->lineEditMutation->text().toInt() * 0.01 >= -0.001){ //Se apenas as gerações mudaram
+                algorithm.setUpAlgorithm(1, ui->lineEditElitism->text().toInt(),
                                          ui->lineEditMutation->text().toInt(),
                                          ui->lineEditGenerations->text().toInt());
+            }else{ //Mudou algo que não as gerações
+                population.setUpPopulation(ui->lineEditSeed->text().toInt(),
+                                           ui->lineEditPopulation->text().toInt(),
+                                           &problem);
+                population.calculateFitnesses(&problem);
+                algorithm.setUpAlgorithm(0, ui->lineEditElitism->text().toInt(),
+                                         ui->lineEditMutation->text().toInt(),
+                                         ui->lineEditGenerations->text().toInt());
+                clearGraph();
             }
         }
         mainThread = new MainThread(&population, &problem, &algorithm/*, ui->lineEditThreads->text().toInt()*/);
