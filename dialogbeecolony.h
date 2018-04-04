@@ -23,6 +23,9 @@ public:
     explicit DialogBeeColony(QWidget *parent = 0);
     ~DialogBeeColony();
 
+private slots:
+    void on_pushButtonRead_clicked();
+
 private:
     Ui::DialogBeeColony *ui;
     QChart *chart;

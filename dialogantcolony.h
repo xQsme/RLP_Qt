@@ -23,6 +23,9 @@ public:
     explicit DialogAntColony(QWidget *parent = 0);
     ~DialogAntColony();
 
+private slots:
+    void on_pushButtonRead_clicked();
+
 private:
     Ui::DialogAntColony *ui;
     QChart *chart;

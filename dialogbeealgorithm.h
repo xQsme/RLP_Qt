@@ -23,6 +23,9 @@ public:
     explicit DialogBeeAlgorithm(QWidget *parent = 0);
     ~DialogBeeAlgorithm();
 
+private slots:
+    void on_pushButtonRead_clicked();
+
 private:
     Ui::DialogBeeAlgorithm *ui;
     QChart *chart;

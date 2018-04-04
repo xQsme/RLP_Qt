@@ -29,7 +29,6 @@ DialogCustom::~DialogCustom()
 
 void DialogCustom::on_pushButtonRead_clicked()
 {
-
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Open txt"), "../RLP_Qt/DataSets", tr("Text Files (*.txt)"));
     try{
