@@ -22,6 +22,7 @@ class DialogBeeAlgorithm : public QDialog
 public:
     explicit DialogBeeAlgorithm(QWidget *parent = 0);
     ~DialogBeeAlgorithm();
+     void clearGraph();
 
 private slots:
     void on_pushButtonRead_clicked();

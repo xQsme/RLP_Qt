@@ -22,6 +22,7 @@ class DialogAntColony : public QDialog
 public:
     explicit DialogAntColony(QWidget *parent = 0);
     ~DialogAntColony();
+    void clearGraph();
 
 private slots:
     void on_pushButtonRead_clicked();

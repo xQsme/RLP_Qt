@@ -22,6 +22,7 @@ class DialogBeeColony : public QDialog
 public:
     explicit DialogBeeColony(QWidget *parent = 0);
     ~DialogBeeColony();
+    void clearGraph();
 
 private slots:
     void on_pushButtonRead_clicked();

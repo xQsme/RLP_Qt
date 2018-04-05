@@ -45,3 +45,12 @@ void DialogAntColony::on_pushButtonRead_clicked()
     chart->axisY()->setRange(0, population.getBestIndividual().getFitness());
     clearGraph();
 }
+
+void DialogAntColony::clearGraph(){
+    series->clear();
+    series->append(algorithm.getGeneration(), population.getBestIndividual().getFitness());
+    chart->axisX()->setRange(0, 1);
+    ui->labelDisconnected->setText("Disconnected: " + QString::number(population.getBestIndividual().getDisconnected()));
+    ui->labelRegenerators->setText("Regenerators: " + QString::number(population.getBestIndividual().getRegenerators()));
+    ui->labelFitness->setText("Fitness: " + QString::number(population.getBestIndividual().getFitness()));
+}
