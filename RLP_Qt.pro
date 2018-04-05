@@ -31,11 +31,12 @@ SOURCES += \
     individual.cpp \
     mainthread.cpp \
     multithread.cpp \
-    geneticalgorithm.cpp \
     dialogcustom.cpp \
     dialogbeecolony.cpp \
     dialogbeealgorithm.cpp \
-    dialogantcolony.cpp
+    dialogantcolony.cpp \
+    customalgorithm.cpp \
+    geneticalgorithm.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -44,11 +45,12 @@ HEADERS += \
     individual.h \
     mainthread.h \
     multithread.h \
-    geneticalgorithm.h \
     dialogcustom.h \
     dialogbeecolony.h \
     dialogbeealgorithm.h \
-    dialogantcolony.h
+    dialogantcolony.h \
+    customalgorithm.h \
+    geneticalgorithm.h
 
 FORMS += \
         mainwindow.ui \

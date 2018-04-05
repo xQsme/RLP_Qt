@@ -6,6 +6,7 @@
 #include "population.h"
 #include "problem.h"
 #include "geneticalgorithm.h"
+#include "customalgorithm.h"
 
 class MultiThread : public QThread
 {
