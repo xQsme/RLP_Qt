@@ -5,7 +5,7 @@ MainThread::MainThread()
 
 }
 
-MainThread::MainThread(Population* population, Problem* problem, GeneticAlgorithm* algorithm/*, int threads*/)
+MainThread::MainThread(Population* population, Problem* problem, CustomAlgorithm* algorithm/*, int threads*/)
 {
     this->population=population;
     this->problem=problem;

@@ -14,12 +14,12 @@ class MainThread : public QThread
     Q_OBJECT
 public:
     MainThread();
-    MainThread(Population* population, Problem* problem, GeneticAlgorithm* algorithm/*, int threads*/);
+    MainThread(Population* population, Problem* problem, CustomAlgorithm* algorithm/*, int threads*/);
     void run();
 private:
     Population* population;
     Problem* problem;
-    GeneticAlgorithm* algorithm;
+    CustomAlgorithm* algorithm;
 /*    int threadCount;
     QVector<MultiThread> threads;
     QVector<QMutex> mutexes;*/
