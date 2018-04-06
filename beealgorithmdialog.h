@@ -1,5 +1,5 @@
-#ifndef DIALOGBEEALGORITHM_H
-#define DIALOGBEEALGORITHM_H
+#ifndef BEEALGORITHMDIALOG_H
+#define BEEALGORITHMDIALOG_H
 
 #include <QDialog>
 #include <QtCharts>
@@ -8,34 +8,34 @@
 #include "problem.h"
 #include "individual.h"
 #include "population.h"
-#include "customalgorithm.h"
-#include "mainthread.h"
+#include "beealgorithm.h"
+#include "beealgorithmthread.h"
 
 namespace Ui {
-class DialogBeeAlgorithm;
+class BeeAlgorithmDialog;
 }
 
-class DialogBeeAlgorithm : public QDialog
+class BeeAlgorithmDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit DialogBeeAlgorithm(QWidget *parent = 0);
-    ~DialogBeeAlgorithm();
+    explicit BeeAlgorithmDialog(QWidget *parent = 0);
+    ~BeeAlgorithmDialog();
      void clearGraph();
 
 private slots:
     void on_pushButtonRead_clicked();
 
 private:
-    Ui::DialogBeeAlgorithm *ui;
+    Ui::BeeAlgorithmDialog *ui;
     QChart *chart;
     QLineSeries *series;
     QChartView *chartView;
     Problem problem;
     Population population;
-    CustomAlgorithm algorithm;
-    MainThread* mainThread;
+    BeeAlgorithm algorithm;
+    BeeAlgorithmThread* mainThread;
 };
 
-#endif // DIALOGBEEALGORITHM_H
+#endif // BEEALGORITHMDIALOG_H

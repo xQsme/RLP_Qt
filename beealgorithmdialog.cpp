@@ -1,9 +1,9 @@
-#include "dialogantcolony.h"
-#include "ui_dialogantcolony.h"
+#include "beealgorithmdialog.h"
+#include "ui_beealgorithmdialog.h"
 
-DialogAntColony::DialogAntColony(QWidget *parent) :
+BeeAlgorithmDialog::BeeAlgorithmDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DialogAntColony)
+    ui(new Ui::BeeAlgorithmDialog)
 {
     ui->setupUi(this);
 
@@ -20,12 +20,12 @@ DialogAntColony::DialogAntColony(QWidget *parent) :
     ui->gridLayout->addWidget(chartView, 0, 0);
 }
 
-DialogAntColony::~DialogAntColony()
+BeeAlgorithmDialog::~BeeAlgorithmDialog()
 {
     delete ui;
 }
 
-void DialogAntColony::on_pushButtonRead_clicked()
+void BeeAlgorithmDialog::on_pushButtonRead_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Open txt"), "../RLP_Qt/DataSets", tr("Text Files (*.txt)"));
@@ -37,16 +37,16 @@ void DialogAntColony::on_pushButtonRead_clicked()
     population.setUpPopulation(ui->lineEditSeed->text().toInt(),
                                ui->lineEditPopulation->text().toInt(),
                                &problem);
-    algorithm.setUpAlgorithm(0, ui->lineEditElitism->text().toInt(),
+    /*algorithm.setUpAlgorithm(0, ui->lineEditElitism->text().toInt(),
                              ui->lineEditMutation->text().toInt(),
-                             ui->lineEditGenerations->text().toInt());
+                             ui->lineEditGenerations->text().toInt());*/
     population.calculateFitnesses(&problem);
     ui->labelNodes->setText("Nodes: " + QString::number(problem.getTotal()) + " Connections: " + QString::number(problem.getConnections()));
     chart->axisY()->setRange(0, population.getBestIndividual().getFitness());
     clearGraph();
 }
 
-void DialogAntColony::clearGraph(){
+void BeeAlgorithmDialog::clearGraph(){
     series->clear();
     series->append(algorithm.getGeneration(), population.getBestIndividual().getFitness());
     chart->axisX()->setRange(0, 1);

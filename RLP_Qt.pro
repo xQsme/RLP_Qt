@@ -29,35 +29,45 @@ SOURCES += \
     problem.cpp \
     population.cpp \
     individual.cpp \
-    mainthread.cpp \
-    multithread.cpp \
-    dialogcustom.cpp \
-    dialogbeecolony.cpp \
-    dialogbeealgorithm.cpp \
-    dialogantcolony.cpp \
     customalgorithm.cpp \
-    geneticalgorithm.cpp
+    geneticalgorithm.cpp \
+    customthread.cpp \
+    antcolonyalgorithm.cpp \
+    antcolonythread.cpp \
+    beealgorithm.cpp \
+    beecolonyalgorithm.cpp \
+    beecolonythread.cpp \
+    antcolonydialog.cpp \
+    beealgorithmdialog.cpp \
+    beealgorithmthread.cpp \
+    beecolonydialog.cpp \
+    customdialog.cpp
 
 HEADERS += \
         mainwindow.h \
     problem.h \
     population.h \
     individual.h \
-    mainthread.h \
-    multithread.h \
-    dialogcustom.h \
-    dialogbeecolony.h \
-    dialogbeealgorithm.h \
-    dialogantcolony.h \
     customalgorithm.h \
-    geneticalgorithm.h
+    geneticalgorithm.h \
+    customthread.h \
+    antcolonyalgorithm.h \
+    antcolonythread.h \
+    beealgorithm.h \
+    beecolonyalgorithm.h \
+    beecolonythread.h \
+    antcolonydialog.h \
+    beealgorithmdialog.h \
+    beecolonydialog.h \
+    customdialog.h \
+    beealgorithmthread.h
 
 FORMS += \
         mainwindow.ui \
-    dialogcustom.ui \
-    dialogbeecolony.ui \
-    dialogbeealgorithm.ui \
-    dialogantcolony.ui
+    antcolonydialog.ui \
+    beealgorithmdialog.ui \
+    beecolonydialog.ui \
+    customdialog.ui
 
 DISTFILES += \
     qml.qml

@@ -1,11 +1,11 @@
-#include "dialogcustom.h"
-#include "ui_dialogcustom.h"
+#include "customdialog.h"
+#include "ui_customdialog.h"
 
 using namespace QtCharts;
 
-DialogCustom::DialogCustom(QWidget *parent) :
+CustomDialog::CustomDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DialogCustom)
+    ui(new Ui::CustomDialog)
 {
     ui->setupUi(this);
 
@@ -22,12 +22,12 @@ DialogCustom::DialogCustom(QWidget *parent) :
     ui->gridLayout->addWidget(chartView, 0, 0);
 }
 
-DialogCustom::~DialogCustom()
+CustomDialog::~CustomDialog()
 {
     delete ui;
 }
 
-void DialogCustom::on_pushButtonRead_clicked()
+void CustomDialog::on_pushButtonRead_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Open txt"), "../RLP_Qt/DataSets", tr("Text Files (*.txt)"));
@@ -48,7 +48,7 @@ void DialogCustom::on_pushButtonRead_clicked()
     clearGraph();
 }
 
-void DialogCustom::on_pushButtonSolve_clicked()
+void CustomDialog::on_pushButtonSolve_clicked()
 {
     if(ui->pushButtonSolve->text() == "Solve"){
         if(problem.getTotal()==0){
@@ -92,7 +92,7 @@ void DialogCustom::on_pushButtonSolve_clicked()
                 clearGraph();
             }
         }
-        mainThread = new MainThread(&population, &problem, &algorithm/*, ui->lineEditThreads->text().toInt()*/);
+        mainThread = new CustomThread(&population, &problem, &algorithm/*, ui->lineEditThreads->text().toInt()*/);
         connect(mainThread, SIGNAL(dataChanged(QString)), this, SLOT(onDataChanged(QString)));
         mainThread->start();
         disableForm();
@@ -102,7 +102,7 @@ void DialogCustom::on_pushButtonSolve_clicked()
     }
 }
 
-void DialogCustom::clearGraph(){
+void CustomDialog::clearGraph(){
     series->clear();
     series->append(algorithm.getGeneration(), population.getBestIndividual().getFitness());
     chart->axisX()->setRange(0, 1);
@@ -111,7 +111,7 @@ void DialogCustom::clearGraph(){
     ui->labelFitness->setText("Fitness: " + QString::number(population.getBestIndividual().getFitness()));
 }
 
-void DialogCustom::onDataChanged(QString stuff)
+void CustomDialog::onDataChanged(QString stuff)
 {
     QList<QString> moreStuff = stuff.split(" ");
     series->append(moreStuff[3].toInt(), moreStuff[0].toInt());
@@ -124,7 +124,7 @@ void DialogCustom::onDataChanged(QString stuff)
     }
 }
 
-void DialogCustom::disableForm(){
+void CustomDialog::disableForm(){
     ui->lineEditSeed->setDisabled(true);
     ui->lineEditPopulation->setDisabled(true);
     ui->lineEditGenerations->setDisabled(true);
@@ -134,7 +134,7 @@ void DialogCustom::disableForm(){
     ui->pushButtonSolve->setText("Stop");
 }
 
-void DialogCustom::enableForm(){
+void CustomDialog::enableForm(){
     ui->lineEditSeed->setDisabled(false);
     ui->lineEditPopulation->setDisabled(false);
     ui->lineEditGenerations->setDisabled(false);

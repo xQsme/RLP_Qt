@@ -2,10 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "dialogantcolony.h"
-#include "dialogbeealgorithm.h"
-#include "dialogbeecolony.h"
-#include "dialogcustom.h"
+#include "antcolonydialog.h"
+#include "beealgorithmdialog.h"
+#include "beecolonydialog.h"
+#include "customdialog.h"
 
 namespace Ui {
 class MainWindow;

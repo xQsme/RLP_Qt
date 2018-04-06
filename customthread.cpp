@@ -1,24 +1,18 @@
-#include "mainthread.h"
+#include "customthread.h"
 
-MainThread::MainThread()
+CustomThread::CustomThread()
 {
 
 }
 
-MainThread::MainThread(Population* population, Problem* problem, CustomAlgorithm* algorithm/*, int threads*/)
+CustomThread::CustomThread(Population* population, Problem* problem, CustomAlgorithm* algorithm)
 {
     this->population=population;
     this->problem=problem;
     this->algorithm=algorithm;
-    /*this->threadCount=threads;
-    for(int i =0; i<threads; i++){
-        mutexes << new QMutex();
-        threads << new MultiThread(population, problem, i, threads, &mutexes);
-    }
-    connect(threads[threadCount-1], SIGNAL(dataChanged(QString)), this, SLOT(onDataChanged(QString)));*/
 }
 
-void MainThread::run()
+void CustomThread::run()
 {
     /*for(int i =0; i<threadCount; i++){
         threads[i].start();
@@ -39,7 +33,3 @@ void MainThread::run()
     }
 }
 
-/*void MainThread::onDataChanged(QString stuff)
-{
-    emit dataChanged(stuff);
-}*/

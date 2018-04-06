@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogCustom</class>
- <widget class="QDialog" name="DialogCustom">
+ <class>BeeAlgorithmDialog</class>
+ <widget class="QDialog" name="BeeAlgorithmDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>RLP - Custom Algorithm</string>
+   <string>RLP - Bee's Algorithm</string>
   </property>
   <widget class="QLabel" name="labelNodes">
    <property name="geometry">
@@ -41,7 +41,7 @@
     </property>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>11</x>

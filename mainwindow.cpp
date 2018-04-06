@@ -15,24 +15,24 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButtonCustom_clicked()
 {
-    DialogCustom dialog;
+    CustomDialog dialog;
     dialog.exec();
 }
 
 void MainWindow::on_pushButtonAntColony_clicked()
 {
-    DialogAntColony dialog;
+    AntColonyDialog dialog;
     dialog.exec();
 }
 
 void MainWindow::on_pushButtonBeeAlgorithm_clicked()
 {
-    DialogBeeAlgorithm dialog;
+    BeeAlgorithmDialog dialog;
     dialog.exec();
 }
 
 void MainWindow::on_pushButtonBeeColony_clicked()
 {
-    DialogBeeColony dialog;
+    BeeColonyDialog dialog;
     dialog.exec();
 }

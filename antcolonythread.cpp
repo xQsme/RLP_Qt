@@ -1,21 +1,18 @@
-#include "multithread.h"
+#include "antcolonythread.h"
 
-MultiThread::MultiThread()
+AntColonyThread::AntColonyThread()
 {
 
 }
 
-MultiThread::MultiThread(Population* population, Problem* problem, GeneticAlgorithm* algorithm, int thread, int threadCount, QVector<QMutex>* mutexes)
+AntColonyThread::AntColonyThread(Population* population, Problem* problem, AntColonyAlgorithm* algorithm)
 {
     this->population=population;
     this->problem=problem;
     this->algorithm=algorithm;
-    this->thread=thread;
-    this->threadCount=threadCount;
-    this->mutexes=mutexes;
 }
 
-void MultiThread::run()
+void AntColonyThread::run()
 {
     /*for(int i =0; i<threadCount; i++){
         threads[i].start();

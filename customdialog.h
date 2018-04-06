@@ -1,5 +1,5 @@
-#ifndef DIALOGCUSTOM_H
-#define DIALOGCUSTOM_H
+#ifndef CUSTOMDIALOG_H
+#define CUSTOMDIALOG_H
 
 #include <QDialog>
 #include <QtCharts>
@@ -9,19 +9,19 @@
 #include "individual.h"
 #include "population.h"
 #include "customalgorithm.h"
-#include "mainthread.h"
+#include "customthread.h"
 
 namespace Ui {
-class DialogCustom;
+class CustomDialog;
 }
 
-class DialogCustom : public QDialog
+class CustomDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit DialogCustom(QWidget *parent = 0);
-    ~DialogCustom();
+    explicit CustomDialog(QWidget *parent = 0);
+    ~CustomDialog();
     void clearGraph();
     void disableForm();
     void enableForm();
@@ -32,17 +32,17 @@ private slots:
     void on_pushButtonSolve_clicked();
 
 private:
-    Ui::DialogCustom *ui;
+    Ui::CustomDialog *ui;
     QChart *chart;
     QLineSeries *series;
     QChartView *chartView;
     Problem problem;
     Population population;
     CustomAlgorithm algorithm;
-    MainThread* mainThread;
+    CustomThread* mainThread;
 
 public slots:
     void onDataChanged(QString);
 };
 
-#endif // DIALOGCUSTOM_H
+#endif // CUSTOMDIALOG_H

@@ -1,5 +1,5 @@
-#ifndef DIALOGANTCOLONY_H
-#define DIALOGANTCOLONY_H
+#ifndef BEECOLONYDIALOG_H
+#define BEECOLONYDIALOG_H
 
 #include <QDialog>
 #include <QtCharts>
@@ -8,34 +8,34 @@
 #include "problem.h"
 #include "individual.h"
 #include "population.h"
-#include "customalgorithm.h"
-#include "mainthread.h"
+#include "beecolonyalgorithm.h"
+#include "beecolonythread.h"
 
 namespace Ui {
-class DialogAntColony;
+class BeeColonyDialog;
 }
 
-class DialogAntColony : public QDialog
+class BeeColonyDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit DialogAntColony(QWidget *parent = 0);
-    ~DialogAntColony();
+    explicit BeeColonyDialog(QWidget *parent = 0);
+    ~BeeColonyDialog();
     void clearGraph();
 
 private slots:
     void on_pushButtonRead_clicked();
 
 private:
-    Ui::DialogAntColony *ui;
+    Ui::BeeColonyDialog *ui;
     QChart *chart;
     QLineSeries *series;
     QChartView *chartView;
     Problem problem;
     Population population;
-    CustomAlgorithm algorithm;
-    MainThread* mainThread;
+    BeeColonyAlgorithm algorithm;
+    BeeColonyThread* mainThread;
 };
 
-#endif // DIALOGANTCOLONY_H
+#endif // BEECOLONYDIALOG_H
