@@ -16,6 +16,8 @@ public:
     void setFitness(int fitness);
     void setDisconnected(int disconnected);
     void setRegenerators(int regenerators);
+    Individual *clone(int nodes);
+    void releaseMemory();
 private:
     QVector<int> solution;
     int fitness=0;

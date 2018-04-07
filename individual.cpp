@@ -12,6 +12,19 @@ Individual::Individual(int nodes)
     }
 }
 
+//not sure if required for program to work
+void Individual::releaseMemory()
+{
+    /*
+    if(this->getSolution() != NULL)
+    {
+        free(this->getSolution());
+    }
+
+    this->getSolution() = NULL;
+    */
+}
+
 QVector<int> Individual::getSolution(){
     return solution;
 }
@@ -48,13 +61,15 @@ void Individual::setRegenerators(int regenerators)
     this->regenerators=regenerators;
 }
 
-void Individual::clone(nodes)
+Individual *Individual::clone(int nodes)
 {
-    Individual aux = new Individual(nodes);
-    int idx = 0;
-    foreach (int i, solution) {
-        aux.setValue(idx,i);
-        idx++;
-    }
-    return aux;
+    /*
+        int idx = 0;
+        foreach (int z, auxIndividual->getSolution()) {
+            auxIndividual->setValue(idx,z);
+            idx++;
+        }
+     */
+
+    return new Individual(nodes);
 }
