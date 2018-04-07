@@ -61,19 +61,7 @@ void Individual::setRegenerators(int regenerators)
     this->regenerators=regenerators;
 }
 
-<<<<<<< HEAD
-Individual *Individual::clone(int nodes)
-{
-    /*
-        int idx = 0;
-        foreach (int z, auxIndividual->getSolution()) {
-            auxIndividual->setValue(idx,z);
-            idx++;
-        }
-     */
 
-    return new Individual(nodes);
-=======
 Individual Individual::clone(int nodes)
 {
     Individual aux = Individual(nodes);
@@ -85,5 +73,4 @@ Individual Individual::clone(int nodes)
         aux.setValue(idx++,i);
     }
     return aux;
->>>>>>> 48f8a530ffbf12c47da2e8dd872c7a8a0c5f55ed
 }

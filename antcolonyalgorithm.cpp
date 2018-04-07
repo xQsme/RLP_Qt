@@ -29,14 +29,10 @@ void AntColonyAlgorithm::setUpAlgorithm(int generation, int generations, double 
 int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* problem)
 {
     bool cond;
-<<<<<<< HEAD
+
     int i, n, s, r, j, novo;
     double maior, total, soma, probability;
-    Individual *auxIndividual;
-=======
-    int i;
     Individual auxIndividual;
->>>>>>> 48f8a530ffbf12c47da2e8dd872c7a8a0c5f55ed
 
     if(generation++ >= generations)
     {
@@ -50,7 +46,6 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
     cond=true;
     for(i = 0; i < numberOfAnts; i++) //Para cada individuo/formiga
     {
-<<<<<<< HEAD
         auxIndividual = population->getIndividuals()[i].clone(individualSize); //clona essa formiga
 
         for(n = 0; n < numberOfMods; n++) //Para cada modificao pretendida
@@ -76,7 +71,7 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
                     //s = problem->getDemandValue(r);
                 }
                 // altera o valor desse elemento do individuo
-                auxIndividual->setValue(r,s);
+                auxIndividual.setValue(r,s);
             }
             else
             {
@@ -104,14 +99,14 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
                     // novo = problem->getDemandValue(r);
                 }
                 // altera o valor desse elemento do individuo
-                auxIndividual->setValue(r,novo);
+                auxIndividual.setValue(r,novo);
             }
         }
 
         //verifica se o fitness melhorou apos a mutacao
-        if(auxIndividual->getFitness() <= population->getIndividuals()[i].getFitness())
+        if(auxIndividual.getFitness() <= population->getIndividuals()[i].getFitness())
         {
-            int idx = 0;
+            //int idx = 0;
 
             //Este foreach causa varios erros, tentar arranjar alternativa
             //o que faz, é que se o fitness do individuo alterado for melhor que o do individuo original,
@@ -126,12 +121,11 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
         }
         else
         {
-            auxIndividual->releaseMemory();
-            delete auxIndividual;
+            //both not work atm
+            //auxIndividual.releaseMemory();
+            //delete auxIndividual;
         }
-=======
         auxIndividual = population->getIndividuals()[i].clone(individualSize);
->>>>>>> 48f8a530ffbf12c47da2e8dd872c7a8a0c5f55ed
     }
 
     evaluate(population); //TODO
