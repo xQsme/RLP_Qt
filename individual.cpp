@@ -47,3 +47,14 @@ void Individual::setRegenerators(int regenerators)
 {
     this->regenerators=regenerators;
 }
+
+void Individual::clone(nodes)
+{
+    Individual aux = new Individual(nodes);
+    int idx = 0;
+    foreach (int i, solution) {
+        aux.setValue(idx,i);
+        idx++;
+    }
+    return aux;
+}
