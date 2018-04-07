@@ -12,11 +12,6 @@ void GeneticAlgorithm::setUpAlgorithm(int generation, int generations){
     this->generations=generations;
 }
 
-int GeneticAlgorithm::generateNewPopulation(Population* population, Problem* problem)
-{
-    return 0;
-}
-
 int GeneticAlgorithm::getGeneration()
 {
     return generation;

@@ -17,13 +17,11 @@ void AntColonyAlgorithm::setUpAlgorithm(int generation, int generations, double 
     this->numberOfMods = numberOfMods;
 
     //iniciar o pheromonal trail
-    t = new double**[numberOfAnts];
-    for(int j = 0; j < numberOfAnts; j++)
-    {
-        t[j]=new double*[individualSize];
-        for(int i = 0; i < individualSize; i++)
+    for(int i=0; i<numberOfAnts; i++){
+        t << QVector<QVector<double>>();
+        for(int j = 0; j < individualSize; j++)
         {
-            t[j][i] = new double[2];
+            t[i] << QVector<double>();
         }
     }
 }
@@ -31,9 +29,14 @@ void AntColonyAlgorithm::setUpAlgorithm(int generation, int generations, double 
 int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* problem)
 {
     bool cond;
+<<<<<<< HEAD
     int i, n, s, r, j, novo;
     double maior, total, soma, probability;
     Individual *auxIndividual;
+=======
+    int i;
+    Individual auxIndividual;
+>>>>>>> 48f8a530ffbf12c47da2e8dd872c7a8a0c5f55ed
 
     if(generation++ >= generations)
     {
@@ -47,6 +50,7 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
     cond=true;
     for(i = 0; i < numberOfAnts; i++) //Para cada individuo/formiga
     {
+<<<<<<< HEAD
         auxIndividual = population->getIndividuals()[i].clone(individualSize); //clona essa formiga
 
         for(n = 0; n < numberOfMods; n++) //Para cada modificao pretendida
@@ -125,13 +129,16 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
             auxIndividual->releaseMemory();
             delete auxIndividual;
         }
+=======
+        auxIndividual = population->getIndividuals()[i].clone(individualSize);
+>>>>>>> 48f8a530ffbf12c47da2e8dd872c7a8a0c5f55ed
     }
 
     evaluate(population); //TODO
     return 0;
 }
 
-void AntColonyAlgorithm::initializePheromoneTrail(void)
+void AntColonyAlgorithm::initializePheromoneTrail()
 {
     for(int a = 0; a < numberOfAnts; a++)
     {
@@ -139,7 +146,7 @@ void AntColonyAlgorithm::initializePheromoneTrail(void)
         {
             for(int j = 0; j < 2; j++)
             {
-                t[a][i][j]=1.0/(Q*bestAntFitness);
+                t[a][i] << 1.0/(Q*bestAntFitness);
             }
         }
     }
