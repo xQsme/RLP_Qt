@@ -12,18 +12,16 @@ void AntColonyAlgorithm::setUpAlgorithm(int generation, int generations, double 
     this->probabilidade_q = probabilidade_q;
     this->Q = Q;
     this->numberOfAnts = population->getPopulationSize();
-    this->individualSize = population->getBestIndividual().solution.length();
+    this->individualSize = population->getBestIndividual().getSolution().length();
     this->bestAntFitness = population->getBestIndividual().getFitness();
     this->numberOfMods = numberOfMods;
 
     //iniciar o pheromonal trail
-    t = new double**[numberOfAnts];
-    for(int j = 0; j < numberOfAnts; j++)
-    {
-        t[j]=new double*[individualSize];
-        for(int i = 0; i < individualSize; i++)
+    for(int i=0; i<numberOfAnts; i++){
+        t << QVector<QVector<double>>();
+        for(int j = 0; j < individualSize; j++)
         {
-            t[j][i] = new double[2];
+            t[i] << QVector<double>();
         }
     }
 }
@@ -32,7 +30,7 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
 {
     bool cond;
     int i;
-    Individual *auxIndividual;
+    Individual auxIndividual;
 
     if(generation++ >= generations)
     {
@@ -45,15 +43,12 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
     for(i = 0; i < numberOfAnts; i++)
     {
         auxIndividual = population->getIndividuals()[i].clone(individualSize);
-
-
-
     }
 
     return 0;
 }
 
-void AntColonyAlgorithm::initializePheromoneTrail(void)
+void AntColonyAlgorithm::initializePheromoneTrail()
 {
     for(int a = 0; a < numberOfAnts; a++)
     {
@@ -61,7 +56,7 @@ void AntColonyAlgorithm::initializePheromoneTrail(void)
         {
             for(int j = 0; j < 2; j++)
             {
-                t[a][i][j]=1.0/(Q*bestAntFitness);
+                t[a][i] << 1.0/(Q*bestAntFitness);
             }
         }
     }

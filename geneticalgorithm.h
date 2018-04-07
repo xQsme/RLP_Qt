@@ -10,7 +10,6 @@ class GeneticAlgorithm
 public:
     GeneticAlgorithm();
     void setUpAlgorithm(int generation, int generations);
-    int generateNewPopulation(Population* population, Problem* problem);
     int getGeneration();
     int getGenerations();
 protected:
