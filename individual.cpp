@@ -8,7 +8,7 @@ Individual::Individual()
 Individual::Individual(int nodes)
 {
     for(int i = 0; i < nodes; i++){
-        solution << rand() % 2;
+        solution << qrand() % 2;
     }
 }
 

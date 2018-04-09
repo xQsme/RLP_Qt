@@ -24,7 +24,7 @@ int CustomAlgorithm::generateNewPopulation(Population* population, Problem* prob
     for (int i = selected; i < individuals.length(); i++) {
         for (int j = 0; j < problem->getTotal(); j++) {
             if (selected != 0) { //Para nao dividir por 0
-                population->setValue(i, j, individuals[rand() % selected].getSolution()[j]);
+                population->setValue(i, j, individuals[qrand() % selected].getSolution()[j]);
                 //cada nó dum individuo não selecionado, toma um valor dum nó dum individuo selecionado
             }
         }
@@ -45,7 +45,7 @@ int CustomAlgorithm::generateNewPopulation(Population* population, Problem* prob
         //quando naquela coluna os selecionados apenas têm 1s
         if (zeroes == 0) {
             for (int i = selected; i < (individuals.length() - selected) / 2 + selected; i++) {
-                if (rand() % (int)(1 / mutation) == 0) { //conforme a probabilidade de mutação
+                if (qrand() % (int)(1 / mutation) == 0) { //conforme a probabilidade de mutação
                     population->setValue(i, j, 0); //alguns nós passam a 0
                 }
             }
@@ -53,7 +53,7 @@ int CustomAlgorithm::generateNewPopulation(Population* population, Problem* prob
         //quando naquela coluna os selecionados apenas têm 0s
         if (ones == 0) {
             for (int i = selected; i < (individuals.length() - selected) / 2 + selected; i++) {
-                if (rand() % (int)(1 / mutation) == 0) {
+                if (qrand() % (int)(1 / mutation) == 0) {
                     population->setValue(i, j, 1); //alguns nós passam a 1
                 }
             }
@@ -61,8 +61,8 @@ int CustomAlgorithm::generateNewPopulation(Population* population, Problem* prob
 
         //A partir de metade dos restantes até ao final da população
         for (int i = (individuals.length() - selected) / 2 + selected; i < individuals.length(); i++) {
-            if (rand() % (int)(1 / mutation) == 0) { //Conforme a probabilidade de mutação
-                population->setValue(i, j, rand() % 2); //É atribuido um valor 0 ou 1 random
+            if (qrand() % (int)(1 / mutation) == 0) { //Conforme a probabilidade de mutação
+                population->setValue(i, j, qrand() % 2); //É atribuido um valor 0 ou 1 random
             }
         }
     }
