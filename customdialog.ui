@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>568</width>
-    <height>308</height>
+    <height>329</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,7 +32,7 @@
      <x>150</x>
      <y>27</y>
      <width>411</width>
-     <height>271</height>
+     <height>291</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -41,13 +41,13 @@
     </property>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>11</x>
      <y>11</y>
      <width>141</width>
-     <height>289</height>
+     <height>308</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -308,6 +308,13 @@
        <widget class="QLabel" name="labelFitness">
         <property name="text">
          <string>Fitness: </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelElapsed">
+        <property name="text">
+         <string>Elapsed Time:</string>
         </property>
        </widget>
       </item>

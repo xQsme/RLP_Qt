@@ -1,6 +1,7 @@
 #ifndef MAINTHREAD_H
 #define MAINTHREAD_H
 #include <QtCore>
+#include <QElapsedTimer>
 #include "population.h"
 #include "problem.h"
 #include "customalgorithm.h"
@@ -16,6 +17,7 @@ private:
     Population* population;
     Problem* problem;
     CustomAlgorithm* algorithm;
+    QElapsedTimer timer;
 signals:
     void dataChanged(QString);
 };

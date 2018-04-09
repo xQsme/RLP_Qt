@@ -10,6 +10,7 @@ CustomThread::CustomThread(Population* population, Problem* problem, CustomAlgor
     this->population=population;
     this->problem=problem;
     this->algorithm=algorithm;
+    this->timer.start();
 }
 
 void CustomThread::run()
@@ -28,7 +29,9 @@ void CustomThread::run()
         QString stuff = QString::number(population->getBestIndividual().getFitness()) + " " +
                 QString::number(population->getBestIndividual().getDisconnected()) + " " +
                 QString::number(population->getBestIndividual().getRegenerators()) + " " +
-                QString::number(algorithm->getGeneration()) + ended;
+                QString::number(algorithm->getGeneration()) + " " +
+                QString::number(timer.elapsed()/1000) + ended;
+
         emit dataChanged(stuff);
     }
 }

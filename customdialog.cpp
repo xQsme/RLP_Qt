@@ -109,17 +109,31 @@ void CustomDialog::clearGraph(){
     ui->labelDisconnected->setText("Disconnected: " + QString::number(population.getBestIndividual().getDisconnected()));
     ui->labelRegenerators->setText("Regenerators: " + QString::number(population.getBestIndividual().getRegenerators()));
     ui->labelFitness->setText("Fitness: " + QString::number(population.getBestIndividual().getFitness()));
+    ui->labelElapsed->setText("Elapsed Time: 00:00");
 }
 
 void CustomDialog::onDataChanged(QString stuff)
 {
     QList<QString> moreStuff = stuff.split(" ");
+    int seconds = moreStuff[4].toInt()%60;
+    QString strsec="";
+    if(seconds < 10){
+        strsec += "0";
+    }
+    strsec += QString::number(seconds);
+    int minutes = (moreStuff[4].toInt()%3600-seconds)/60;
+    QString strmin;
+    if(minutes < 10){
+        strmin += "0";
+    }
+    strmin += QString::number(minutes);
     series->append(moreStuff[3].toInt(), moreStuff[0].toInt());
     chart->axisX()->setRange(0, moreStuff[3].toInt());
     ui->labelDisconnected->setText("Disconnected: " + moreStuff[1]);
     ui->labelRegenerators->setText("Regenerators: " + moreStuff[2]);
     ui->labelFitness->setText("Fitness: " + moreStuff[0]);
-    if(moreStuff[4] == "1"){
+    ui->labelElapsed->setText("Elapsed Time: " + strmin + ":" + strsec);
+    if(moreStuff[5] == "1"){
         enableForm();
     }
 }
