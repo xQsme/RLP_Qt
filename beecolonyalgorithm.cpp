@@ -19,11 +19,57 @@ void BeeColonyAlgorithm::setUpAlgorithm(int generation, int generations, Problem
     this->changeValue = changeValue;
     this->bestBeeIteration = Individual(problem->getTotal());
     this->bestBeeRun = Individual(problem->getTotal());
+    evaluate();
 }
 
 int BeeColonyAlgorithm::generateNewPopulation(Population* population, Problem* problem)
 {
-    return 0;
+    int number;
+    Individual selected;
+
+    if(generation++ >= generations)
+    {
+        return 0;
+    }
+
+    QVector<Individual> individuals = scoutBees->getIndividuals();
+    for (int i = 0; i < population->getPopulationSize(); i++)
+    {
+        population->setIndividual(i, search.apply(problem->getTotal(), individuals[i]));
+    }
+
+    evaluate();
+    createSelectedBeePopulation();
+    calculateBestBeesProbability();
+    calculateSelBeesProbability();
+
+    QVector<Individual> selIndividuals = selBees.getIndividuals();
+    for (int i = 0; i < selectedSize; i++)
+    {
+        if (i < bestSize )
+        {
+             number=prob[i]*valueBest;
+        }
+        else
+        {
+            number=prob[i]*valueSelection;
+        }
+        for (int j = 0; j< number; j++)
+        {
+            selected = optimizeSolution(selIndividuals[i].clone());
+            if ((selected.getFitness() < individuals[i].getFitness()) || (qrand() % 101 <qrand() % 101 && selected.getFitness()==individuals[i].getFitness()))
+            {
+                scoutBees->setIndividual(i, selected);
+            }
+        }
+    }
+    for(int i = selectedSize; i < population->getPopulationSize(); i++){
+        scoutBees->setIndividual(i, Individual(problem->getTotal()));
+    }
+
+    evaluate();
+
+    return 1;
 }
 
 void BeeColonyAlgorithm::createSelectedBeePopulation()
@@ -41,7 +87,7 @@ void BeeColonyAlgorithm::evaluate()
     scoutBees->calculateFitnesses(problem);
     bestBeeIteration = scoutBees->getBestIndividual().clone();
 
-    if (generation == 0 || bestBeeRun.getFitness() > bestBeeRun.getFitness())
+    if (generation == 0 || bestBeeRun.getFitness() > bestBeeIteration.getFitness())
     {
        bestBeeRun = bestBeeIteration.clone();
        generationBestBeeRun = generation;
@@ -97,5 +143,12 @@ void BeeColonyAlgorithm::initializeProbabilities()
     {
         prob << 0;
     }
+}
+
+Individual BeeColonyAlgorithm::optimizeSolution(Individual individual)
+{
+    Individual toReturn;
+
+    return toReturn;
 }
 

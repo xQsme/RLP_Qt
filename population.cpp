@@ -82,8 +82,14 @@ void Population::calculateFitnesses(Problem* problem)
     }
 }
 
-void Population::setValue(int i, int j, int value){
+void Population::setValue(int i, int j, int value)
+{
     individuals[i].setValue(j, value);
+}
+
+void Population::setIndividual(int i, Individual individual)
+{
+    individuals[i]=individual;
 }
 
 void Population::clearIndividuals()

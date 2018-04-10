@@ -22,6 +22,7 @@ private:
     void calculateBestBeesProbability();
     void calculateSelBeesProbability();
     void initializeProbabilities();
+    Individual optimizeSolution(Individual individual);
     Problem* problem;
     Population* scoutBees;
     Population selBees;

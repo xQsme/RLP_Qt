@@ -11,6 +11,7 @@ public:
     void calculateFitnesses(Problem* problem);
     QVector<Individual> getIndividuals();
     void setValue(int i, int j, int value);
+    void setIndividual(int i, Individual individual);
     void clearIndividuals();
     void addIndividual(Individual i);
     Individual getBestIndividual();
