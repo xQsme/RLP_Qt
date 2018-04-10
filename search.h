@@ -6,7 +6,7 @@ class Search
 {
 public:
     Search();
-    Individual apply(int individualSize, Individual individual);
+    Individual apply(Problem* problem, Individual individual);
 };
 
 #endif // SEARCH_H

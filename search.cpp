@@ -5,9 +5,9 @@ Search::Search()
 
 }
 
-Individual Search::apply(int individualSize, Individual individual)
+Individual Search::apply(Problem* problem, Individual individual)
 {
-    Individual toReturn;
+    Individual toReturn = individual;
 
     return toReturn;
 }

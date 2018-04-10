@@ -10,15 +10,12 @@ BeeColonyThread::BeeColonyThread(Population* population, Problem* problem, BeeCo
     this->population=population;
     this->problem=problem;
     this->algorithm=algorithm;
+    this->timer.start();
 }
 
 void BeeColonyThread::run()
 {
-    /*for(int i =0; i<threadCount; i++){
-        threads[i].start();
-    }*/
     while(algorithm->generateNewPopulation(population, problem) == 1){
-        population->calculateFitnesses(problem);
         QString ended;
         if(algorithm->getGeneration() >= algorithm->getGenerations()){
             ended = " 1";
@@ -28,7 +25,9 @@ void BeeColonyThread::run()
         QString stuff = QString::number(population->getBestIndividual().getFitness()) + " " +
                 QString::number(population->getBestIndividual().getDisconnected()) + " " +
                 QString::number(population->getBestIndividual().getRegenerators()) + " " +
-                QString::number(algorithm->getGeneration()) + ended;
+                QString::number(algorithm->getGeneration()) + " " +
+                QString::number(timer.elapsed()/1000) + ended;
+
         emit dataChanged(stuff);
     }
 }

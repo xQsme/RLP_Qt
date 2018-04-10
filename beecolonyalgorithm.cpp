@@ -24,18 +24,18 @@ void BeeColonyAlgorithm::setUpAlgorithm(int generation, int generations, Problem
 
 int BeeColonyAlgorithm::generateNewPopulation(Population* population, Problem* problem)
 {
-    int number;
-    Individual selected;
-
     if(generation++ >= generations)
     {
         return 0;
     }
 
+    int number;
+    Individual selected;
+
     QVector<Individual> individuals = scoutBees->getIndividuals();
     for (int i = 0; i < population->getPopulationSize(); i++)
     {
-        population->setIndividual(i, search.apply(problem->getTotal(), individuals[i]));
+        population->setIndividual(i, search.apply(problem, individuals[i])); //TO-DO
     }
 
     evaluate();
@@ -56,8 +56,8 @@ int BeeColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
         }
         for (int j = 0; j< number; j++)
         {
-            selected = optimizeSolution(selIndividuals[i].clone());
-            if ((selected.getFitness() < individuals[i].getFitness()) || (qrand() % 101 <qrand() % 101 && selected.getFitness()==individuals[i].getFitness()))
+            selected = optimizeSolution(selIndividuals[i].clone()); //TO-DO
+            if ((selected.getFitness() < individuals[i].getFitness()) || (qrand() % 101 < qrand() % 101 && selected.getFitness()==individuals[i].getFitness()))
             {
                 scoutBees->setIndividual(i, selected);
             }
@@ -147,7 +147,7 @@ void BeeColonyAlgorithm::initializeProbabilities()
 
 Individual BeeColonyAlgorithm::optimizeSolution(Individual individual)
 {
-    Individual toReturn;
+    Individual toReturn = individual;
 
     return toReturn;
 }

@@ -22,12 +22,15 @@ class BeeColonyDialog : public QDialog
 public:
     explicit BeeColonyDialog(QWidget *parent = 0);
     ~BeeColonyDialog();
-    void clearGraph();
 
 private slots:
     void on_pushButtonRead_clicked();
+    void on_pushButtonSolve_clicked();
 
 private:
+    void clearGraph();
+    void disableForm();
+    void enableForm();
     Ui::BeeColonyDialog *ui;
     QChart *chart;
     QLineSeries *series;
@@ -36,6 +39,9 @@ private:
     Population population;
     BeeColonyAlgorithm algorithm;
     BeeColonyThread* mainThread;
+
+public slots:
+    void onDataChanged(QString);
 };
 
 #endif // BEECOLONYDIALOG_H

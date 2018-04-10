@@ -22,16 +22,15 @@ class CustomDialog : public QDialog
 public:
     explicit CustomDialog(QWidget *parent = 0);
     ~CustomDialog();
-    void clearGraph();
-    void disableForm();
-    void enableForm();
 
 private slots:
     void on_pushButtonRead_clicked();
-
     void on_pushButtonSolve_clicked();
 
 private:
+    void clearGraph();
+    void disableForm();
+    void enableForm();
     Ui::CustomDialog *ui;
     QChart *chart;
     QLineSeries *series;

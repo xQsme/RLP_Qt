@@ -1,6 +1,7 @@
 #ifndef BEECOLONYTHREAD_H
 #define BEECOLONYTHREAD_H
 #include <QtCore>
+#include <QElapsedTimer>
 #include "population.h"
 #include "problem.h"
 #include "beecolonyalgorithm.h"
@@ -16,6 +17,7 @@ private:
     Population* population;
     Problem* problem;
     BeeColonyAlgorithm* algorithm;
+    QElapsedTimer timer;
 signals:
     void dataChanged(QString);
 };
