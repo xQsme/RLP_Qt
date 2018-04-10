@@ -41,7 +41,8 @@ SOURCES += \
     beealgorithmdialog.cpp \
     beealgorithmthread.cpp \
     beecolonydialog.cpp \
-    customdialog.cpp
+    customdialog.cpp \
+    search.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -60,7 +61,8 @@ HEADERS += \
     beealgorithmdialog.h \
     beecolonydialog.h \
     customdialog.h \
-    beealgorithmthread.h
+    beealgorithmthread.h \
+    search.h
 
 FORMS += \
         mainwindow.ui \

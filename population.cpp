@@ -86,6 +86,16 @@ void Population::setValue(int i, int j, int value){
     individuals[i].setValue(j, value);
 }
 
+void Population::clearIndividuals()
+{
+    individuals.clear();
+}
+
+void Population::addIndividual(Individual i)
+{
+    individuals << i;
+}
+
 QVector<Individual> Population::getIndividuals()
 {
     return individuals;

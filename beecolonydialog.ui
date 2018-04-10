@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>568</width>
-    <height>308</height>
+    <width>772</width>
+    <height>444</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QLabel" name="labelNodes">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>7</y>
-     <width>391</width>
-     <height>16</height>
+     <x>190</x>
+     <y>10</y>
+     <width>571</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
@@ -29,10 +29,10 @@
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>180</x>
      <y>27</y>
-     <width>411</width>
-     <height>271</height>
+     <width>581</width>
+     <height>401</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -46,8 +46,8 @@
     <rect>
      <x>11</x>
      <y>11</y>
-     <width>141</width>
-     <height>289</height>
+     <width>171</width>
+     <height>421</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -88,20 +88,50 @@
         <item>
          <widget class="QLabel" name="label_4">
           <property name="text">
-           <string>Elitism</string>
+           <string>Selected Size</string>
           </property>
           <property name="buddy">
-           <cstring>lineEditElitism</cstring>
+           <cstring>lineEditSelectSize</cstring>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="label_5">
           <property name="text">
-           <string>Mutation</string>
+           <string>Best Size</string>
           </property>
           <property name="buddy">
-           <cstring>lineEditMutation</cstring>
+           <cstring>lineEditBestSize</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>Selected Value</string>
+          </property>
+          <property name="buddy">
+           <cstring>lineEditSelectValue</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Best Value</string>
+          </property>
+          <property name="buddy">
+           <cstring>lineEditBestValue</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>Change Value</string>
+          </property>
+          <property name="buddy">
+           <cstring>lineEditChangeValue</cstring>
           </property>
          </widget>
         </item>
@@ -135,7 +165,7 @@
         <item>
          <widget class="QLineEdit" name="lineEditPopulation">
           <property name="text">
-           <string>150</string>
+           <string>200</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -153,46 +183,54 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QLineEdit" name="lineEditElitism">
-            <property name="text">
-             <string>50</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_10">
-            <property name="text">
-             <string>%</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <widget class="QLineEdit" name="lineEditSelectSize">
+          <property name="text">
+           <string>40</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <item>
-           <widget class="QLineEdit" name="lineEditMutation">
-            <property name="text">
-             <string>5</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_9">
-            <property name="text">
-             <string>%</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <widget class="QLineEdit" name="lineEditBestSize">
+          <property name="text">
+           <string>20</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEditSelectValue">
+          <property name="text">
+           <string>1</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEditBestValue">
+          <property name="text">
+           <string>1</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEditChangeValue">
+          <property name="text">
+           <string>1</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QLineEdit" name="lineEditThreads">
@@ -308,6 +346,13 @@
        <widget class="QLabel" name="labelFitness">
         <property name="text">
          <string>Fitness: </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelElapsed">
+        <property name="text">
+         <string>Elapsed Time:</string>
         </property>
        </widget>
       </item>

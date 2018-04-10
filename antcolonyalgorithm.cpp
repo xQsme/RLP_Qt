@@ -46,7 +46,7 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
     cond=true;
     for(i = 0; i < numberOfAnts; i++) //Para cada individuo/formiga
     {
-        auxIndividual = population->getIndividuals()[i].clone(individualSize); //clona essa formiga
+        auxIndividual = population->getIndividuals()[i].clone(); //clona essa formiga
 
         for(n = 0; n < numberOfMods; n++) //Para cada modificao pretendida
         {
@@ -125,7 +125,7 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
             //auxIndividual.releaseMemory();
             //delete auxIndividual;
         }
-        auxIndividual = population->getIndividuals()[i].clone(individualSize);
+        auxIndividual = population->getIndividuals()[i].clone();
     }
 
     evaluate(population); //TODO

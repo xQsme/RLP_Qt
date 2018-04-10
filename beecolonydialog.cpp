@@ -37,9 +37,9 @@ void BeeColonyDialog::on_pushButtonRead_clicked()
     population.setUpPopulation(ui->lineEditSeed->text().toInt(),
                                ui->lineEditPopulation->text().toInt(),
                                &problem);
-    /*algorithm.setUpAlgorithm(0, ui->lineEditElitism->text().toInt(),
-                             ui->lineEditMutation->text().toInt(),
-                             ui->lineEditGenerations->text().toInt());)*/
+    algorithm.setUpAlgorithm(0, ui->lineEditGenerations->text().toInt(), &problem, &population, ui->lineEditSelectSize->text().toInt(),
+                             ui->lineEditBestSize->text().toInt(), ui->lineEditSelectValue->text().toInt(),
+                             ui->lineEditBestValue->text().toInt(), ui->lineEditChangeValue->text().toInt());
     population.calculateFitnesses(&problem);
     ui->labelNodes->setText("Nodes: " + QString::number(problem.getTotal()) + " Connections: " + QString::number(problem.getConnections()));
     chart->axisY()->setRange(0, population.getBestIndividual().getFitness());
@@ -53,4 +53,5 @@ void BeeColonyDialog::clearGraph(){
     ui->labelDisconnected->setText("Disconnected: " + QString::number(population.getBestIndividual().getDisconnected()));
     ui->labelRegenerators->setText("Regenerators: " + QString::number(population.getBestIndividual().getRegenerators()));
     ui->labelFitness->setText("Fitness: " + QString::number(population.getBestIndividual().getFitness()));
+    ui->labelElapsed->setText("Elapsed Time: 00:00");
 }

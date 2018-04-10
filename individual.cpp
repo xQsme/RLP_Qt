@@ -62,9 +62,9 @@ void Individual::setRegenerators(int regenerators)
 }
 
 
-Individual Individual::clone(int nodes)
+Individual Individual::clone()
 {
-    Individual aux = Individual(nodes);
+    Individual aux = Individual(solution.length());
     aux.setDisconnected(disconnected);
     aux.setFitness(fitness);
     aux.setRegenerators(regenerators);

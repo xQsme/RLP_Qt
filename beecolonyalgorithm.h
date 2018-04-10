@@ -5,29 +5,36 @@
 #include "geneticalgorithm.h"
 #include "problem.h"
 #include "population.h"
+#include "search.h"
 
 
 class BeeColonyAlgorithm : public GeneticAlgorithm
 {
 public:
     BeeColonyAlgorithm();
-    void setUpAlgorithm(int generation, int generations, Problem* problem, int nBees,
-                        int mSelBees, int eBestBees, int n_mSelBees, int n_eBestBees,
-                        int numeroModificacoes, int busca);
+    void setUpAlgorithm(int generation, int generations, Problem* problem, Population* population,
+                         int selectedSize, int bestSize, int valueSelection, int valueBest,
+                         int changeValue);
     int generateNewPopulation(Population* population, Problem* problem);
 private:
-    Population selBees, scoutBees;
-    int busca; //Criar class descida
-    int nBees, mSelBees, eBestBees, n_mSelBees, n_eBestBees;
-    int tamanhoIndividuo;
-    int numeroModificacoes;
-    int iteracaoMelhorBeeRun;
-    Individual melhorBeeIteracao;
-    Individual melhorBeeRun;
+    void createSelectedBeePopulation();
+    void evaluate();
+    void calculateBestBeesProbability();
+    void calculateSelBeesProbability();
+    void initializeProbabilities();
+    Problem* problem;
+    Population* scoutBees;
+    Population selBees;
+    Search search;
+    Individual bestBeeIteration;
+    Individual bestBeeRun;
     QVector<double> prob;
-    QVector<int> sbees;
-    QVector<double> anel;
-    QVector<int> ntanel;
+    int selectedSize;
+    int bestSize;
+    int valueSelection;
+    int valueBest;
+    int changeValue;
+    int generationBestBeeRun;
 };
 
 #endif // BEECOLONYALGORITHM_H

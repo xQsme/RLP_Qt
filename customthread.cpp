@@ -15,9 +15,6 @@ CustomThread::CustomThread(Population* population, Problem* problem, CustomAlgor
 
 void CustomThread::run()
 {
-    /*for(int i =0; i<threadCount; i++){
-        threads[i].start();
-    }*/
     while(algorithm->generateNewPopulation(population, problem) == 1){
         population->calculateFitnesses(problem);
         QString ended;
