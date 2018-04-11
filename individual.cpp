@@ -57,15 +57,18 @@ void Individual::setRegenerators(int regenerators)
 }
 
 
-Individual Individual::clone(Problem* problem)
+Individual Individual::clone()
 {
-    Individual aux = Individual(problem);
+    Individual aux = Individual();
     aux.setDisconnected(disconnected);
     aux.setFitness(fitness);
     aux.setRegenerators(regenerators);
-    int idx = 0;
     foreach (int i, solution) {
-        aux.setValue(idx++,i);
+        aux.addValue(i);
     }
     return aux;
+}
+
+void Individual::addValue(int i){
+    solution << i;
 }

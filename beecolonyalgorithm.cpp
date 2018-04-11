@@ -56,7 +56,7 @@ int BeeColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
         }
         for (int j = 0; j< number; j++)
         {
-            selected = optimizeSolution(selIndividuals[i].clone(problem)); //TO-DO
+            selected = optimizeSolution(selIndividuals[i].clone()); //TO-DO
             if ((selected.getFitness() < individuals[i].getFitness()) || (qrand() % 100 < qrand() % 100 && selected.getFitness()==individuals[i].getFitness()))
             {
                 scoutBees->setIndividual(i, selected);
@@ -78,18 +78,18 @@ void BeeColonyAlgorithm::createSelectedBeePopulation()
     QVector<Individual> individuals = scoutBees->getIndividuals();
     for (int i = 0; i < selectedSize; i++)
     {
-        selBees.addIndividual(individuals[i].clone(problem));
+        selBees.addIndividual(individuals[i].clone());
     }
 }
 
 void BeeColonyAlgorithm::evaluate()
 {
     scoutBees->calculateFitnesses(problem);
-    bestBeeIteration = scoutBees->getBestIndividual().clone(problem);
+    bestBeeIteration = scoutBees->getBestIndividual().clone();
 
     if (generation == 0 || bestBeeRun.getFitness() > bestBeeIteration.getFitness())
     {
-       bestBeeRun = bestBeeIteration.clone(problem);
+       bestBeeRun = bestBeeIteration.clone();
        generationBestBeeRun = generation;
     }
 }
