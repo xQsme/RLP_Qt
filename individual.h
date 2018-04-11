@@ -7,7 +7,7 @@ class Individual
 {
 public:
     Individual();
-    Individual(int nodes);
+    Individual(Problem* problem);
     QVector<int> getSolution();
     int getFitness();
     int getDisconnected();
@@ -16,8 +16,7 @@ public:
     void setFitness(int fitness);
     void setDisconnected(int disconnected);
     void setRegenerators(int regenerators);
-    void releaseMemory();
-    Individual clone();
+    Individual clone(Problem* problem);
 private:
     QVector<int> solution;
     int fitness=0;

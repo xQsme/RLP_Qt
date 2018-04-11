@@ -17,6 +17,8 @@ void Problem::setUpProblem(QString filename){
     int skipped = 0; //Ja passou a linha após ler os pesos
     int count = 0; //Linha do ficheiro
     int idx = 0; //Linha na matriz
+    int maxConnections = 0;
+    int currentConnections = 0;
     total = 0;
     connections = 0;
 
@@ -25,60 +27,90 @@ void Problem::setUpProblem(QString filename){
     while (!stream.atEnd())
     {
        QString line = stream.readLine();
-
        count++;
-       if (total == 0 || connections == 0 || check == 0) { //As 3 primeiras linhas
-           if (connections != 0) { //Verificar se tem pesos
+       if (total == 0 || connections == 0 || check == 0)
+       { //As 3 primeiras linhas
+           if (connections != 0)
+           { //Verificar se tem pesos
                check = 1;
-               if (line.indexOf("Weight") != -1) {
+               if (line.indexOf("Weight") != -1)
+               {
                    hasWeight = 1;
                }
-               else {
+               else
+               {
                    hasWeight = 0;
                }
            }
            else if (total != 0) { //Total de ligações
-               if (line.indexOf("=") == -1) {
+               if (line.indexOf("=") == -1)
+               {
                    throw std::invalid_argument("wrong file!");
                }
-               if (line.indexOf(";") == -1) {
+               if (line.indexOf(";") == -1)
+               {
                    connections = line.mid(line.indexOf("=") + 2).toInt();
                }
-               else {
+               else
+               {
                    line = line.left(line.indexOf(";"));
                    connections = line.mid(line.indexOf("=") + 1).toInt();
                }
            }
-           else { //Total de nós
-               if (line.indexOf(";") == -1) {
+           else
+           { //Total de nós
+               if (line.indexOf(";") == -1)
+               {
                    total = line.mid(line.indexOf("=") + 2).toInt();
                }
-               else {
+               else
+               {
                    line = line.left(line.indexOf(";"));
                    total = line.mid(line.indexOf("=")+1).toInt();
                }
-               for (int index = 0; index < total; ++index) {
+               for (int index = 0; index < total; ++index)
+               {
                    {
                        nodes << QVector<int>();
                    }
                }
            }
        }
-       else {
-           if (done == 1 && skipped == 0) { //ja leu pesos e ainda nao passou linha
+       else
+       {
+           if (done == 1 && skipped == 0)
+           { //ja leu pesos e ainda nao passou linha
                skipped = 1;
            }
-           else { //Nao tem pesos ou ja passou linha
+           else
+           { //Nao tem pesos ou ja passou linha
                if ((count > 4 && count % 2 != 0 && hasWeight == 0) || done == 1) { //Linhas impares para quando nao tem pesos, todas as linhas quando ja leu pesos
+                   currentConnections=0;
                    QStringList list;
-                   if(hasWeight==1){
+                   if(hasWeight==1)
+                   {
                        list = line.split("\t");
-                   }else{
+                   }
+                   else
+                   {
                        list = line.split("  ");
                    }
                    foreach(QString value, list)
                    {
-                       nodes[idx] << (value.toInt() == 0 ? 0 : 1);
+                       if(value.toInt() != 0)
+                       {
+                           nodes[idx] << 1;
+                           currentConnections++;
+                       }
+                       else
+                       {
+                           nodes[idx] << 0;
+                       }
+                   }
+                   connectionsWeight << --currentConnections;
+                   if(maxConnections < currentConnections)
+                   {
+                       maxConnections = currentConnections;
                    }
                    if (++idx == total) {
                        break;
@@ -95,8 +127,11 @@ void Problem::setUpProblem(QString filename){
            }
        }
     }
-
     file.close();
+
+    for(int i = 0; i < connectionsWeight.length(); i++){
+        connectionsWeight[i] /= maxConnections;
+    }
 }
 
 QVector<QVector<int>> Problem::getNodes()
@@ -122,4 +157,8 @@ int Problem::getTotal()
 int Problem::getConnections()
 {
     return connections;
+}
+
+QVector<float> Problem::getConnectionsWeight(){
+    return connectionsWeight;
 }

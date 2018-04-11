@@ -17,9 +17,11 @@ public:
     int hasWeights();
     int getTotal();
     int getConnections();
+    QVector<float> getConnectionsWeight();
 private:
     QVector<QVector<int>> nodes;
     QVector<int> weights;
+    QVector<float> connectionsWeight;
     int hasWeight = 0;
     int total=0;
     int connections = 0;

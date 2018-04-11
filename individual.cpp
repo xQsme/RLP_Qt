@@ -5,24 +5,19 @@ Individual::Individual()
 
 }
 
-Individual::Individual(int nodes)
+Individual::Individual(Problem* problem)
 {
-    for(int i = 0; i < nodes; i++){
-        solution << qrand() % 2;
+    QVector<float> percentages = problem->getConnectionsWeight();
+    for(int i = 0; i < problem->getTotal(); i++){
+        if(qrand() % (int)(1 / percentages[i] * 2) == 0)
+        {
+            solution << 1;
+        }
+        else
+        {
+            solution << 0;
+        }
     }
-}
-
-//not sure if required for program to work
-void Individual::releaseMemory()
-{
-    /*
-    if(this->getSolution() != NULL)
-    {
-        free(this->getSolution());
-    }
-
-    this->getSolution() = NULL;
-    */
 }
 
 QVector<int> Individual::getSolution(){
@@ -62,9 +57,9 @@ void Individual::setRegenerators(int regenerators)
 }
 
 
-Individual Individual::clone()
+Individual Individual::clone(Problem* problem)
 {
-    Individual aux = Individual(solution.length());
+    Individual aux = Individual(problem);
     aux.setDisconnected(disconnected);
     aux.setFitness(fitness);
     aux.setRegenerators(regenerators);

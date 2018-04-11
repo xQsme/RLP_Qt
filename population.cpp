@@ -11,7 +11,7 @@ void Population::setUpPopulation(int seed, int populationSize, Problem* problem)
     individuals.clear();
     for(int i = 0; i < populationSize; i++)
     {
-        individuals << Individual(problem->getTotal());
+        individuals << Individual(problem);
     }
     this->seed=seed;
     this->populationSize=populationSize;
