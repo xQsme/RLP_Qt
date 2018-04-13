@@ -33,12 +33,7 @@ int BeeColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
     Individual selected;
 
     QVector<Individual> individuals = scoutBees->getIndividuals();
-    for (int i = 0; i < population->getPopulationSize(); i++)
-    {
-        population->setIndividual(i, search.apply(problem, individuals[i])); //TO-DO
-    }
 
-    evaluate();
     createSelectedBeePopulation();
     calculateBestBeesProbability();
     calculateSelBeesProbability();
@@ -148,7 +143,45 @@ void BeeColonyAlgorithm::initializeProbabilities()
 Individual BeeColonyAlgorithm::optimizeSolution(Individual individual)
 {
     Individual toReturn = individual;
+    QVector<float> weights = problem->getConnectionsWeight();
 
-    return toReturn;
+    for(int i = 0; i < changeValue; i++)
+    {
+        int bestIndex;
+        float bestValue = 0;
+        int worstIndex;
+        float worstValue = 1;
+        for(int j = 0; j < weights.length(); j++){
+            if(toReturn.getSolution()[j] == 0)
+            {
+                if(weights[j] > bestValue)
+                {
+                    bestIndex = j;
+                    bestValue = weights[j];
+                }
+            }else
+            {
+                if(weights[j] < worstValue)
+                {
+                    worstIndex = j;
+                    worstValue = weights[j];
+                }
+            }
+        }
+        if(qrand() % 2 == 0)
+        {
+            toReturn.setValue(bestIndex, 1);
+        }
+        else
+        {
+            toReturn.setValue(worstIndex, 0);
+        }
+        if(toReturn.calculateFitness(problem) < individual.getFitness())
+        {
+            return toReturn;
+        }
+    }
+
+    return individual;
 }
 

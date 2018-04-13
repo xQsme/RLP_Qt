@@ -20,6 +20,42 @@ Individual::Individual(Problem* problem)
     }
 }
 
+int Individual::calculateFitness(Problem* problem)
+{
+    QVector<QVector<int>> nodes = problem->getNodes();
+    QVector<int> weights = problem->getWeights();
+    fitness=0;
+    disconnected=0;
+    regenerators=0;
+    int match;
+    for (int i = 0; i < solution.length(); i++) {
+        match = 0;
+        for (int j = 0; j < solution.length(); j++) {
+            if (nodes[i][j] == 1) {
+                if (solution[j] == 1) {
+                    match++;
+                    break;
+                }
+            }
+        }
+        if (match == 0) {
+            disconnected++; //guarda o numero de ligações sem regenerador
+            fitness+=500;
+        }
+    }
+    for (int i = 0; i < solution.length(); i++) {
+        if (solution[i] == 1) {
+            regenerators++; //guarda o total de regeneradores
+            if(problem->hasWeights() == 1){
+                fitness += 100 * weights[i];
+            }else{
+                fitness += 100;
+            }
+        }
+    }
+    return fitness;
+}
+
 QVector<int> Individual::getSolution(){
     return solution;
 }

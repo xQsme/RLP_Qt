@@ -9,6 +9,7 @@ public:
     Individual();
     Individual(Problem* problem);
     QVector<int> getSolution();
+    int calculateFitness(Problem* problem);
     int getFitness();
     int getDisconnected();
     int getRegenerators();
