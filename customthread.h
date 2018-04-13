@@ -1,5 +1,5 @@
-#ifndef MAINTHREAD_H
-#define MAINTHREAD_H
+#ifndef CUSTOMTHREAD_H
+#define CUSTOMTHREAD_H
 #include <QtCore>
 #include <QElapsedTimer>
 #include "population.h"
@@ -22,4 +22,4 @@ signals:
     void dataChanged(QString);
 };
 
-#endif // MAINTHREAD_H
+#endif // CUSTOMTHREAD_H

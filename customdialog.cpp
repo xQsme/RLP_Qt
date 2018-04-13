@@ -29,76 +29,52 @@ CustomDialog::~CustomDialog()
 
 void CustomDialog::on_pushButtonRead_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Open txt"), "../RLP_Qt/DataSets", tr("Text Files (*.txt)"));
-    try{
-        problem.setUpProblem(fileName);
-    }catch(const std::invalid_argument ex){
-        QMessageBox::information(this, "Error", "Wrong file formatting.");
+    if(ui->pushButtonRead->text() == "Solve")
+    {
+        QString fileName = QFileDialog::getOpenFileName(this,
+            tr("Open txt"), "../RLP_Qt/DataSets", tr("Text Files (*.txt)"));
+        solveSingle(fileName);
+        disableForm();
     }
-    population.setUpPopulation(ui->lineEditSeed->text().toInt(),
-                               ui->lineEditPopulation->text().toInt(),
-                               &problem);
-    algorithm.setUpAlgorithm(0, ui->lineEditElitism->text().toInt(),
-                             ui->lineEditMutation->text().toInt(),
-                             ui->lineEditGenerations->text().toInt());
-    population.calculateFitnesses(&problem);
-    ui->labelNodes->setText("Nodes: " + QString::number(problem.getTotal()) + " Connections: " + QString::number(problem.getConnections()));
-    chart->axisY()->setRange(0, population.getBestIndividual().getFitness());
-    clearGraph();
+    else{
+        mainThread->terminate();
+        enableForm();
+    }
+
 }
 
 void CustomDialog::on_pushButtonSolve_clicked()
 {
-    if(ui->pushButtonSolve->text() == "Solve"){
-        if(problem.getTotal()==0){
-            QMessageBox::information(this, "Error", "Read a file first.");
-            return;
-        }
-        if(algorithm.getGeneration() >= algorithm.getGenerations() ||
-                algorithm.getGenerations() != ui->lineEditGenerations->text().toInt() ||
-                population.getPopulationSize() != ui->lineEditPopulation->text().toInt() ||
-                algorithm.getElitism() - ui->lineEditElitism->text().toInt() * 0.01 >= 0.001 ||
-                algorithm.getElitism() - ui->lineEditElitism->text().toInt() * 0.01 <= -0.001 ||
-                algorithm.getMutation() - ui->lineEditMutation->text().toInt() * 0.01 >= 0.001 ||
-                algorithm.getMutation() - ui->lineEditMutation->text().toInt() * 0.01 <= -0.001 ||
-                population.getSeed() != ui->lineEditSeed->text().toInt()){ //Se mudou alguma coisa ou chegou ao fim
-            if(population.getSeed() != ui->lineEditSeed->text().toInt() ||
-                    population.getPopulationSize() != ui->lineEditPopulation->text().toInt()){ //Se a população mudou
-                population.setUpPopulation(ui->lineEditSeed->text().toInt(),
-                                           ui->lineEditPopulation->text().toInt(),
-                                           &problem);
-                algorithm.setUpAlgorithm(0, ui->lineEditElitism->text().toInt(),
-                                         ui->lineEditMutation->text().toInt(),
-                                         ui->lineEditGenerations->text().toInt());
-                population.calculateFitnesses(&problem);
-                clearGraph();
-            }else if(ui->lineEditGenerations->text().toInt() > algorithm.getGeneration() &&
-                     algorithm.getElitism() - ui->lineEditElitism->text().toInt() * 0.01 <= 0.001 &&
-                     algorithm.getElitism() - ui->lineEditElitism->text().toInt() * 0.01 >= -0.001 &&
-                     algorithm.getMutation() - ui->lineEditMutation->text().toInt() * 0.01 <= 0.001 &&
-                     algorithm.getMutation() - ui->lineEditMutation->text().toInt() * 0.01 >= -0.001){ //Se apenas as gerações mudaram
-                algorithm.setUpAlgorithm(1, ui->lineEditElitism->text().toInt(),
-                                         ui->lineEditMutation->text().toInt(),
-                                         ui->lineEditGenerations->text().toInt());
-            }else{ //Mudou algo que não as gerações
-                population.setUpPopulation(ui->lineEditSeed->text().toInt(),
-                                           ui->lineEditPopulation->text().toInt(),
-                                           &problem);
-                population.calculateFitnesses(&problem);
-                algorithm.setUpAlgorithm(0, ui->lineEditElitism->text().toInt(),
-                                         ui->lineEditMutation->text().toInt(),
-                                         ui->lineEditGenerations->text().toInt());
-                clearGraph();
+    dir = QFileDialog::getExistingDirectory(0, ("Select Directory"), "../RLP_Qt/DataSets");
+    if(dir.dirName() != ""){
+        QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm_settings.csv");
+        info.open(QIODevice::WriteOnly | QIODevice::Text);
+        QTextStream infoStream(&info);
+        infoStream << "Seed: " << ui->lineEditSeed->text() << endl;
+        infoStream << "Population: " << ui->lineEditPopulation->text() << endl;
+        infoStream << "Generations: " << ui->lineEditGenerations->text() << endl;
+        infoStream << "Elitism: " << ui->lineEditElitism->text() << "%" << endl;
+        infoStream << "Mutation: " << ui->lineEditMutation->text() << "%" << endl;
+
+        file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm.csv");
+        file.open(QIODevice::WriteOnly | QIODevice::Text);
+        stream.setDevice(&file);
+        stream << "Generations;Time;Fitness;Regenerators;Disconnected" << endl;
+        totalFiles = dir.entryInfoList().length();
+        foreach(QFileInfo problem, dir.entryInfoList())
+        {
+            if(!dir.absolutePath().contains(problem.absoluteFilePath()))
+            {
+                solveMultiple(problem.absoluteFilePath());
+                if(++count == ui->lineEditThreads->text().toInt()){
+                    break;
+                }
             }
         }
-        mainThread = new CustomThread(&population, &problem, &algorithm/*, ui->lineEditThreads->text().toInt()*/);
-        connect(mainThread, SIGNAL(dataChanged(QString)), this, SLOT(onDataChanged(QString)));
-        mainThread->start();
-        disableForm();
-    }else{
-        mainThread->terminate();
-        enableForm();
+    }
+    else
+    {
+        QMessageBox::information(this, "Error", "Please select a directory.");
     }
 }
 
@@ -138,22 +114,81 @@ void CustomDialog::onDataChanged(QString stuff)
     }
 }
 
-void CustomDialog::disableForm(){
+void CustomDialog::threadEnded(QString stuff, int count)
+{
+    stream << stuff << endl;
+    //stream->operator <<(endl);
+    //threads[count]= NULL;
+    //problems[count] = Problem();
+    //populations[count] = Population();
+    //algorithms[count] = CustomAlgorithm();
+    if(++count < totalFiles-1){
+        solveMultiple(dir.entryInfoList()[count+3].absoluteFilePath());
+    }
+}
+
+void CustomDialog::disableForm()
+{
     ui->lineEditSeed->setDisabled(true);
     ui->lineEditPopulation->setDisabled(true);
     ui->lineEditGenerations->setDisabled(true);
     ui->lineEditElitism->setDisabled(true);
     ui->lineEditMutation->setDisabled(true);
-    ui->pushButtonRead->setDisabled(true);
-    ui->pushButtonSolve->setText("Stop");
+    ui->pushButtonRead->setText("Stop");
+    ui->pushButtonSolve->setDisabled(true);
 }
 
-void CustomDialog::enableForm(){
+void CustomDialog::enableForm()
+{
     ui->lineEditSeed->setDisabled(false);
     ui->lineEditPopulation->setDisabled(false);
     ui->lineEditGenerations->setDisabled(false);
     ui->lineEditElitism->setDisabled(false);
     ui->lineEditMutation->setDisabled(false);
-    ui->pushButtonRead->setDisabled(false);
-    ui->pushButtonSolve->setText("Solve");
+    ui->pushButtonRead->setText("Solve");
+    ui->pushButtonSolve->setDisabled(false);
+}
+
+void CustomDialog::solveSingle(QString fileName)
+{
+    try{
+        problem.setUpProblem(fileName);
+    }catch(const std::invalid_argument ex){
+        QMessageBox::information(this, "Error", "Wrong file formatting.");
+    }
+    population.setUpPopulation(ui->lineEditSeed->text().toInt(),
+                               ui->lineEditPopulation->text().toInt(),
+                               &problem);
+    algorithm.setUpAlgorithm(0, ui->lineEditElitism->text().toInt(),
+                             ui->lineEditMutation->text().toInt(),
+                             ui->lineEditGenerations->text().toInt());
+    population.calculateFitnesses(&problem);
+    ui->labelNodes->setText("Nodes: " + QString::number(problem.getTotal()) + " Connections: " + QString::number(problem.getConnections()));
+    chart->axisY()->setRange(0, population.getBestIndividual().getFitness());
+    clearGraph();
+    mainThread = new CustomThread(&population, &problem, &algorithm);
+    connect(mainThread, SIGNAL(dataChanged(QString)), this, SLOT(onDataChanged(QString)));
+    mainThread->start();
+}
+
+void CustomDialog::solveMultiple(QString fileName)
+{
+    problems << Problem();
+    try{
+        problems[count].setUpProblem(fileName);
+    }catch(const std::invalid_argument ex){
+        QMessageBox::information(this, "Error", "Wrong file formatting.");
+    }
+    populations << Population();
+    populations[count].setUpPopulation(ui->lineEditSeed->text().toInt(),
+                               ui->lineEditPopulation->text().toInt(),
+                               &problems[count]);
+    algorithms << CustomAlgorithm();
+    algorithms[count].setUpAlgorithm(0, ui->lineEditElitism->text().toInt(),
+                             ui->lineEditMutation->text().toInt(),
+                             ui->lineEditGenerations->text().toInt());
+    //populations[count].calculateFitnesses(&problems[count]);
+    threads << new CustomMultiThread(&populations[count], &problems[count], &algorithms[count], count);
+    connect(threads[count], SIGNAL(threadEnded(QString, int)), this, SLOT(threadEnded(QString, int)));
+    threads[count]->start();
 }
