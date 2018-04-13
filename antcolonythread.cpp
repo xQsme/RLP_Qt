@@ -10,15 +10,13 @@ AntColonyThread::AntColonyThread(Population* population, Problem* problem, AntCo
     this->population=population;
     this->problem=problem;
     this->algorithm=algorithm;
+    //add a timer?
 }
 
 void AntColonyThread::run()
 {
-    /*for(int i =0; i<threadCount; i++){
-        threads[i].start();
-    }*/
     while(algorithm->generateNewPopulation(population, problem) == 1){
-        population->calculateFitnesses(problem);
+        //population->calculateFitnesses(problem); feito no algoritmo
         QString ended;
         if(algorithm->getGeneration() >= algorithm->getGenerations()){
             ended = " 1";
@@ -29,6 +27,7 @@ void AntColonyThread::run()
                 QString::number(population->getBestIndividual().getDisconnected()) + " " +
                 QString::number(population->getBestIndividual().getRegenerators()) + " " +
                 QString::number(algorithm->getGeneration()) + ended;
+
         emit dataChanged(stuff);
     }
 }
