@@ -12,19 +12,25 @@ class AntColonyAlgorithm : public GeneticAlgorithm
 public:
     AntColonyAlgorithm();
     void setUpAlgorithm(int generation, int generations, double probability_q,
-                        double Q, int numberOfMods, Population* population);
+                        double Q, int numberOfMods, Population* population, Problem* problem);
     int generateNewPopulation(Population* population, Problem* problem);
     void initializePheromoneTrail(void);
     int random(int low, int high);
-    void evaluate(Population *ants);
+    void evaluate();
 private:
     int numberOfAnts; //nr total de individuos
     int individualSize; //tamanho de um individuo
+    int generationBestAntRun; //geracao com a melhor ant run
+    int generationsWithoutImprovments; //geracoes que se passaram desde a ultima melhoria
+    int numberOfMods;
+    bool intensification;
     double probability_q;
     double Q;
     QVector<QVector<QVector<double>>> t; //trilho feromonal
-    int bestAntFitness; //fitness da melhor formiga
-    int numberOfMods;
+    Population* ants;
+    Individual bestAntIteration;
+    Individual bestAntRun;
+    Problem* problem;
 };
 
 #endif // ANTCOLONYALGORITHM_H
