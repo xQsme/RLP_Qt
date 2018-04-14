@@ -29,9 +29,9 @@
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>190</x>
      <y>27</y>
-     <width>581</width>
+     <width>571</width>
      <height>401</height>
     </rect>
    </property>
@@ -380,9 +380,9 @@
   <widget class="QProgressBar" name="progressBar">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>190</x>
      <y>430</y>
-     <width>581</width>
+     <width>571</width>
      <height>23</height>
     </rect>
    </property>

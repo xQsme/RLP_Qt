@@ -247,7 +247,6 @@ void CustomDialog::problemEnded(QString stuff, int ended)
     stream << stuff << endl;
     if(ended == 1){
         enableForm();
-        file.close();
         ui->progressBar->setValue(100);
     }
 }

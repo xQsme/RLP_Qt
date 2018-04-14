@@ -109,7 +109,7 @@ void BeeColonyDialog::on_pushButtonSolve_clicked()
         QDir dir = QFileDialog::getExistingDirectory(0, ("Select Directory"), "../RLP_Qt/DataSets");
         if(dir.dirName() != ""){
             enableThreads();
-            QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm_settings.csv");
+            QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_bee_colony_settings.csv");
             info.open(QIODevice::WriteOnly | QIODevice::Text);
             QTextStream infoStream(&info);
             infoStream << "Seed: " << ui->lineEditSeed->text() << endl;
@@ -122,7 +122,7 @@ void BeeColonyDialog::on_pushButtonSolve_clicked()
             infoStream << "Change Value: " <<  ui->lineEditChangeValue->text() << endl;
             info.close();
 
-            file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm.csv");
+            file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_bee_colony.csv");
             file.open(QIODevice::WriteOnly | QIODevice::Text);
             stream.setDevice(&file);
             stream << "File;Generations;Time;Fitness;Regenerators;Disconnected" << endl;
@@ -260,7 +260,6 @@ void BeeColonyDialog::problemEnded(QString stuff, int ended)
     stream << stuff << endl;
     if(ended == 1){
         enableForm();
-        file.close();
         ui->progressBar->setValue(100);
     }
 }
