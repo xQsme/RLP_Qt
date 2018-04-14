@@ -10,6 +10,7 @@
 #include "population.h"
 #include "beecolonyalgorithm.h"
 #include "beecolonythread.h"
+#include "beecolonymultithread.h"
 
 namespace Ui {
 class BeeColonyDialog;
@@ -28,20 +29,26 @@ private slots:
     void on_pushButtonSolve_clicked();
 
 private:
-    void clearGraph();
-    void disableForm();
+    void clearLayout();
+    void disableForm(int batch);
     void enableForm();
+    void enableGraph();
+    void enableThreads();
     Ui::BeeColonyDialog *ui;
     QChart *chart;
     QLineSeries *series;
     QChartView *chartView;
-    Problem problem;
-    Population population;
-    BeeColonyAlgorithm algorithm;
+    QVector<QLabel*> labels;
     BeeColonyThread* mainThread;
+    QVector<BeeColonyMultiThread*> threads;
+    QTextStream stream;
+    QFile file;
 
 public slots:
-    void onDataChanged(QString);
+    void onDataChanged(QString stuff);
+    void singleProblem(QString stuff);
+    void newProblem(int thread, QString fileName, int percent);
+    void problemEnded(QString stuff, int ended);
 };
 
 #endif // BEECOLONYDIALOG_H

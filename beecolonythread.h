@@ -11,15 +11,25 @@ class BeeColonyThread : public QThread
     Q_OBJECT
 public:
     BeeColonyThread();
-    BeeColonyThread(Population* population, Problem* problem, BeeColonyAlgorithm* algorithm);
+    BeeColonyThread(QString fileName, int seed, int populationSize, int generations, int selectSize, int bestSize, int selectValue, int bestValue, int changeValue);
     void run();
 private:
-    Population* population;
-    Problem* problem;
-    BeeColonyAlgorithm* algorithm;
+    Population population;
+    Problem problem;
+    BeeColonyAlgorithm algorithm;
     QElapsedTimer timer;
+    QString fileName;
+    int seed;
+    int populationSize;
+    int generations;
+    int selectSize;
+    int bestSize;
+    int selectValue;
+    int bestValue;
+    int changeValue;
 signals:
-    void dataChanged(QString);
+    void dataChanged(QString stuff);
+    void singleProblem(QString stuff);
 };
 
 #endif // BEECOLONYTHREAD_H

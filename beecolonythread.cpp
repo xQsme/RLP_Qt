@@ -5,28 +5,52 @@ BeeColonyThread::BeeColonyThread()
 
 }
 
-BeeColonyThread::BeeColonyThread(Population* population, Problem* problem, BeeColonyAlgorithm* algorithm)
+BeeColonyThread::BeeColonyThread(QString fileName, int seed, int populationSize, int generations, int selectSize, int bestSize, int selectValue, int bestValue, int changeValue)
 {
-    this->population=population;
-    this->problem=problem;
-    this->algorithm=algorithm;
+    this->fileName=fileName;
+    this->seed=seed;
+    this->populationSize=populationSize;
+    this->generations=generations;
+    this->selectSize=selectSize;
+    this->bestSize=bestSize;
+    this->selectValue=selectValue;
+    this->bestValue=bestValue;
+    this->changeValue=changeValue;
     this->timer.start();
 }
 
 void BeeColonyThread::run()
 {
-    while(algorithm->generateNewPopulation(population, problem) == 1){
+    try
+    {
+        problem.setUpProblem(fileName);
+    }
+    catch(const std::invalid_argument ex){
+        return;
+    }
+    population.setUpPopulation(seed, populationSize, &problem);
+    population.calculateFitnesses(&problem);
+    algorithm.setUpAlgorithm(selectSize, &problem, &population, selectSize, bestSize, selectValue, bestValue, changeValue);
+    QString stuff = QString::number(population.getBestIndividual().getFitness()) + " " +
+            QString::number(population.getBestIndividual().getDisconnected()) + " " +
+            QString::number(population.getBestIndividual().getRegenerators()) + " " +
+            QString::number(problem.getTotal()) + " " +
+            QString::number(problem.getConnections());
+    emit singleProblem(stuff);
+    while(algorithm.generateNewPopulation(&population, &problem) == 1){
+        population.calculateFitnesses(&problem);
         QString ended;
-        if(algorithm->getGeneration() >= algorithm->getGenerations()){
+        if(algorithm.getGeneration() >= algorithm.getGenerations()){
             ended = " 1";
         }else{
             ended = " 0";
         }
-        QString stuff = QString::number(population->getBestIndividual().getFitness()) + " " +
-                QString::number(population->getBestIndividual().getDisconnected()) + " " +
-                QString::number(population->getBestIndividual().getRegenerators()) + " " +
-                QString::number(algorithm->getGeneration()) + " " +
-                QString::number(timer.elapsed()/1000) + ended;
+        stuff = QString::number(population.getBestIndividual().getFitness()) + " " +
+                QString::number(population.getBestIndividual().getDisconnected()) + " " +
+                QString::number(population.getBestIndividual().getRegenerators()) + " " +
+                QString::number(algorithm.getGeneration()) + " " +
+                QString::number(timer.elapsed()/1000) + ended + " " +
+                QString::number(100*algorithm.getGeneration()/algorithm.getGenerations());
 
         emit dataChanged(stuff);
     }

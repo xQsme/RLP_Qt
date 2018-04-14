@@ -142,7 +142,7 @@ void BeeColonyAlgorithm::initializeProbabilities()
 
 Individual BeeColonyAlgorithm::optimizeSolution(Individual individual)
 {
-    Individual toReturn = individual;
+    Individual toReturn = individual.clone();
     QVector<float> weights = problem->getConnectionsWeight();
 
     for(int i = 0; i < changeValue; i++)
