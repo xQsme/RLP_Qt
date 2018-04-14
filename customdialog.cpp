@@ -240,5 +240,6 @@ void CustomDialog::problemEnded(QString stuff, int ended)
     if(ended == 1){
         enableForm();
         file.close();
+        ui->progressBar->setValue(100);
     }
 }
