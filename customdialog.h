@@ -31,10 +31,10 @@ private slots:
 
 private:
     void clearGraph();
-    void disableForm();
+    void disableForm(int batch);
     void enableForm();
     void solveSingle(QString fileName);
-    void solveMultiple(QString fileName);
+    void solveMultiple(QString fileName, QString name);
     Ui::CustomDialog *ui;
     QChart *chart;
     QLineSeries *series;
@@ -43,19 +43,11 @@ private:
     Population population;
     CustomAlgorithm algorithm;
     CustomThread* mainThread;
-    QDir dir;
-    QFile file;
-    QTextStream stream;
-    int totalFiles;
-    int count=0;
-    QVector<CustomMultiThread*> threads;
-    QVector<Population> populations;
-    QVector<Problem> problems;
-    QVector<CustomAlgorithm> algorithms;
+    CustomMultiThread* multiThread;
 
 public slots:
     void onDataChanged(QString);
-    void threadEnded(QString, int count);
+    void newProblem(QString);
 };
 
 #endif // CUSTOMDIALOG_H

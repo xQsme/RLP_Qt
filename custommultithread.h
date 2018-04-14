@@ -11,19 +11,22 @@ class CustomMultiThread : public QThread
     Q_OBJECT
 public:
     CustomMultiThread();
-    CustomMultiThread(Population* population, Problem* problem, CustomAlgorithm* algorithm, int count);
+    CustomMultiThread(QDir dir, int seed, int populationSize, int generations, int elitism, int mutation);
     void run();
 private:
     Population* population;
     Problem* problem;
     CustomAlgorithm* algorithm;
     QElapsedTimer timer;
-    int bestGeneration;
-    int bestTime;
-    int previousFitness=1000000;
-    int count;
+    QDir dir;
+    int seed;
+    int populationSize;
+    int generations;
+    int elitism;
+    int mutation;
 signals:
-    void threadEnded(QString stuff, int count);
+    void dataChanged(QString stuff);
+    void newProblem(QString stuff);
 };
 
 #endif // CUSTOMMULTITHREAD_H

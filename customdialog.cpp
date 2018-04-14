@@ -33,8 +33,14 @@ void CustomDialog::on_pushButtonRead_clicked()
     {
         QString fileName = QFileDialog::getOpenFileName(this,
             tr("Open txt"), "../RLP_Qt/DataSets", tr("Text Files (*.txt)"));
-        solveSingle(fileName);
-        disableForm();
+        if(fileName != ""){
+            solveSingle(fileName);
+            disableForm(0);
+        }
+        else
+        {
+            QMessageBox::information(this, "Error", "Please select a file.");
+        }
     }
     else{
         mainThread->terminate();
@@ -45,36 +51,28 @@ void CustomDialog::on_pushButtonRead_clicked()
 
 void CustomDialog::on_pushButtonSolve_clicked()
 {
-    dir = QFileDialog::getExistingDirectory(0, ("Select Directory"), "../RLP_Qt/DataSets");
-    if(dir.dirName() != ""){
-        QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm_settings.csv");
-        info.open(QIODevice::WriteOnly | QIODevice::Text);
-        QTextStream infoStream(&info);
-        infoStream << "Seed: " << ui->lineEditSeed->text() << endl;
-        infoStream << "Population: " << ui->lineEditPopulation->text() << endl;
-        infoStream << "Generations: " << ui->lineEditGenerations->text() << endl;
-        infoStream << "Elitism: " << ui->lineEditElitism->text() << "%" << endl;
-        infoStream << "Mutation: " << ui->lineEditMutation->text() << "%" << endl;
-
-        file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm.csv");
-        file.open(QIODevice::WriteOnly | QIODevice::Text);
-        stream.setDevice(&file);
-        stream << "Generations;Time;Fitness;Regenerators;Disconnected" << endl;
-        totalFiles = dir.entryInfoList().length();
-        foreach(QFileInfo problem, dir.entryInfoList())
+    if(ui->pushButtonSolve->text() == "Batch Solve")
+    {
+        QDir dir = QFileDialog::getExistingDirectory(0, ("Select Directory"), "../RLP_Qt/DataSets");
+        if(dir.dirName() != ""){
+            multiThread = new CustomMultiThread(dir, ui->lineEditSeed->text().toInt(),
+                                                ui->lineEditPopulation->text().toInt(),
+                                                ui->lineEditGenerations->text().toInt(),
+                                                ui->lineEditElitism->text().toInt(),
+                                                ui->lineEditMutation->text().toInt());
+            connect(multiThread, SIGNAL(dataChanged(QString)), this, SLOT(onDataChanged(QString)));
+            connect(multiThread, SIGNAL(newProblem(QString)), this, SLOT(newProblem(QString)));
+            multiThread->start();
+            disableForm(1);
+        }
+        else
         {
-            if(!dir.absolutePath().contains(problem.absoluteFilePath()))
-            {
-                solveMultiple(problem.absoluteFilePath());
-                if(++count == ui->lineEditThreads->text().toInt()){
-                    break;
-                }
-            }
+            QMessageBox::information(this, "Error", "Please select a directory.");
         }
     }
-    else
-    {
-        QMessageBox::information(this, "Error", "Please select a directory.");
+    else{
+        multiThread->terminate();
+        enableForm();
     }
 }
 
@@ -112,30 +110,23 @@ void CustomDialog::onDataChanged(QString stuff)
     if(moreStuff[5] == "1"){
         enableForm();
     }
+    ui->progressBar->setValue(moreStuff[6].toFloat()*100);
 }
 
-void CustomDialog::threadEnded(QString stuff, int count)
-{
-    stream << stuff << endl;
-    //stream->operator <<(endl);
-    //threads[count]= NULL;
-    //problems[count] = Problem();
-    //populations[count] = Population();
-    //algorithms[count] = CustomAlgorithm();
-    if(++count < totalFiles-1){
-        solveMultiple(dir.entryInfoList()[count+3].absoluteFilePath());
-    }
-}
-
-void CustomDialog::disableForm()
+void CustomDialog::disableForm(int batch)
 {
     ui->lineEditSeed->setDisabled(true);
     ui->lineEditPopulation->setDisabled(true);
     ui->lineEditGenerations->setDisabled(true);
     ui->lineEditElitism->setDisabled(true);
     ui->lineEditMutation->setDisabled(true);
-    ui->pushButtonRead->setText("Stop");
-    ui->pushButtonSolve->setDisabled(true);
+    if(batch == 1){
+        ui->pushButtonSolve->setText("Stop");
+        ui->pushButtonRead->setDisabled(true);
+    }else{
+        ui->pushButtonRead->setText("Stop");
+        ui->pushButtonSolve->setDisabled(true);
+    }
 }
 
 void CustomDialog::enableForm()
@@ -145,8 +136,14 @@ void CustomDialog::enableForm()
     ui->lineEditGenerations->setDisabled(false);
     ui->lineEditElitism->setDisabled(false);
     ui->lineEditMutation->setDisabled(false);
-    ui->pushButtonRead->setText("Solve");
-    ui->pushButtonSolve->setDisabled(false);
+    if(ui->pushButtonSolve->text() == "Stop"){
+        ui->pushButtonSolve->setText("Batch Solve");
+        ui->pushButtonRead->setDisabled(false);
+    }else{
+        ui->pushButtonRead->setText("Solve");
+        ui->pushButtonSolve->setDisabled(false);
+    }
+
 }
 
 void CustomDialog::solveSingle(QString fileName)
@@ -155,6 +152,7 @@ void CustomDialog::solveSingle(QString fileName)
         problem.setUpProblem(fileName);
     }catch(const std::invalid_argument ex){
         QMessageBox::information(this, "Error", "Wrong file formatting.");
+        return;
     }
     population.setUpPopulation(ui->lineEditSeed->text().toInt(),
                                ui->lineEditPopulation->text().toInt(),
@@ -171,24 +169,15 @@ void CustomDialog::solveSingle(QString fileName)
     mainThread->start();
 }
 
-void CustomDialog::solveMultiple(QString fileName)
+void CustomDialog::newProblem(QString stuff)
 {
-    problems << Problem();
-    try{
-        problems[count].setUpProblem(fileName);
-    }catch(const std::invalid_argument ex){
-        QMessageBox::information(this, "Error", "Wrong file formatting.");
-    }
-    populations << Population();
-    populations[count].setUpPopulation(ui->lineEditSeed->text().toInt(),
-                               ui->lineEditPopulation->text().toInt(),
-                               &problems[count]);
-    algorithms << CustomAlgorithm();
-    algorithms[count].setUpAlgorithm(0, ui->lineEditElitism->text().toInt(),
-                             ui->lineEditMutation->text().toInt(),
-                             ui->lineEditGenerations->text().toInt());
-    //populations[count].calculateFitnesses(&problems[count]);
-    threads << new CustomMultiThread(&populations[count], &problems[count], &algorithms[count], count);
-    connect(threads[count], SIGNAL(threadEnded(QString, int)), this, SLOT(threadEnded(QString, int)));
-    threads[count]->start();
+    QList<QString> moreStuff = stuff.split(" ");
+    ui->labelNodes->setText("Nodes: " + moreStuff[0] + " Connections: " + moreStuff[1]);
+    series->clear();
+    series->append(0, moreStuff[2].toInt());
+    chart->axisX()->setRange(0, 1);
+    ui->labelDisconnected->setText("Disconnected: " + moreStuff[3]);
+    ui->labelRegenerators->setText("Regenerators: " + moreStuff[4]);
+    ui->labelFitness->setText("Fitness: " + moreStuff[2]);
+    ui->labelElapsed->setText("Elapsed Time: 00:00");
 }

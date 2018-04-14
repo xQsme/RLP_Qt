@@ -21,6 +21,7 @@ void Problem::setUpProblem(QString filename){
     int currentConnections = 0;
     total = 0;
     connections = 0;
+    nodes.clear();
 
     QTextStream stream(&file);
 
@@ -97,6 +98,10 @@ void Problem::setUpProblem(QString filename){
                    }
                    foreach(QString value, list)
                    {
+                       if (nodes[idx].length() == total)
+                       {
+                           break;
+                       }
                        if(value.toInt() != 0)
                        {
                            nodes[idx] << 1;
