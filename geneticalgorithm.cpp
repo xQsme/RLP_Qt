@@ -5,10 +5,7 @@ GeneticAlgorithm::GeneticAlgorithm()
 
 }
 
-void GeneticAlgorithm::setUpAlgorithm(int generation, int generations){
-    if(generation == 0){
-        this->generation=generation;
-    }
+void GeneticAlgorithm::setUpAlgorithm(int generations){
     this->generations=generations;
 }
 

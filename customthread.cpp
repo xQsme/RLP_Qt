@@ -27,7 +27,7 @@ void CustomThread::run()
     }
     population.setUpPopulation(seed, populationSize, &problem);
     population.calculateFitnesses(&problem);
-    algorithm.setUpAlgorithm(0, elitism, mutation, generations);
+    algorithm.setUpAlgorithm(elitism, mutation, generations);
     QString stuff = QString::number(population.getBestIndividual().getFitness()) + " " +
             QString::number(population.getBestIndividual().getDisconnected()) + " " +
             QString::number(population.getBestIndividual().getRegenerators()) + " " +

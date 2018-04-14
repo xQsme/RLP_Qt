@@ -34,15 +34,14 @@ SOURCES += \
     customthread.cpp \
     antcolonyalgorithm.cpp \
     antcolonythread.cpp \
-    beealgorithm.cpp \
     beecolonyalgorithm.cpp \
-    beecolonythread.cpp \
     antcolonydialog.cpp \
-    beealgorithmdialog.cpp \
-    beealgorithmthread.cpp \
-    beecolonydialog.cpp \
     customdialog.cpp \
-    custommultithread.cpp
+    custommultithread.cpp \
+    beecolonydialog.cpp \
+    beecolonythread.cpp \
+    geneticdialog.cpp \
+    geneticthread.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -54,22 +53,21 @@ HEADERS += \
     customthread.h \
     antcolonyalgorithm.h \
     antcolonythread.h \
-    beealgorithm.h \
     beecolonyalgorithm.h \
     beecolonythread.h \
     antcolonydialog.h \
-    beealgorithmdialog.h \
     beecolonydialog.h \
     customdialog.h \
-    beealgorithmthread.h \
-    custommultithread.h
+    custommultithread.h \
+    geneticdialog.h \
+    geneticthread.h
 
 FORMS += \
         mainwindow.ui \
     antcolonydialog.ui \
-    beealgorithmdialog.ui \
     beecolonydialog.ui \
-    customdialog.ui
+    customdialog.ui \
+    geneticdialog.ui
 
 DISTFILES += \
     qml.qml

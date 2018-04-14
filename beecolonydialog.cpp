@@ -37,7 +37,7 @@ void BeeColonyDialog::on_pushButtonRead_clicked()
     population.setUpPopulation(ui->lineEditSeed->text().toInt(),
                                ui->lineEditPopulation->text().toInt(),
                                &problem);
-    algorithm.setUpAlgorithm(0, ui->lineEditGenerations->text().toInt(), &problem, &population, ui->lineEditSelectSize->text().toInt(),
+    algorithm.setUpAlgorithm(ui->lineEditGenerations->text().toInt(), &problem, &population, ui->lineEditSelectSize->text().toInt(),
                              ui->lineEditBestSize->text().toInt(), ui->lineEditSelectValue->text().toInt(),
                              ui->lineEditBestValue->text().toInt(), ui->lineEditChangeValue->text().toInt());
     population.calculateFitnesses(&problem);
@@ -103,7 +103,7 @@ void BeeColonyDialog::on_pushButtonSolve_clicked()
         population.setUpPopulation(ui->lineEditSeed->text().toInt(),
                                    ui->lineEditPopulation->text().toInt(),
                                    &problem);
-        algorithm.setUpAlgorithm(0, ui->lineEditGenerations->text().toInt(), &problem, &population, ui->lineEditSelectSize->text().toInt(),
+        algorithm.setUpAlgorithm(ui->lineEditGenerations->text().toInt(), &problem, &population, ui->lineEditSelectSize->text().toInt(),
                                  ui->lineEditBestSize->text().toInt(), ui->lineEditSelectValue->text().toInt(),
                                  ui->lineEditBestValue->text().toInt(), ui->lineEditChangeValue->text().toInt());
         population.calculateFitnesses(&problem);

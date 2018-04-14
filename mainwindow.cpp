@@ -25,14 +25,14 @@ void MainWindow::on_pushButtonAntColony_clicked()
     dialog.exec();
 }
 
-void MainWindow::on_pushButtonBeeAlgorithm_clicked()
-{
-    BeeAlgorithmDialog dialog;
-    dialog.exec();
-}
-
 void MainWindow::on_pushButtonBeeColony_clicked()
 {
     BeeColonyDialog dialog;
+    dialog.exec();
+}
+
+void MainWindow::on_pushButtonGeneticAlgorithm_clicked()
+{
+    GeneticDialog dialog;
     dialog.exec();
 }

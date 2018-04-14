@@ -51,7 +51,7 @@ void CustomMultiThread::run()
                 }
                 population.setUpPopulation(seed, populationSize, &problem);
                 population.calculateFitnesses(&problem);
-                algorithm.setUpAlgorithm(0, elitism, mutation, generations);
+                algorithm.setUpAlgorithm(elitism, mutation, generations);
                 int value;
                 if(thread == 0){
                     value = threads-1;

@@ -2,20 +2,21 @@
 #define CUSTOMALGORITHM_H
 #include <QTcore>
 #include <QVector>
-#include "geneticalgorithm.h"
 #include "problem.h"
 #include "population.h"
 
 
-class CustomAlgorithm : public GeneticAlgorithm
+class CustomAlgorithm
 {
 public:
     CustomAlgorithm();
-    void setUpAlgorithm(int generation, int elitism, int mutation, int generations);
+    void setUpAlgorithm(int elitism, int mutation, int generations);
     int generateNewPopulation(Population* population, Problem* problem);
-    float getElitism();
-    float getMutation();
+    int getGeneration();
+    int getGenerations();
 private:
+    int generation=0;
+    int generations;
     float elitism;
     float mutation;
 };

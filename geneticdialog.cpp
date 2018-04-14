@@ -1,9 +1,9 @@
-#include "beealgorithmdialog.h"
-#include "ui_beealgorithmdialog.h"
+#include "geneticdialog.h"
+#include "ui_geneticdialog.h"
 
-BeeAlgorithmDialog::BeeAlgorithmDialog(QWidget *parent) :
+GeneticDialog::GeneticDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::BeeAlgorithmDialog)
+    ui(new Ui::GeneticDialog)
 {
     ui->setupUi(this);
 
@@ -20,12 +20,12 @@ BeeAlgorithmDialog::BeeAlgorithmDialog(QWidget *parent) :
     ui->gridLayout->addWidget(chartView, 0, 0);
 }
 
-BeeAlgorithmDialog::~BeeAlgorithmDialog()
+GeneticDialog::~GeneticDialog()
 {
     delete ui;
 }
 
-void BeeAlgorithmDialog::on_pushButtonRead_clicked()
+void GeneticDialog::on_pushButtonRead_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Open txt"), "../RLP_Qt/DataSets", tr("Text Files (*.txt)"));
@@ -46,7 +46,7 @@ void BeeAlgorithmDialog::on_pushButtonRead_clicked()
     clearGraph();
 }
 
-void BeeAlgorithmDialog::clearGraph(){
+void GeneticDialog::clearGraph(){
     series->clear();
     series->append(algorithm.getGeneration(), population.getBestIndividual().getFitness());
     chart->axisX()->setRange(0, 1);

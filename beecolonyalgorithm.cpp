@@ -5,11 +5,11 @@ BeeColonyAlgorithm::BeeColonyAlgorithm()
 
 }
 
-void BeeColonyAlgorithm::setUpAlgorithm(int generation, int generations, Problem* problem, Population* population,
+void BeeColonyAlgorithm::setUpAlgorithm(int generations, Problem* problem, Population* population,
                                         int selectedSize, int bestSize, int valueSelection, int valueBest,
                                         int changeValue)
 {
-    GeneticAlgorithm::setUpAlgorithm(generation, generations);
+    this->generations=generations;
     this->problem=problem;
     this->scoutBees = population;
     this->selectedSize=selectedSize; //mSelBees
@@ -184,4 +184,15 @@ Individual BeeColonyAlgorithm::optimizeSolution(Individual individual)
 
     return individual;
 }
+
+int BeeColonyAlgorithm::getGeneration()
+{
+    return generation;
+}
+
+int BeeColonyAlgorithm::getGenerations()
+{
+    return generations;
+}
+
 

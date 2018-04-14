@@ -2,19 +2,22 @@
 #define BEECOLONYALGORITHM_H
 #include <QTcore>
 #include <QVector>
-#include "geneticalgorithm.h"
 #include "problem.h"
 #include "population.h"
 
-class BeeColonyAlgorithm : public GeneticAlgorithm
+class BeeColonyAlgorithm
 {
 public:
     BeeColonyAlgorithm();
-    void setUpAlgorithm(int generation, int generations, Problem* problem, Population* population,
+    void setUpAlgorithm(int generations, Problem* problem, Population* population,
                          int selectedSize, int bestSize, int valueSelection, int valueBest,
                          int changeValue);
     int generateNewPopulation(Population* population, Problem* problem);
+    int getGeneration();
+    int getGenerations();
 private:
+    int generation=0;
+    int generations;
     void createSelectedBeePopulation();
     void evaluate();
     void calculateBestBeesProbability();

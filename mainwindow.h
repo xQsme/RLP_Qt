@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include "antcolonydialog.h"
-#include "beealgorithmdialog.h"
+#include "geneticdialog.h"
 #include "beecolonydialog.h"
 #include "customdialog.h"
 
@@ -24,9 +24,9 @@ private slots:
 
     void on_pushButtonAntColony_clicked();
 
-    void on_pushButtonBeeAlgorithm_clicked();
-
     void on_pushButtonBeeColony_clicked();
+
+    void on_pushButtonGeneticAlgorithm_clicked();
 
 private:
     Ui::MainWindow *ui;

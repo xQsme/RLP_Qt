@@ -5,9 +5,9 @@ CustomAlgorithm::CustomAlgorithm()
 
 }
 
-void CustomAlgorithm::setUpAlgorithm(int generation, int elitism, int mutation, int generations)
+void CustomAlgorithm::setUpAlgorithm(int elitism, int mutation, int generations)
 {
-    GeneticAlgorithm::setUpAlgorithm(generation, generations);
+    this->generations=generations;
     this->elitism=elitism * 0.01;
     this->mutation=mutation * 0.01;
 }
@@ -70,12 +70,12 @@ int CustomAlgorithm::generateNewPopulation(Population* population, Problem* prob
     return 1;
 }
 
-float CustomAlgorithm::getElitism()
+int CustomAlgorithm::getGeneration()
 {
-    return elitism;
+    return generation;
 }
 
-float CustomAlgorithm::getMutation()
+int CustomAlgorithm::getGenerations()
 {
-    return mutation;
+    return generations;
 }

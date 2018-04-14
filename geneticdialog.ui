@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>BeeAlgorithmDialog</class>
- <widget class="QDialog" name="BeeAlgorithmDialog">
+ <class>GeneticDialog</class>
+ <widget class="QDialog" name="GeneticDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>RLP - Bee's Algorithm</string>
+   <string>RLP - Genetic Algorithm</string>
   </property>
   <widget class="QLabel" name="labelNodes">
    <property name="geometry">

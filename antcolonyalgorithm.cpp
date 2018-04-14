@@ -5,12 +5,12 @@ AntColonyAlgorithm::AntColonyAlgorithm()
 
 }
 
-void AntColonyAlgorithm::setUpAlgorithm(int generation, int generations, double probability_q,
+void AntColonyAlgorithm::setUpAlgorithm(int generations, double probability_q,
                                         double Q, int numberOfMods, Population* population,
                                         Problem* problem, double pheromoneEvaportaion,
                                         double pheromoneInfluence)
 {
-    GeneticAlgorithm::setUpAlgorithm(generation, generations);
+    this->generations=generations;
     this->problem = problem;
     this->ants = population;
     this->probability_q = probability_q;
@@ -204,4 +204,14 @@ void AntColonyAlgorithm::evaluate()
        generationsWithoutImprovments = 0;
     }
 
+}
+
+int AntColonyAlgorithm::getGeneration()
+{
+    return generation;
+}
+
+int AntColonyAlgorithm::getGenerations()
+{
+    return generations;
 }

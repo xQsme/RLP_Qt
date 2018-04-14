@@ -1,5 +1,5 @@
-#ifndef BEEALGORITHMDIALOG_H
-#define BEEALGORITHMDIALOG_H
+#ifndef GENETICDIALOG_H
+#define GENETICDIALOG_H
 
 #include <QDialog>
 #include <QtCharts>
@@ -8,34 +8,34 @@
 #include "problem.h"
 #include "individual.h"
 #include "population.h"
-#include "beealgorithm.h"
-#include "beealgorithmthread.h"
+#include "geneticalgorithm.h"
+#include "geneticthread.h"
 
 namespace Ui {
-class BeeAlgorithmDialog;
+class GeneticDialog;
 }
 
-class BeeAlgorithmDialog : public QDialog
+class GeneticDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit BeeAlgorithmDialog(QWidget *parent = 0);
-    ~BeeAlgorithmDialog();
+    explicit GeneticDialog(QWidget *parent = 0);
+    ~GeneticDialog();
      void clearGraph();
 
 private slots:
     void on_pushButtonRead_clicked();
 
 private:
-    Ui::BeeAlgorithmDialog *ui;
+    Ui::GeneticDialog *ui;
     QChart *chart;
     QLineSeries *series;
     QChartView *chartView;
     Problem problem;
     Population population;
-    BeeAlgorithm algorithm;
-    BeeAlgorithmThread* mainThread;
+    GeneticAlgorithm algorithm;
+    GeneticThread* mainThread;
 };
 
-#endif // BEEALGORITHMDIALOG_H
+#endif // GENETICDIALOG_H

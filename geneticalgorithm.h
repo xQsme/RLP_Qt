@@ -9,11 +9,11 @@ class GeneticAlgorithm
 {
 public:
     GeneticAlgorithm();
-    void setUpAlgorithm(int generation, int generations);
+    void setUpAlgorithm(int generations);
     int getGeneration();
     int getGenerations();
-protected:
-    int generation;
+private:
+    int generation=0;
     int generations;
 };
 
