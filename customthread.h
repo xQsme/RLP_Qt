@@ -11,15 +11,22 @@ class CustomThread : public QThread
     Q_OBJECT
 public:
     CustomThread();
-    CustomThread(Population* population, Problem* problem, CustomAlgorithm* algorithm);
+    CustomThread(QString fileName, int seed, int populationSize, int generations, int elitism, int mutation);
     void run();
 private:
-    Population* population;
-    Problem* problem;
-    CustomAlgorithm* algorithm;
+    Population population;
+    Problem problem;
+    CustomAlgorithm algorithm;
     QElapsedTimer timer;
+    QString fileName;
+    int seed;
+    int populationSize;
+    int generations;
+    int elitism;
+    int mutation;
 signals:
-    void dataChanged(QString);
+    void dataChanged(QString stuff);
+    void singleProblem(QString stuff);
 };
 
 #endif // CUSTOMTHREAD_H

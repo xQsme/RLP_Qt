@@ -34,7 +34,6 @@ private slots:
 
 private:
     void clearLayout();
-    void clearGraph();
     void disableForm(int batch);
     void enableForm();
     void enableGraph();
@@ -44,9 +43,6 @@ private:
     QLineSeries *series;
     QChartView *chartView;
     QVector<QLabel*> labels;
-    Problem problem;
-    Population population;
-    CustomAlgorithm algorithm;
     CustomThread* mainThread;
     QVector<CustomMultiThread*> threads;
     QTextStream stream;
@@ -54,6 +50,7 @@ private:
 
 public slots:
     void onDataChanged(QString stuff);
+    void singleProblem(QString stuff);
     void newProblem(int thread, QString fileName, int percent);
     void problemEnded(QString stuff, int ended);
 };

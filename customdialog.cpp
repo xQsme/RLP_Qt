@@ -20,6 +20,7 @@ CustomDialog::CustomDialog(QWidget *parent) :
 
     chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
+
     ui->labelNodes->setVisible(false);
 }
 
@@ -35,8 +36,8 @@ void CustomDialog::clearLayout(){
             delete child->widget();
         if (child->layout())
             delete child->layout();
+        delete child;
     }
-    delete child;
 }
 
 void CustomDialog::enableGraph()
@@ -73,24 +74,13 @@ void CustomDialog::on_pushButtonRead_clicked()
             tr("Open txt"), "../RLP_Qt/DataSets", tr("Text Files (*.txt)"));
         if(fileName != ""){
             enableGraph();
-            try{
-                problem.setUpProblem(fileName);
-            }catch(const std::invalid_argument ex){
-                QMessageBox::information(this, "Error", "Wrong file formatting.");
-                return;
-            }
-            population.setUpPopulation(ui->lineEditSeed->text().toInt(),
-                                       ui->lineEditPopulation->text().toInt(),
-                                       &problem);
-            algorithm.setUpAlgorithm(0, ui->lineEditElitism->text().toInt(),
-                                     ui->lineEditMutation->text().toInt(),
-                                     ui->lineEditGenerations->text().toInt());
-            population.calculateFitnesses(&problem);
-            ui->labelNodes->setText("Nodes: " + QString::number(problem.getTotal()) + " Connections: " + QString::number(problem.getConnections()));
-            chart->axisY()->setRange(0, population.getBestIndividual().getFitness());
-            clearGraph();
-            mainThread = new CustomThread(&population, &problem, &algorithm);
+            mainThread = new CustomThread(fileName, ui->lineEditSeed->text().toInt(),
+                                          ui->lineEditPopulation->text().toInt(),
+                                          ui->lineEditGenerations->text().toInt(),
+                                          ui->lineEditElitism->text().toInt(),
+                                          ui->lineEditMutation->text().toInt());
             connect(mainThread, SIGNAL(dataChanged(QString)), this, SLOT(onDataChanged(QString)));
+            connect(mainThread, SIGNAL(singleProblem(QString)), this, SLOT(singleProblem(QString)));
             mainThread->start();
             disableForm(0);
         }
@@ -99,7 +89,12 @@ void CustomDialog::on_pushButtonRead_clicked()
             QMessageBox::information(this, "Error", "Please select a file.");
         }
     }
-    else{
+    else if(ui->pushButtonRead->text() == "Close")
+    {
+        close();
+    }
+    else
+    {
         mainThread->terminate();
         enableForm();
     }
@@ -127,7 +122,6 @@ void CustomDialog::on_pushButtonSolve_clicked()
             file.open(QIODevice::WriteOnly | QIODevice::Text);
             stream.setDevice(&file);
             stream << "File;Generations;Time;Fitness;Regenerators;Disconnected" << endl;
-            ui->gridLayout->removeWidget(chartView);
             threads.clear();
             for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++)
             {
@@ -158,13 +152,20 @@ void CustomDialog::on_pushButtonSolve_clicked()
     }
 }
 
-void CustomDialog::clearGraph(){
+void CustomDialog::singleProblem(QString stuff){
+    QList<QString> moreStuff = stuff.split(" ");
+    ui->labelNodes->setText("Nodes: " + moreStuff[3]  + " Connections: " + moreStuff[4]);
     series->clear();
-    series->append(algorithm.getGeneration(), population.getBestIndividual().getFitness());
+    series->append(0, moreStuff[0].toInt());
+    int range = moreStuff[0].toInt();
+    while(range % 1000 != 0){
+        range+=100;
+    }
+    chart->axisY()->setRange(0, range);
     chart->axisX()->setRange(0, 1);
-    ui->labelDisconnected->setText("Disconnected: " + QString::number(population.getBestIndividual().getDisconnected()));
-    ui->labelRegenerators->setText("Regenerators: " + QString::number(population.getBestIndividual().getRegenerators()));
-    ui->labelFitness->setText("Fitness: " + QString::number(population.getBestIndividual().getFitness()));
+    ui->labelDisconnected->setText("Disconnected: " + moreStuff[1]);
+    ui->labelRegenerators->setText("Regenerators: " + moreStuff[2]);
+    ui->labelFitness->setText("Fitness: " + moreStuff[0]);
     ui->labelElapsed->setText("Elapsed Time: 00:00");
 }
 
@@ -222,7 +223,7 @@ void CustomDialog::enableForm()
         ui->pushButtonSolve->setText("Batch Solve");
         ui->pushButtonRead->setDisabled(false);
     }else{
-        ui->pushButtonRead->setText("Solve");
+        ui->pushButtonRead->setText("Close");
         ui->pushButtonSolve->setDisabled(false);
     }
 
