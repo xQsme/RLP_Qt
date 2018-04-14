@@ -1,1 +1,9 @@
 File;Generations;Time;Fitness;Regenerators;Disconnected
+debug;1;0;0;0;0
+Makefile;1;0;0;0;0
+Makefile.Debug;1;5;0;0;0
+Makefile.Release;1;5;0;0;0
+ui_antcolonydialog.h;1;0;0;0;0
+ui_beealgorithmdialog.h;1;0;0;0;0
+ui_beecolonydialog.h;1;0;0;0;0
+ui_customdialog.h;1;0;0;0;0

@@ -231,7 +231,14 @@ void CustomDialog::enableForm()
 void CustomDialog::newProblem(int thread, QString fileName, int percent)
 {
     labels[thread*2+1]->setText(fileName);
-    ui->progressBar->setValue(percent);
+    if(ui->pushButtonSolve->text() == "Batch Solve")
+    {
+        ui->progressBar->setValue(100);
+    }
+    else
+    {
+        ui->progressBar->setValue(percent);
+    }
 }
 
 void CustomDialog::problemEnded(QString stuff, int ended)
