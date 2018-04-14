@@ -12,6 +12,9 @@
 #include "customalgorithm.h"
 #include "customthread.h"
 #include "custommultithread.h"
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QLabel>
 
 namespace Ui {
 class CustomDialog;
@@ -30,24 +33,29 @@ private slots:
     void on_pushButtonSolve_clicked();
 
 private:
+    void clearLayout();
     void clearGraph();
     void disableForm(int batch);
     void enableForm();
-    void solveSingle(QString fileName);
-    void solveMultiple(QString fileName, QString name);
+    void enableGraph();
+    void enableThreads();
     Ui::CustomDialog *ui;
     QChart *chart;
     QLineSeries *series;
     QChartView *chartView;
+    QVector<QLabel*> labels;
     Problem problem;
     Population population;
     CustomAlgorithm algorithm;
     CustomThread* mainThread;
-    CustomMultiThread* multiThread;
+    QVector<CustomMultiThread*> threads;
+    QTextStream stream;
+    QFile file;
 
 public slots:
-    void onDataChanged(QString);
-    void newProblem(QString);
+    void onDataChanged(QString stuff);
+    void newProblem(int thread, QString fileName, int percent);
+    void problemEnded(QString stuff, int ended);
 };
 
 #endif // CUSTOMDIALOG_H

@@ -5,7 +5,7 @@ CustomMultiThread::CustomMultiThread()
 
 }
 
-CustomMultiThread::CustomMultiThread(QDir dir, int seed, int populationSize, int generations, int elitism, int mutation)
+CustomMultiThread::CustomMultiThread(QDir dir, int seed, int populationSize, int generations, int elitism, int mutation, int thread, int threads)
 {
     this->dir=dir;
     this->seed=seed;
@@ -13,26 +13,13 @@ CustomMultiThread::CustomMultiThread(QDir dir, int seed, int populationSize, int
     this->generations=generations;
     this->elitism=elitism;
     this->mutation=mutation;
+    this->thread=thread == threads - 1 ? 0 : thread+1;
+    this->threads=threads;
     this->timer.start();
 }
 
 void CustomMultiThread::run()
 {
-    QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm_settings.csv");
-    info.open(QIODevice::WriteOnly | QIODevice::Text);
-    QTextStream infoStream(&info);
-    infoStream << "Seed: " << QString::number(seed) << endl;
-    infoStream << "Population: " <<  QString::number(populationSize) << endl;
-    infoStream << "Generations: " <<  QString::number(generations) << endl;
-    infoStream << "Elitism: " <<  QString::number(elitism) << "%" << endl;
-    infoStream << "Mutation: " <<  QString::number(mutation) << "%" << endl;
-    info.close();
-
-    QFile file("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm.csv");
-    file.open(QIODevice::WriteOnly | QIODevice::Text);
-    QTextStream stream;
-    stream.setDevice(&file);
-    stream << "File;Generations;Time;Fitness;Regenerators;Disconnected" << endl;
     Problem problem;
     Population population;
     CustomAlgorithm algorithm;
@@ -41,55 +28,64 @@ void CustomMultiThread::run()
     int bestTime;
     int count=0;
     int total=dir.entryInfoList().length()-2;
+    QElapsedTimer currentTimer;
+    currentTimer.start();
 
     foreach(QFileInfo fileFromDir, dir.entryInfoList())
     {
         if(!dir.absolutePath().contains(fileFromDir.absoluteFilePath()))
         {
             count++;
-            previousFitness=999999;
-            bestGeneration=0;
-            bestTime=0;
-            try
+            if(count % threads == thread)
             {
-                problem.setUpProblem(fileFromDir.absoluteFilePath());
-            }
-            catch(const std::invalid_argument ex){
-                return;
-            }
-            population.setUpPopulation(seed, populationSize, &problem);
-            population.calculateFitnesses(&problem);
-            algorithm.setUpAlgorithm(0, elitism, mutation, generations);
-            emit newProblem(QString::number(problem.getTotal()) + " " + QString::number(problem.getConnections()) + " " +
-                            QString::number(population.getBestIndividual().getFitness()) + " " +
-                            QString::number(population.getBestIndividual().getDisconnected()) + " " +
-                            QString::number(population.getBestIndividual().getRegenerators()));
-            while(algorithm.generateNewPopulation(&population, &problem) == 1)
-            {
+                currentTimer.restart();
+                previousFitness=999999;
+                bestGeneration=0;
+                bestTime=0;
+                try
+                {
+                    problem.setUpProblem(fileFromDir.absoluteFilePath());
+                }
+                catch(const std::invalid_argument ex){
+                    return;
+                }
+                population.setUpPopulation(seed, populationSize, &problem);
                 population.calculateFitnesses(&problem);
-                if(previousFitness > population.getBestIndividual().getFitness()){
-                    previousFitness = population.getBestIndividual().getFitness();
-                    bestGeneration = algorithm.getGeneration();
-                    bestTime = timer.elapsed();
-                }
-                QString ended;
-                if(count >= total){
-                    ended = " 1";
+                algorithm.setUpAlgorithm(0, elitism, mutation, generations);
+                int value;
+                if(thread == 0){
+                    value = threads-1;
                 }else{
-                    ended = " 0";
+                    value = thread-1;
                 }
-                emit dataChanged(QString::number(population.getBestIndividual().getFitness()) + " " +
-                                 QString::number(population.getBestIndividual().getDisconnected()) + " " +
-                                 QString::number(population.getBestIndividual().getRegenerators()) + " " +
-                                 QString::number(algorithm.getGeneration()) + " " +
-                                 QString::number(timer.elapsed()/1000) + ended + " " + QString::number(1.0*count/total));
+                emit newProblem(value, fileFromDir.fileName(), 100*count/total);
+                while(algorithm.generateNewPopulation(&population, &problem) == 1)
+                {
+                    population.calculateFitnesses(&problem);
+                    if(previousFitness > population.getBestIndividual().getFitness()){
+                        previousFitness = population.getBestIndividual().getFitness();
+                        bestGeneration = algorithm.getGeneration();
+                        bestTime = currentTimer.elapsed();
+                    }
+                    QString ended;
+                    if(count >= total && algorithm.getGeneration() >= algorithm.getGenerations()){
+                        ended = " 1";
+                    }else{
+                        ended = " 0";
+                    }
+                }
+                int ended;
+                if(count >= total){
+                    ended = 1;
+                }else{
+                    ended = 0;
+                }
+                emit problemEnded(fileFromDir.fileName() + ";" + QString::number(bestGeneration) + ";" + QString::number(bestTime) + ";" +
+                                                  QString::number(population.getBestIndividual().getFitness()) + ";" +
+                                                  QString::number(population.getBestIndividual().getRegenerators()) + ";" +
+                                                  QString::number(population.getBestIndividual().getDisconnected()), ended);
             }
-            stream << fileFromDir.fileName() << ";" << QString::number(bestGeneration) << ";" + QString::number(bestTime) << ";" <<
-                                              QString::number(population.getBestIndividual().getFitness()) << ";" <<
-                                              QString::number(population.getBestIndividual().getRegenerators()) << ";" <<
-                                              QString::number(population.getBestIndividual().getDisconnected()) << endl;
         }
     }
-    file.close();
 }
 

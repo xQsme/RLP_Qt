@@ -5,8 +5,6 @@
 #include "geneticalgorithm.h"
 #include "problem.h"
 #include "population.h"
-#include "search.h"
-
 
 class BeeColonyAlgorithm : public GeneticAlgorithm
 {
@@ -26,7 +24,6 @@ private:
     Problem* problem;
     Population* scoutBees;
     Population selBees;
-    Search search;
     Individual bestBeeIteration;
     Individual bestBeeRun;
     QVector<double> prob;

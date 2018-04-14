@@ -8,6 +8,8 @@ CustomDialog::CustomDialog(QWidget *parent) :
     ui(new Ui::CustomDialog)
 {
     ui->setupUi(this);
+    ui->comboBoxThreads->addItem(tr("3"));
+    ui->comboBoxThreads->addItem(tr("5"));
 
     chart = new QChart();
     series = new QLineSeries();
@@ -18,13 +20,49 @@ CustomDialog::CustomDialog(QWidget *parent) :
 
     chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
-
-    ui->gridLayout->addWidget(chartView, 0, 0);
+    ui->labelNodes->setVisible(false);
 }
 
 CustomDialog::~CustomDialog()
 {
     delete ui;
+}
+
+void CustomDialog::clearLayout(){
+    QLayoutItem *child;
+    while ((child = ui->gridLayout->takeAt(0)) != 0){
+        if (child->widget())
+            delete child->widget();
+        if (child->layout())
+            delete child->layout();
+    }
+    delete child;
+}
+
+void CustomDialog::enableGraph()
+{
+    clearLayout();
+    ui->labelNodes->setVisible(true);
+    ui->gridLayout->addWidget(chartView, 0, 0);
+}
+
+void CustomDialog::enableThreads(){
+    clearLayout();
+    labels.clear();
+    ui->labelNodes->setVisible(false);
+    for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++){
+        if(i < ui->comboBoxThreads->currentText().toInt()/2 + 1){
+            labels << new QLabel("Thread " + QString::number(i));
+            ui->gridLayout->addWidget(labels[labels.length()-1], 0, i);
+            labels << new QLabel("File");
+            ui->gridLayout->addWidget(labels[labels.length()-1], 1, i);
+        }else{
+            labels << new QLabel("Thread " + QString::number(i));
+            ui->gridLayout->addWidget(labels[labels.length()-1], 3, i-ui->comboBoxThreads->currentText().toInt()/2-1);
+            labels << new QLabel("File");
+            ui->gridLayout->addWidget(labels[labels.length()-1], 4, i-ui->comboBoxThreads->currentText().toInt()/2-1);
+        }
+    }
 }
 
 void CustomDialog::on_pushButtonRead_clicked()
@@ -34,7 +72,26 @@ void CustomDialog::on_pushButtonRead_clicked()
         QString fileName = QFileDialog::getOpenFileName(this,
             tr("Open txt"), "../RLP_Qt/DataSets", tr("Text Files (*.txt)"));
         if(fileName != ""){
-            solveSingle(fileName);
+            enableGraph();
+            try{
+                problem.setUpProblem(fileName);
+            }catch(const std::invalid_argument ex){
+                QMessageBox::information(this, "Error", "Wrong file formatting.");
+                return;
+            }
+            population.setUpPopulation(ui->lineEditSeed->text().toInt(),
+                                       ui->lineEditPopulation->text().toInt(),
+                                       &problem);
+            algorithm.setUpAlgorithm(0, ui->lineEditElitism->text().toInt(),
+                                     ui->lineEditMutation->text().toInt(),
+                                     ui->lineEditGenerations->text().toInt());
+            population.calculateFitnesses(&problem);
+            ui->labelNodes->setText("Nodes: " + QString::number(problem.getTotal()) + " Connections: " + QString::number(problem.getConnections()));
+            chart->axisY()->setRange(0, population.getBestIndividual().getFitness());
+            clearGraph();
+            mainThread = new CustomThread(&population, &problem, &algorithm);
+            connect(mainThread, SIGNAL(dataChanged(QString)), this, SLOT(onDataChanged(QString)));
+            mainThread->start();
             disableForm(0);
         }
         else
@@ -55,14 +112,35 @@ void CustomDialog::on_pushButtonSolve_clicked()
     {
         QDir dir = QFileDialog::getExistingDirectory(0, ("Select Directory"), "../RLP_Qt/DataSets");
         if(dir.dirName() != ""){
-            multiThread = new CustomMultiThread(dir, ui->lineEditSeed->text().toInt(),
-                                                ui->lineEditPopulation->text().toInt(),
-                                                ui->lineEditGenerations->text().toInt(),
-                                                ui->lineEditElitism->text().toInt(),
-                                                ui->lineEditMutation->text().toInt());
-            connect(multiThread, SIGNAL(dataChanged(QString)), this, SLOT(onDataChanged(QString)));
-            connect(multiThread, SIGNAL(newProblem(QString)), this, SLOT(newProblem(QString)));
-            multiThread->start();
+            enableThreads();
+            QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm_settings.csv");
+            info.open(QIODevice::WriteOnly | QIODevice::Text);
+            QTextStream infoStream(&info);
+            infoStream << "Seed: " << ui->lineEditSeed->text() << endl;
+            infoStream << "Population: " <<  ui->lineEditPopulation->text() << endl;
+            infoStream << "Generations: " <<  ui->lineEditGenerations->text() << endl;
+            infoStream << "Elitism: " <<  ui->lineEditElitism->text() << "%" << endl;
+            infoStream << "Mutation: " <<  ui->lineEditMutation->text() << "%" << endl;
+            info.close();
+
+            file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm.csv");
+            file.open(QIODevice::WriteOnly | QIODevice::Text);
+            stream.setDevice(&file);
+            stream << "File;Generations;Time;Fitness;Regenerators;Disconnected" << endl;
+            ui->gridLayout->removeWidget(chartView);
+            threads.clear();
+            for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++)
+            {
+                threads << new CustomMultiThread(dir, ui->lineEditSeed->text().toInt(),
+                                                    ui->lineEditPopulation->text().toInt(),
+                                                    ui->lineEditGenerations->text().toInt(),
+                                                    ui->lineEditElitism->text().toInt(),
+                                                    ui->lineEditMutation->text().toInt(),
+                                                    i, ui->comboBoxThreads->currentText().toInt());
+                connect(threads[i], SIGNAL(newProblem(int, QString, int)), this, SLOT(newProblem(int, QString, int)));
+                connect(threads[i], SIGNAL(problemEnded(QString, int)), this, SLOT(problemEnded(QString, int)));
+                threads[i]->start();
+            }
             disableForm(1);
         }
         else
@@ -71,8 +149,12 @@ void CustomDialog::on_pushButtonSolve_clicked()
         }
     }
     else{
-        multiThread->terminate();
+        for(int i = 0; i < threads.length(); i++)
+        {
+            threads[i]->terminate();
+        }
         enableForm();
+        file.close();
     }
 }
 
@@ -110,7 +192,7 @@ void CustomDialog::onDataChanged(QString stuff)
     if(moreStuff[5] == "1"){
         enableForm();
     }
-    ui->progressBar->setValue(moreStuff[6].toFloat()*100);
+    ui->progressBar->setValue(moreStuff[6].toInt());
 }
 
 void CustomDialog::disableForm(int batch)
@@ -146,38 +228,17 @@ void CustomDialog::enableForm()
 
 }
 
-void CustomDialog::solveSingle(QString fileName)
+void CustomDialog::newProblem(int thread, QString fileName, int percent)
 {
-    try{
-        problem.setUpProblem(fileName);
-    }catch(const std::invalid_argument ex){
-        QMessageBox::information(this, "Error", "Wrong file formatting.");
-        return;
-    }
-    population.setUpPopulation(ui->lineEditSeed->text().toInt(),
-                               ui->lineEditPopulation->text().toInt(),
-                               &problem);
-    algorithm.setUpAlgorithm(0, ui->lineEditElitism->text().toInt(),
-                             ui->lineEditMutation->text().toInt(),
-                             ui->lineEditGenerations->text().toInt());
-    population.calculateFitnesses(&problem);
-    ui->labelNodes->setText("Nodes: " + QString::number(problem.getTotal()) + " Connections: " + QString::number(problem.getConnections()));
-    chart->axisY()->setRange(0, population.getBestIndividual().getFitness());
-    clearGraph();
-    mainThread = new CustomThread(&population, &problem, &algorithm);
-    connect(mainThread, SIGNAL(dataChanged(QString)), this, SLOT(onDataChanged(QString)));
-    mainThread->start();
+    labels[thread*2+1]->setText(fileName);
+    ui->progressBar->setValue(percent);
 }
 
-void CustomDialog::newProblem(QString stuff)
+void CustomDialog::problemEnded(QString stuff, int ended)
 {
-    QList<QString> moreStuff = stuff.split(" ");
-    ui->labelNodes->setText("Nodes: " + moreStuff[0] + " Connections: " + moreStuff[1]);
-    series->clear();
-    series->append(0, moreStuff[2].toInt());
-    chart->axisX()->setRange(0, 1);
-    ui->labelDisconnected->setText("Disconnected: " + moreStuff[3]);
-    ui->labelRegenerators->setText("Regenerators: " + moreStuff[4]);
-    ui->labelFitness->setText("Fitness: " + moreStuff[2]);
-    ui->labelElapsed->setText("Elapsed Time: 00:00");
+    stream << stuff << endl;
+    if(ended == 1){
+        enableForm();
+        file.close();
+    }
 }

@@ -28,7 +28,7 @@ void CustomThread::run()
                 QString::number(population->getBestIndividual().getRegenerators()) + " " +
                 QString::number(algorithm->getGeneration()) + " " +
                 QString::number(timer.elapsed()/1000) + ended + " " +
-                QString::number(1.0*algorithm->getGeneration()/algorithm->getGenerations());
+                QString::number(100*algorithm->getGeneration()/algorithm->getGenerations());
 
         emit dataChanged(stuff);
     }

@@ -11,7 +11,7 @@ class CustomMultiThread : public QThread
     Q_OBJECT
 public:
     CustomMultiThread();
-    CustomMultiThread(QDir dir, int seed, int populationSize, int generations, int elitism, int mutation);
+    CustomMultiThread(QDir dir, int seed, int populationSize, int generations, int elitism, int mutation, int thread, int threads);
     void run();
 private:
     Population* population;
@@ -24,9 +24,11 @@ private:
     int generations;
     int elitism;
     int mutation;
+    int thread;
+    int threads;
 signals:
-    void dataChanged(QString stuff);
-    void newProblem(QString stuff);
+    void newProblem(int thread, QString fileName, int percent);
+    void problemEnded(QString stuff, int ended);
 };
 
 #endif // CUSTOMMULTITHREAD_H
