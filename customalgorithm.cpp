@@ -7,6 +7,7 @@ CustomAlgorithm::CustomAlgorithm()
 
 void CustomAlgorithm::setUpAlgorithm(int elitism, int mutation, int generations)
 {
+    this->generation=0;
     this->generations=generations;
     this->elitism=elitism * 0.01;
     this->mutation=mutation * 0.01;

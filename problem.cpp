@@ -21,7 +21,9 @@ void Problem::setUpProblem(QString filename){
     int currentConnections = 0;
     total = 0;
     connections = 0;
+    weights.clear();
     nodes.clear();
+    connectionsWeight.clear();
 
     QTextStream stream(&file);
 

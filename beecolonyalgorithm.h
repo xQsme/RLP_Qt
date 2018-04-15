@@ -16,14 +16,14 @@ public:
     int getGeneration();
     int getGenerations();
 private:
-    int generation=0;
-    int generations;
     void createSelectedBeePopulation();
     void evaluate();
     void calculateBestBeesProbability();
     void calculateSelBeesProbability();
     void initializeProbabilities();
     Individual optimizeSolution(Individual individual);
+    int generation;
+    int generations;
     Problem* problem;
     Population* scoutBees;
     Population selBees;

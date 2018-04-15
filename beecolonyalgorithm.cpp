@@ -9,6 +9,7 @@ void BeeColonyAlgorithm::setUpAlgorithm(int generations, Problem* problem, Popul
                                         int selectedSize, int bestSize, int valueSelection, int valueBest,
                                         int changeValue)
 {
+    this->generation=0;
     this->generations=generations;
     this->problem=problem;
     this->scoutBees = population;
@@ -147,34 +148,51 @@ Individual BeeColonyAlgorithm::optimizeSolution(Individual individual)
 
     for(int i = 0; i < changeValue; i++)
     {
-        int bestIndex;
-        float bestValue = 0;
-        int worstIndex;
-        float worstValue = 1;
+        QVector<int> bestIndexes;
+        QVector<float> bestValues;
+        QVector<int> worstIndexes;
+        QVector<float> worstValues;
+        for(int k = 0; k < i+1; k++){
+            if(k <= toReturn.getRegenerators()){
+                worstIndexes << 0;
+                worstValues << 1;
+            }
+            if(k <= problem->getTotal() - toReturn.getRegenerators()){
+                bestIndexes << 0;
+                bestValues << 0;
+            }
+        }
         for(int j = 0; j < weights.length(); j++){
-            if(toReturn.getSolution()[j] == 0)
-            {
-                if(weights[j] > bestValue)
+            for(int k = 0; k < worstIndexes.length(); k++){
+                if(toReturn.getSolution()[j] == 1)
                 {
-                    bestIndex = j;
-                    bestValue = weights[j];
+                    if(weights[j] < worstValues[k])
+                    {
+                        worstIndexes[k] = j;
+                        worstValues[k] = weights[j];
+                        break;
+                    }
                 }
-            }else
-            {
-                if(weights[j] < worstValue)
+            }
+            for(int k = 0; k < worstIndexes.length(); k++){
+                if(toReturn.getSolution()[j] == 0)
                 {
-                    worstIndex = j;
-                    worstValue = weights[j];
+                    if(weights[j] > bestValues[k])
+                    {
+                        bestIndexes[k] = j;
+                        bestValues[k] = weights[j];
+                        break;
+                    }
                 }
             }
         }
         if(qrand() % 2 == 0)
         {
-            toReturn.setValue(bestIndex, 1);
+            toReturn.setValue(bestIndexes[qrand() % bestIndexes.length()], 1);
         }
         else
         {
-            toReturn.setValue(worstIndex, 0);
+            toReturn.setValue(worstIndexes[qrand() % worstIndexes.length()], 0);
         }
         if(toReturn.calculateFitness(problem) < individual.getFitness())
         {

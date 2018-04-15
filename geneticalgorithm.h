@@ -13,7 +13,7 @@ public:
     int getGeneration();
     int getGenerations();
 private:
-    int generation=0;
+    int generation;
     int generations;
 };
 

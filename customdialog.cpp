@@ -107,6 +107,7 @@ void CustomDialog::on_pushButtonSolve_clicked()
     {
         QDir dir = QFileDialog::getExistingDirectory(0, ("Select Directory"), "../RLP_Qt/DataSets");
         if(dir.dirName() != ""){
+            ui->progressBar->setValue(0);
             enableThreads();
             QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm_settings.csv");
             info.open(QIODevice::WriteOnly | QIODevice::Text);
@@ -226,17 +227,12 @@ void CustomDialog::enableForm()
         ui->pushButtonRead->setText("Close");
         ui->pushButtonSolve->setDisabled(false);
     }
-
 }
 
 void CustomDialog::newProblem(int thread, QString fileName, int percent)
 {
     labels[thread*2+1]->setText(fileName);
-    if(ui->pushButtonSolve->text() == "Batch Solve")
-    {
-        ui->progressBar->setValue(100);
-    }
-    else
+    if(percent > ui->progressBar->value())
     {
         ui->progressBar->setValue(percent);
     }

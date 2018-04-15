@@ -10,6 +10,7 @@ void AntColonyAlgorithm::setUpAlgorithm(int generations, double probability_q,
                                         Problem* problem, double pheromoneEvaportaion,
                                         double pheromoneInfluence)
 {
+    this->generation=0;
     this->generations=generations;
     this->problem = problem;
     this->ants = population;
