@@ -54,14 +54,14 @@ void BeeColonyMultiThread::run()
                 }
                 population.setUpPopulation(seed, populationSize, &problem);
                 population.calculateFitnesses(&problem);
-                algorithm.setUpAlgorithm(selectSize, &problem, &population, selectSize, bestSize, selectValue, bestValue, changeValue);
+                algorithm.setUpAlgorithm(generations, &problem, &population, selectSize, bestSize, selectValue, bestValue, changeValue);
                 int value;
                 if(thread == 0){
                     value = threads-1;
                 }else{
                     value = thread-1;
                 }
-                emit newProblem(value, fileFromDir.fileName(), 100*count/total);
+                emit newProblem(value, fileFromDir.fileName(), 100*count/total, timer.elapsed()/1000);
                 while(algorithm.generateNewPopulation(&population, &problem) == 1)
                 {
                     population.calculateFitnesses(&problem);

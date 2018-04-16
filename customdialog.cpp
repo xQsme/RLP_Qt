@@ -44,6 +44,9 @@ void CustomDialog::enableGraph()
 {
     clearLayout();
     ui->labelNodes->setVisible(true);
+    ui->labelDisconnected->setVisible(true);
+    ui->labelRegenerators->setVisible(true);
+    ui->labelFitness->setVisible(true);
     ui->gridLayout->addWidget(chartView, 0, 0);
 }
 
@@ -51,17 +54,36 @@ void CustomDialog::enableThreads(){
     clearLayout();
     labels.clear();
     ui->labelNodes->setVisible(false);
+    ui->labelDisconnected->setVisible(false);
+    ui->labelRegenerators->setVisible(false);
+    ui->labelFitness->setVisible(false);
+    for(int i = 0; i <= 2; i++){
+        QFrame* line = new QFrame();
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+        ui->gridLayout->addWidget(line, i*3, 0, 1, ui->comboBoxThreads->currentText().toInt()+2);
+    }
+    for(int i = 0; i <= ui->comboBoxThreads->currentText().toInt()/2+1; i++){
+        QFrame* line = new QFrame();
+        line->setFrameShape(QFrame::VLine);
+        line->setFrameShadow(QFrame::Sunken);
+        ui->gridLayout->addWidget(line, 0, i*2, 7, 1);
+    }
     for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++){
-        if(i < ui->comboBoxThreads->currentText().toInt()/2 + 1){
+        if(i <= ui->comboBoxThreads->currentText().toInt()/2){
             labels << new QLabel("Thread " + QString::number(i));
-            ui->gridLayout->addWidget(labels[labels.length()-1], 0, i);
+            labels[labels.length()-1]->setAlignment(Qt::AlignCenter);
+            ui->gridLayout->addWidget(labels[labels.length()-1], 1, i*2+1);
             labels << new QLabel("File");
-            ui->gridLayout->addWidget(labels[labels.length()-1], 1, i);
+            labels[labels.length()-1]->setAlignment(Qt::AlignCenter);
+            ui->gridLayout->addWidget(labels[labels.length()-1], 2, i*2+1);
         }else{
             labels << new QLabel("Thread " + QString::number(i));
-            ui->gridLayout->addWidget(labels[labels.length()-1], 3, i-ui->comboBoxThreads->currentText().toInt()/2-1);
+            labels[labels.length()-1]->setAlignment(Qt::AlignCenter);
+            ui->gridLayout->addWidget(labels[labels.length()-1], 4, (i-ui->comboBoxThreads->currentText().toInt()/2-1)*2+1);
             labels << new QLabel("File");
-            ui->gridLayout->addWidget(labels[labels.length()-1], 4, i-ui->comboBoxThreads->currentText().toInt()/2-1);
+            labels[labels.length()-1]->setAlignment(Qt::AlignCenter);
+            ui->gridLayout->addWidget(labels[labels.length()-1], 5, (i-ui->comboBoxThreads->currentText().toInt()/2-1)*2+1);
         }
     }
 }
@@ -106,7 +128,7 @@ void CustomDialog::on_pushButtonSolve_clicked()
     if(ui->pushButtonSolve->text() == "Batch Solve")
     {
         QDir dir = QFileDialog::getExistingDirectory(0, ("Select Directory"), "../RLP_Qt/DataSets");
-        if(dir.dirName() != ""){
+        if(dir.dirName() != "."){
             ui->progressBar->setValue(0);
             enableThreads();
             QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm_settings.csv");
@@ -229,13 +251,26 @@ void CustomDialog::enableForm()
     }
 }
 
-void CustomDialog::newProblem(int thread, QString fileName, int percent)
+void CustomDialog::newProblem(int thread, QString fileName, int percent, int time)
 {
     labels[thread*2+1]->setText(fileName);
     if(percent > ui->progressBar->value())
     {
         ui->progressBar->setValue(percent);
     }
+    int seconds = time%60;
+    QString strsec="";
+    if(seconds < 10){
+        strsec += "0";
+    }
+    strsec += QString::number(seconds);
+    int minutes = (time%3600-seconds)/60;
+    QString strmin;
+    if(minutes < 10){
+        strmin += "0";
+    }
+    strmin += QString::number(minutes);
+    ui->labelElapsed->setText("Elapsed Time: " + strmin + ":" + strsec);
 }
 
 void CustomDialog::problemEnded(QString stuff, int ended)

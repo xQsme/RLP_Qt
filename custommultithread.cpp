@@ -58,7 +58,7 @@ void CustomMultiThread::run()
                 }else{
                     value = thread-1;
                 }
-                emit newProblem(value, fileFromDir.fileName(), 100*count/total);
+                emit newProblem(value, fileFromDir.fileName(), 100*count/total, timer.elapsed()/1000);
                 while(algorithm.generateNewPopulation(&population, &problem) == 1)
                 {
                     population.calculateFitnesses(&problem);

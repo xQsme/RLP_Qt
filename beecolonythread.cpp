@@ -30,7 +30,7 @@ void BeeColonyThread::run()
     }
     population.setUpPopulation(seed, populationSize, &problem);
     population.calculateFitnesses(&problem);
-    algorithm.setUpAlgorithm(selectSize, &problem, &population, selectSize, bestSize, selectValue, bestValue, changeValue);
+    algorithm.setUpAlgorithm(generations, &problem, &population, selectSize, bestSize, selectValue, bestValue, changeValue);
     QString stuff = QString::number(population.getBestIndividual().getFitness()) + " " +
             QString::number(population.getBestIndividual().getDisconnected()) + " " +
             QString::number(population.getBestIndividual().getRegenerators()) + " " +

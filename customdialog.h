@@ -12,9 +12,6 @@
 #include "customalgorithm.h"
 #include "customthread.h"
 #include "custommultithread.h"
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QLabel>
 
 namespace Ui {
 class CustomDialog;
@@ -51,7 +48,7 @@ private:
 public slots:
     void onDataChanged(QString stuff);
     void singleProblem(QString stuff);
-    void newProblem(int thread, QString fileName, int percent);
+    void newProblem(int thread, QString fileName, int percent, int time);
     void problemEnded(QString stuff, int ended);
 };
 
