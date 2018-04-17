@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QDataStream>
 #include "antcolonydialog.h"
 #include "geneticdialog.h"
 #include "beecolonydialog.h"
@@ -27,6 +28,8 @@ private slots:
     void on_pushButtonBeeColony_clicked();
 
     void on_pushButtonGeneticAlgorithm_clicked();
+
+    void on_actionSort_Results_triggered();
 
 private:
     Ui::MainWindow *ui;

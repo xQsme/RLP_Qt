@@ -116,7 +116,11 @@ void CustomDialog::on_pushButtonRead_clicked()
         }
         else
         {
-            QMessageBox::information(this, "Error", "Please select a file.");
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Error");
+            msgBox.setText("Please select a file.");
+            msgBox.addButton("Whatever", QMessageBox::AcceptRole);
+            msgBox.exec();
         }
     }
     else if(ui->pushButtonRead->text() == "Close")
@@ -174,7 +178,11 @@ void CustomDialog::on_pushButtonSolve_clicked()
         }
         else
         {
-            QMessageBox::information(this, "Error", "Please select a directory.");
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Error");
+            msgBox.setText("Please select a directory.");
+            msgBox.addButton("Whatever", QMessageBox::AcceptRole);
+            msgBox.exec();
         }
     }
     else{
