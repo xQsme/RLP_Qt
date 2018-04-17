@@ -15,7 +15,6 @@ CustomMultiThread::CustomMultiThread(QDir dir, int seed, int populationSize, int
     this->mutation=mutation;
     this->thread=thread == threads - 1 ? 0 : thread+1;
     this->threads=threads;
-    this->timer.start();
 }
 
 void CustomMultiThread::run()
@@ -58,7 +57,7 @@ void CustomMultiThread::run()
                 }else{
                     value = thread-1;
                 }
-                emit newProblem(value, fileFromDir.fileName(), 100*count/total, timer.elapsed()/1000);
+                emit newProblem(value, fileFromDir.fileName(), 100*count/total);
                 while(algorithm.generateNewPopulation(&population, &problem) == 1)
                 {
                     population.calculateFitnesses(&problem);

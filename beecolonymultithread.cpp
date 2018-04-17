@@ -18,7 +18,6 @@ BeeColonyMultiThread::BeeColonyMultiThread(QDir dir, int seed, int populationSiz
     this->changeValue=changeValue;
     this->thread=thread == threads - 1 ? 0 : thread+1;
     this->threads=threads;
-    this->timer.start();
 }
 
 void BeeColonyMultiThread::run()
@@ -61,7 +60,7 @@ void BeeColonyMultiThread::run()
                 }else{
                     value = thread-1;
                 }
-                emit newProblem(value, fileFromDir.fileName(), 100*count/total, timer.elapsed()/1000);
+                emit newProblem(value, fileFromDir.fileName(), 100*count/total);
                 while(algorithm.generateNewPopulation(&population, &problem) == 1)
                 {
                     population.calculateFitnesses(&problem);

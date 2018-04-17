@@ -17,7 +17,6 @@ private:
     Population population;
     Problem problem;
     CustomAlgorithm algorithm;
-    QElapsedTimer timer;
     QString fileName;
     int seed;
     int populationSize;

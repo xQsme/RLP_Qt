@@ -28,6 +28,7 @@ public:
 private slots:
     void on_pushButtonRead_clicked();
     void on_pushButtonSolve_clicked();
+    void update();
 
 private:
     void clearLayout();
@@ -44,11 +45,13 @@ private:
     QVector<CustomMultiThread*> threads;
     QTextStream stream;
     QFile file;
+    QElapsedTimer elapsed;
+    QTimer timer;
 
 public slots:
     void onDataChanged(QString stuff);
     void singleProblem(QString stuff);
-    void newProblem(int thread, QString fileName, int percent, int time);
+    void newProblem(int thread, QString fileName, int percent);
     void problemEnded(QString stuff, int ended);
 };
 

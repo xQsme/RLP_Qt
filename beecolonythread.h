@@ -17,7 +17,6 @@ private:
     Population population;
     Problem problem;
     BeeColonyAlgorithm algorithm;
-    QElapsedTimer timer;
     QString fileName;
     int seed;
     int populationSize;

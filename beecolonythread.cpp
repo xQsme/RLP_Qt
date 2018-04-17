@@ -16,7 +16,6 @@ BeeColonyThread::BeeColonyThread(QString fileName, int seed, int populationSize,
     this->selectValue=selectValue;
     this->bestValue=bestValue;
     this->changeValue=changeValue;
-    this->timer.start();
 }
 
 void BeeColonyThread::run()
@@ -48,8 +47,7 @@ void BeeColonyThread::run()
         stuff = QString::number(population.getBestIndividual().getFitness()) + " " +
                 QString::number(population.getBestIndividual().getDisconnected()) + " " +
                 QString::number(population.getBestIndividual().getRegenerators()) + " " +
-                QString::number(algorithm.getGeneration()) + " " +
-                QString::number(timer.elapsed()/1000) + ended + " " +
+                QString::number(algorithm.getGeneration()) + " " + ended + " " +
                 QString::number(100*algorithm.getGeneration()/algorithm.getGenerations());
 
         emit dataChanged(stuff);

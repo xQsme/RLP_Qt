@@ -14,7 +14,6 @@ public:
     BeeColonyMultiThread(QDir dir, int seed, int populationSize, int generations, int selectSize, int bestSize, int selectValue, int bestValue, int changeValue, int thread, int threads);
     void run();
 private:
-    QElapsedTimer timer;
     QDir dir;
     int seed;
     int populationSize;
@@ -27,7 +26,7 @@ private:
     int thread;
     int threads;
 signals:
-    void newProblem(int thread, QString fileName, int percent, int time);
+    void newProblem(int thread, QString fileName, int percent);
     void problemEnded(QString stuff, int ended);
 };
 

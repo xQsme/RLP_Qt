@@ -13,7 +13,6 @@ CustomThread::CustomThread(QString fileName, int seed, int populationSize, int g
     this->generations=generations;
     this->elitism=elitism;
     this->mutation=mutation;
-    this->timer.start();
 }
 
 void CustomThread::run()
@@ -45,8 +44,7 @@ void CustomThread::run()
         stuff = QString::number(population.getBestIndividual().getFitness()) + " " +
                 QString::number(population.getBestIndividual().getDisconnected()) + " " +
                 QString::number(population.getBestIndividual().getRegenerators()) + " " +
-                QString::number(algorithm.getGeneration()) + " " +
-                QString::number(timer.elapsed()/1000) + ended + " " +
+                QString::number(algorithm.getGeneration()) + " " + ended + " " +
                 QString::number(100*algorithm.getGeneration()/algorithm.getGenerations());
 
         emit dataChanged(stuff);

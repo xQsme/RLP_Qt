@@ -14,7 +14,6 @@ public:
     CustomMultiThread(QDir dir, int seed, int populationSize, int generations, int elitism, int mutation, int thread, int threads);
     void run();
 private:
-    QElapsedTimer timer;
     QDir dir;
     int seed;
     int populationSize;
@@ -24,7 +23,7 @@ private:
     int thread;
     int threads;
 signals:
-    void newProblem(int thread, QString fileName, int percent, int time);
+    void newProblem(int thread, QString fileName, int percent);
     void problemEnded(QString stuff, int ended);
 };
 

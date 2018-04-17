@@ -78,6 +78,7 @@ void BeeColonyDialog::enableThreads(){
             ui->gridLayout->addWidget(labels[labels.length()-1], 5, (i-ui->comboBoxThreads->currentText().toInt()/2-1)*2+1);
         }
     }
+    ui->labelElapsed->setText("Elapsed Time: 00:00");
 }
 
 void BeeColonyDialog::on_pushButtonRead_clicked()
@@ -88,6 +89,9 @@ void BeeColonyDialog::on_pushButtonRead_clicked()
             tr("Open txt"), "../RLP_Qt/DataSets", tr("Text Files (*.txt)"));
         if(fileName != ""){
             enableGraph();
+            elapsed.start();
+            connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
+            timer.start(1000);
             mainThread = new BeeColonyThread(fileName, ui->lineEditSeed->text().toInt(),
                                           ui->lineEditPopulation->text().toInt(),
                                           ui->lineEditGenerations->text().toInt(),
@@ -114,6 +118,7 @@ void BeeColonyDialog::on_pushButtonRead_clicked()
     {
         mainThread->terminate();
         enableForm();
+        timer.stop();
     }
 
 }
@@ -144,6 +149,9 @@ void BeeColonyDialog::on_pushButtonSolve_clicked()
             stream.setDevice(&file);
             stream << "File;Generations;Time;Fitness;Regenerators;Disconnected" << endl;
             threads.clear();
+            elapsed.start();
+            connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
+            timer.start(1000);
             for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++)
             {
                 threads << new BeeColonyMultiThread(dir, ui->lineEditSeed->text().toInt(),
@@ -155,7 +163,7 @@ void BeeColonyDialog::on_pushButtonSolve_clicked()
                                                     ui->lineEditBestValue->text().toInt(),
                                                     ui->lineEditChangeValue->text().toInt(),
                                                     i, ui->comboBoxThreads->currentText().toInt());
-                connect(threads[i], SIGNAL(newProblem(int, QString, int, int)), this, SLOT(newProblem(int, QString, int, int)));
+                connect(threads[i], SIGNAL(newProblem(int, QString, int)), this, SLOT(newProblem(int, QString, int)));
                 connect(threads[i], SIGNAL(problemEnded(QString, int)), this, SLOT(problemEnded(QString, int)));
                 threads[i]->start();
             }
@@ -173,6 +181,7 @@ void BeeColonyDialog::on_pushButtonSolve_clicked()
         }
         enableForm();
         file.close();
+        timer.stop();
     }
 }
 
@@ -196,28 +205,15 @@ void BeeColonyDialog::singleProblem(QString stuff){
 void BeeColonyDialog::onDataChanged(QString stuff)
 {
     QList<QString> moreStuff = stuff.split(" ");
-    int seconds = moreStuff[4].toInt()%60;
-    QString strsec="";
-    if(seconds < 10){
-        strsec += "0";
-    }
-    strsec += QString::number(seconds);
-    int minutes = (moreStuff[4].toInt()%3600-seconds)/60;
-    QString strmin;
-    if(minutes < 10){
-        strmin += "0";
-    }
-    strmin += QString::number(minutes);
     series->append(moreStuff[3].toInt(), moreStuff[0].toInt());
     chart->axisX()->setRange(0, moreStuff[3].toInt());
     ui->labelDisconnected->setText("Disconnected: " + moreStuff[1]);
     ui->labelRegenerators->setText("Regenerators: " + moreStuff[2]);
     ui->labelFitness->setText("Fitness: " + moreStuff[0]);
-    ui->labelElapsed->setText("Elapsed Time: " + strmin + ":" + strsec);
-    if(moreStuff[5] == "1"){
+    if(moreStuff[4] == "1"){
         enableForm();
     }
-    ui->progressBar->setValue(moreStuff[6].toInt());
+    ui->progressBar->setValue(moreStuff[5].toInt());
 }
 
 void BeeColonyDialog::disableForm(int batch)
@@ -258,13 +254,27 @@ void BeeColonyDialog::enableForm()
     }
 }
 
-void BeeColonyDialog::newProblem(int thread, QString fileName, int percent, int time)
+void BeeColonyDialog::newProblem(int thread, QString fileName, int percent)
 {
     labels[thread*2+1]->setText(fileName);
     if(percent > ui->progressBar->value())
     {
         ui->progressBar->setValue(percent);
     }
+}
+
+void BeeColonyDialog::problemEnded(QString stuff, int ended)
+{
+    stream << stuff << endl;
+    if(ended == 1){
+        enableForm();
+        ui->progressBar->setValue(100);
+    }
+}
+
+void BeeColonyDialog::update()
+{
+    int time = elapsed.elapsed()/1000;
     int seconds = time%60;
     QString strsec="";
     if(seconds < 10){
@@ -282,13 +292,4 @@ void BeeColonyDialog::newProblem(int thread, QString fileName, int percent, int 
     }
     strmin += QString::number(minutes);
     ui->labelElapsed->setText("Elapsed Time: " + strmin + ":" + strsec);
-}
-
-void BeeColonyDialog::problemEnded(QString stuff, int ended)
-{
-    stream << stuff << endl;
-    if(ended == 1){
-        enableForm();
-        ui->progressBar->setValue(100);
-    }
 }
