@@ -73,3 +73,5 @@ FORMS += \
 
 DISTFILES += \
     qml.qml
+
+RC_FILE = app.rc

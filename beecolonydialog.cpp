@@ -155,7 +155,7 @@ void BeeColonyDialog::on_pushButtonSolve_clicked()
                                                     ui->lineEditBestValue->text().toInt(),
                                                     ui->lineEditChangeValue->text().toInt(),
                                                     i, ui->comboBoxThreads->currentText().toInt());
-                connect(threads[i], SIGNAL(newProblem(int, QString, int)), this, SLOT(newProblem(int, QString, int)));
+                connect(threads[i], SIGNAL(newProblem(int, QString, int, int)), this, SLOT(newProblem(int, QString, int, int)));
                 connect(threads[i], SIGNAL(problemEnded(QString, int)), this, SLOT(problemEnded(QString, int)));
                 threads[i]->start();
             }
@@ -273,6 +273,10 @@ void BeeColonyDialog::newProblem(int thread, QString fileName, int percent, int 
     strsec += QString::number(seconds);
     int minutes = (time%3600-seconds)/60;
     QString strmin;
+    int hours = time/3600;
+    if(hours > 0){
+        strmin += "0" + QString::number(hours) + ":";
+    }
     if(minutes < 10){
         strmin += "0";
     }
