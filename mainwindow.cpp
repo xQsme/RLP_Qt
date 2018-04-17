@@ -55,8 +55,7 @@ void MainWindow::on_actionSort_Results_triggered()
                 }
                 file.close();
 
-                QString first = list.at(0);
-                list.removeAt(0);
+                QString first = list.takeAt(0);
                 if(!first.contains("File;Generations;Time;Fitness;Regenerators;Disconnected")){
                     break;
                 }
