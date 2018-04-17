@@ -37,10 +37,10 @@ void AntColonyDialog::on_pushButtonRead_clicked()
     population.setUpPopulation(ui->lineEditSeed->text().toInt(),
                                ui->lineEditPopulation->text().toInt(),
                                &problem);
-    algorithm.setUpAlgorithm(0, ui->lineEditGenerations->text().toInt(), ui->lineEditQProb->text().toDouble(),
+    /*algorithm.setUpAlgorithm(0, ui->lineEditGenerations->text().toInt(), ui->lineEditQProb->text().toDouble(),
                              ui->lineEditQ->text().toDouble(), ui->lineEditMods->text().toInt(),
                              &population, &problem, ui->lineEditEvaporation->text().toDouble(),
-                             ui->lineEditInflunce->text().toDouble());
+                             ui->lineEditInflunce->text().toDouble());*/
     population.calculateFitnesses(&problem);
     ui->labelNodes->setText("Nodes: " + QString::number(problem.getTotal()) + " Connections: " + QString::number(problem.getConnections()));
     chart->axisY()->setRange(0, population.getBestIndividual().getFitness());
@@ -67,10 +67,10 @@ void AntColonyDialog::on_pushButtonSolve_clicked()
         population.setUpPopulation(ui->lineEditSeed->text().toInt(),
                                    ui->lineEditPopulation->text().toInt(),
                                    &problem);
-        algorithm.setUpAlgorithm(0, ui->lineEditGenerations->text().toInt(), ui->lineEditQProb->text().toDouble(),
+        /*algorithm.setUpAlgorithm(0, ui->lineEditGenerations->text().toInt(), ui->lineEditQProb->text().toDouble(),
                                  ui->lineEditQ->text().toDouble(), ui->lineEditMods->text().toInt(),
                                  &population, &problem, ui->lineEditEvaporation->text().toDouble(),
-                                 ui->lineEditInflunce->text().toDouble());
+                                 ui->lineEditInflunce->text().toDouble());*/
         population.calculateFitnesses(&problem);
         clearGraph();
         mainThread = new AntColonyThread(&population, &problem, &algorithm);

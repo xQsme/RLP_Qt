@@ -235,6 +235,7 @@ void CustomDialog::disableForm(int batch)
     ui->lineEditGenerations->setDisabled(true);
     ui->lineEditElitism->setDisabled(true);
     ui->lineEditMutation->setDisabled(true);
+    ui->comboBoxThreads->setDisabled(true);
     if(batch == 1){
         ui->pushButtonSolve->setText("Stop");
         ui->pushButtonRead->setDisabled(true);
@@ -251,6 +252,7 @@ void CustomDialog::enableForm()
     ui->lineEditGenerations->setDisabled(false);
     ui->lineEditElitism->setDisabled(false);
     ui->lineEditMutation->setDisabled(false);
+    ui->comboBoxThreads->setDisabled(false);
     if(ui->pushButtonSolve->text() == "Stop"){
         ui->pushButtonSolve->setText("Batch Solve");
         ui->pushButtonRead->setDisabled(false);

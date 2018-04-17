@@ -238,6 +238,7 @@ void BeeColonyDialog::disableForm(int batch)
     ui->lineEditSelectValue->setDisabled(true);
     ui->lineEditBestValue->setDisabled(true);
     ui->lineEditChangeValue->setDisabled(true);
+    ui->comboBoxThreads->setDisabled(true);
     if(batch == 1){
         ui->pushButtonSolve->setText("Stop");
         ui->pushButtonRead->setDisabled(true);
@@ -257,6 +258,7 @@ void BeeColonyDialog::enableForm()
     ui->lineEditSelectValue->setDisabled(false);
     ui->lineEditBestValue->setDisabled(false);
     ui->lineEditChangeValue->setDisabled(false);
+    ui->comboBoxThreads->setDisabled(false);
     if(ui->pushButtonSolve->text() == "Stop"){
         ui->pushButtonSolve->setText("Batch Solve");
         ui->pushButtonRead->setDisabled(false);
