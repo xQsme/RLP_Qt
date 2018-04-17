@@ -22,12 +22,15 @@ class AntColonyDialog : public QDialog
 public:
     explicit AntColonyDialog(QWidget *parent = 0);
     ~AntColonyDialog();
-    void clearGraph();
 
 private slots:
     void on_pushButtonRead_clicked();
+    void on_pushButtonSolve_clicked();
 
 private:
+    void clearGraph();
+    void disableForm();
+    void enableForm();
     Ui::AntColonyDialog *ui;
     QChart *chart;
     QLineSeries *series;
@@ -36,6 +39,9 @@ private:
     Population population;
     AntColonyAlgorithm algorithm;
     AntColonyThread* mainThread;
+
+public slots:
+    void onDataChanged(QString);
 };
 
 #endif // ANTCOLONYDIALOG_H

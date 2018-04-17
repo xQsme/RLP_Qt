@@ -2,6 +2,7 @@
 #define ANTCOLONYTHREAD_H
 #include <QtCore>
 #include "population.h"
+#include <QElapsedTimer>
 #include "problem.h"
 #include "antcolonyalgorithm.h"
 
@@ -16,6 +17,7 @@ private:
     Population* population;
     Problem* problem;
     AntColonyAlgorithm* algorithm;
+    QElapsedTimer timer;
 signals:
     void dataChanged(QString);
 };
