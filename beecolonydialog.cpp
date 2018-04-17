@@ -6,8 +6,12 @@ BeeColonyDialog::BeeColonyDialog(QWidget *parent) :
     ui(new Ui::BeeColonyDialog)
 {
     ui->setupUi(this);
-    ui->comboBoxThreads->addItem(tr("3"));
-    ui->comboBoxThreads->addItem(tr("5"));
+
+    for(int i = QThread::idealThreadCount(); i > 0 ; i--){
+        ui->comboBoxThreads->addItem(QString::number(i));
+    }
+
+    ui->comboBoxThreads->setCurrentIndex(1);
 
     chart = new QChart();
     series = new QLineSeries();
@@ -49,20 +53,20 @@ void BeeColonyDialog::enableThreads(){
     clearLayout();
     labels.clear();
     ui->labelNodes->setVisible(false);
-    for(int i = 0; i <= ui->comboBoxThreads->currentText().toInt()/2; i++){
+    for(int i = 0; i < 3; i++){
         QFrame* line = new QFrame();
         line->setFrameShape(QFrame::HLine);
         line->setFrameShadow(QFrame::Sunken);
-        ui->gridLayout->addWidget(line, i*3, 0, 1, ui->comboBoxThreads->currentText().toInt()+2);
+        ui->gridLayout->addWidget(line, i*3, 0, 1, (ui->comboBoxThreads->currentText().toInt()+1)/2*2+1);
     }
-    for(int i = 0; i <= ui->comboBoxThreads->currentText().toInt()/2+1; i++){
+    for(int i = 0; i < (ui->comboBoxThreads->currentText().toInt()+1)/2+1; i++){
         QFrame* line = new QFrame();
         line->setFrameShape(QFrame::VLine);
         line->setFrameShadow(QFrame::Sunken);
         ui->gridLayout->addWidget(line, 0, i*2, 7, 1);
     }
     for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++){
-        if(i <= ui->comboBoxThreads->currentText().toInt()/2){
+        if(i < (ui->comboBoxThreads->currentText().toInt()+1)/2){
             labels << new QLabel("Thread " + QString::number(i));
             labels[labels.length()-1]->setAlignment(Qt::AlignCenter);
             ui->gridLayout->addWidget(labels[labels.length()-1], 1, i*2+1);
@@ -72,10 +76,10 @@ void BeeColonyDialog::enableThreads(){
         }else{
             labels << new QLabel("Thread " + QString::number(i));
             labels[labels.length()-1]->setAlignment(Qt::AlignCenter);
-            ui->gridLayout->addWidget(labels[labels.length()-1], 4, (i-ui->comboBoxThreads->currentText().toInt()/2-1)*2+1);
+            ui->gridLayout->addWidget(labels[labels.length()-1], 4, (i-(ui->comboBoxThreads->currentText().toInt()+1)/2)*2+1);
             labels << new QLabel("File");
             labels[labels.length()-1]->setAlignment(Qt::AlignCenter);
-            ui->gridLayout->addWidget(labels[labels.length()-1], 5, (i-ui->comboBoxThreads->currentText().toInt()/2-1)*2+1);
+            ui->gridLayout->addWidget(labels[labels.length()-1], 5, (i-(ui->comboBoxThreads->currentText().toInt()+1)/2)*2+1);
         }
     }
     ui->labelElapsed->setText("Elapsed Time: 00:00");
