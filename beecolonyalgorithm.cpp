@@ -33,13 +33,10 @@ int BeeColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
     int number;
     Individual selected;
 
-    QVector<Individual> individuals = scoutBees->getIndividuals();
-
     createSelectedBeePopulation();
     calculateBestBeesProbability();
     calculateSelBeesProbability();
 
-    QVector<Individual> selIndividuals = selBees.getIndividuals();
     for (int i = 0; i < selectedSize; i++)
     {
         if (i < bestSize )
@@ -52,10 +49,11 @@ int BeeColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
         }
         for (int j = 0; j< number; j++)
         {
-            selected = optimizeSolution(selIndividuals[i].clone()); //TO-DO
-            if ((selected.getFitness() < individuals[i].getFitness()) || (qrand() % 100 < qrand() % 100 && selected.getFitness()==individuals[i].getFitness()))
+            selected = optimizeSolution(selBees.getIndividuals()[i].clone()); //TO-DO
+            if ((selected.getFitness() < scoutBees->getIndividuals()[i].getFitness()) || (qrand() % 100 < qrand() % 100 && selected.getFitness()==scoutBees->getIndividuals()[i].getFitness()))
             {
                 scoutBees->setIndividual(i, selected);
+                selBees.setIndividual(i, selected);
             }
         }
     }
@@ -148,11 +146,14 @@ Individual BeeColonyAlgorithm::optimizeSolution(Individual individual)
 
     for(int i = 0; i < changeValue; i++)
     {
+        if(qrand() % 3 == 0){
+            toReturn = individual.clone();
+        }
         QVector<int> bestIndexes;
         QVector<float> bestValues;
         QVector<int> worstIndexes;
         QVector<float> worstValues;
-        for(int k = 0; k < i+1; k++){
+        for(int k = 0; k < i*2+1; k++){
             if(k <= toReturn.getRegenerators()){
                 worstIndexes << 0;
                 worstValues << 1;
