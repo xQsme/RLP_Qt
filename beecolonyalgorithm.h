@@ -16,7 +16,6 @@ public:
     int getGeneration();
     int getGenerations();
 private:
-    void createSelectedBeePopulation();
     void evaluate();
     void calculateBestBeesProbability();
     void calculateSelBeesProbability();
@@ -26,9 +25,6 @@ private:
     int generations;
     Problem* problem;
     Population* scoutBees;
-    Population selBees;
-    Individual bestBeeIteration;
-    Individual bestBeeRun;
     QVector<double> prob;
     int selectedSize;
     int bestSize;

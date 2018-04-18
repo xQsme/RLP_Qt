@@ -47,6 +47,8 @@ private:
     QFile file;
     QElapsedTimer elapsed;
     QTimer timer;
+    int previous=-1;
+    int done=0;
 
 public slots:
     void onDataChanged(QString stuff);

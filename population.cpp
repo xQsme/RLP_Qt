@@ -92,6 +92,11 @@ void Population::setIndividual(int i, Individual individual)
     individuals[i]=individual;
 }
 
+Individual Population::getIndividual(int i)
+{
+    return individuals[i];
+}
+
 void Population::clearIndividuals()
 {
     individuals.clear();

@@ -47,7 +47,7 @@ void BeeColonyThread::run()
         stuff = QString::number(population.getBestIndividual().getFitness()) + " " +
                 QString::number(population.getBestIndividual().getDisconnected()) + " " +
                 QString::number(population.getBestIndividual().getRegenerators()) + " " +
-                QString::number(algorithm.getGeneration()) + " " + ended + " " +
+                QString::number(algorithm.getGeneration()) + ended + " " +
                 QString::number(100*algorithm.getGeneration()/algorithm.getGenerations());
 
         emit dataChanged(stuff);
