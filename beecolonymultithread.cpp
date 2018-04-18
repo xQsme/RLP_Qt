@@ -82,12 +82,45 @@ void BeeColonyMultiThread::run()
                 }else{
                     ended = 0;
                 }
-                emit problemEnded(fileFromDir.fileName() + ";" + QString::number(bestGeneration) + ";" + QString::number(bestTime) + ";" +
+                emit problemEnded(getFileInfo(fileFromDir.fileName()) + QString::number(bestGeneration) + ";" + QString::number(bestTime) + ";" +
                                                   QString::number(population.getBestIndividual().getFitness()) + ";" +
                                                   QString::number(population.getBestIndividual().getRegenerators()) + ";" +
-                                                  QString::number(population.getBestIndividual().getDisconnected()), ended);
+                                                  QString::number(population.getBestIndividual().getDisconnected()) + ";" +
+                                                  QString::number(seed), ended);
             }
         }
     }
 }
 
+QString BeeColonyMultiThread::getFileInfo(QString file)
+{
+    QString result;
+    int reading=0;
+    foreach(QChar c, file)
+    {
+        if (c.isDigit())
+        {
+            reading=1;
+            result.append(c);
+        }
+        else
+        {
+            if(reading == 1)
+            {
+                result.append(";");
+                reading=0;
+            }
+        }
+    }
+    QStringList list = result.split(";");
+    if(list[0].toInt() < 100)
+    {
+        list[0] = "0" + list[0];
+    }
+    if(list[2].toInt() < 10)
+    {
+        list[2] = "0" + list[2];
+    }
+    result = list.join(";");
+    return result;
+}

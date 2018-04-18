@@ -179,7 +179,8 @@ void CustomDialog::on_pushButtonSolve_clicked()
             file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm.csv");
             file.open(QIODevice::WriteOnly | QIODevice::Text);
             stream.setDevice(&file);
-            stream << "File;Generations;Time;Fitness;Regenerators;Disconnected" << endl;
+            stream << "sep=;" << endl;
+            stream << "Size;Problem;Instance;Generations;Time;Fitness;Regenerators;Disconnected;Seed" << endl;
             threads.clear();
             elapsed.start();
             connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
