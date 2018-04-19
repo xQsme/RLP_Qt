@@ -1,0 +1,8 @@
+Seed: 50
+Population: 40
+Generations: 500
+Select Size: 20
+Best Size: 10
+Select Value: 40%
+Best Value: 50%
+Change Value: 5
