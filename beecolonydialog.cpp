@@ -7,7 +7,8 @@ BeeColonyDialog::BeeColonyDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    for(int i = QThread::idealThreadCount(); i > 0 ; i--){
+    for(int i = QThread::idealThreadCount(); i > 0 ; i--)
+    {
         ui->comboBoxThreads->addItem(QString::number(i));
     }
 
@@ -33,47 +34,72 @@ BeeColonyDialog::~BeeColonyDialog()
 
 void BeeColonyDialog::clearLayout(){
     QLayoutItem *child;
-    while ((child = ui->gridLayout->takeAt(0)) != 0){
+    while ((child = ui->gridLayout->takeAt(0)) != 0)
+    {
         if (child->widget())
+        {
             delete child->widget();
+        }
         if (child->layout())
+        {
             delete child->layout();
+        }
         delete child;
     }
 }
 
 void BeeColonyDialog::enableGraph()
 {
-    clearLayout();
-    ui->labelNodes->setVisible(true);
-    ui->gridLayout->addWidget(chartView, 0, 0);
+    if(previous != 0)
+    {
+        clearLayout();
+        ui->labelNodes->setVisible(true);
+        ui->labelDisconnected->setVisible(true);
+        ui->labelRegenerators->setVisible(true);
+        ui->labelFitness->setVisible(true);
+        ui->gridLayout->addWidget(chartView, 0, 0);
+        previous=0;
+    }
 }
 
 void BeeColonyDialog::enableThreads(){
+    if(previous == 0)
+    {
+        done = 1;
+    }
+    previous = 1;
     clearLayout();
     labels.clear();
     ui->labelNodes->setVisible(false);
-    for(int i = 0; i < 3; i++){
+    ui->labelDisconnected->setVisible(false);
+    ui->labelRegenerators->setVisible(false);
+    ui->labelFitness->setVisible(false);
+    for(int i = 0; i < 3; i++)
+    {
         QFrame* line = new QFrame();
         line->setFrameShape(QFrame::HLine);
         line->setFrameShadow(QFrame::Sunken);
         ui->gridLayout->addWidget(line, i*3, 0, 1, (ui->comboBoxThreads->currentText().toInt()+1)/2*2+1);
     }
-    for(int i = 0; i < (ui->comboBoxThreads->currentText().toInt()+1)/2+1; i++){
+    for(int i = 0; i < (ui->comboBoxThreads->currentText().toInt()+1)/2+1; i++)
+    {
         QFrame* line = new QFrame();
         line->setFrameShape(QFrame::VLine);
         line->setFrameShadow(QFrame::Sunken);
         ui->gridLayout->addWidget(line, 0, i*2, 7, 1);
     }
-    for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++){
-        if(i < (ui->comboBoxThreads->currentText().toInt()+1)/2){
+    for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++)
+    {
+        if(i < (ui->comboBoxThreads->currentText().toInt()+1)/2)
+        {
             labels << new QLabel("Thread " + QString::number(i));
             labels[labels.length()-1]->setAlignment(Qt::AlignCenter);
             ui->gridLayout->addWidget(labels[labels.length()-1], 1, i*2+1);
             labels << new QLabel("File");
             labels[labels.length()-1]->setAlignment(Qt::AlignCenter);
             ui->gridLayout->addWidget(labels[labels.length()-1], 2, i*2+1);
-        }else{
+        }else
+        {
             labels << new QLabel("Thread " + QString::number(i));
             labels[labels.length()-1]->setAlignment(Qt::AlignCenter);
             ui->gridLayout->addWidget(labels[labels.length()-1], 4, (i-(ui->comboBoxThreads->currentText().toInt()+1)/2)*2+1);
@@ -91,7 +117,8 @@ void BeeColonyDialog::on_pushButtonRead_clicked()
     {
         QString fileName = QFileDialog::getOpenFileName(this,
             tr("Open txt"), "../RLP_Qt/DataSets", tr("Text Files (*.txt)"));
-        if(fileName != ""){
+        if(fileName != "")
+        {
             enableGraph();
             elapsed.start();
             connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -136,7 +163,8 @@ void BeeColonyDialog::on_pushButtonSolve_clicked()
     if(ui->pushButtonSolve->text() == "Batch Solve")
     {
         QDir dir = QFileDialog::getExistingDirectory(0, ("Select Directory"), "../RLP_Qt/DataSets");
-        if(dir.dirName() != "."){
+        if(dir.dirName() != ".")
+        {
             ui->progressBar->setValue(0);
             enableThreads();
             QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_bee_colony_settings.csv");
@@ -155,7 +183,8 @@ void BeeColonyDialog::on_pushButtonSolve_clicked()
             file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_bee_colony.csv");
             file.open(QIODevice::WriteOnly | QIODevice::Text);
             stream.setDevice(&file);
-            stream << "File;Generations;Time;Fitness;Regenerators;Disconnected" << endl;
+            stream << "sep=;" << endl;
+            stream << "Size;Problem;Instance;Generations;Time;Fitness;Regenerators;Disconnected;Seed" << endl;
             threads.clear();
             elapsed.start();
             connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -186,7 +215,8 @@ void BeeColonyDialog::on_pushButtonSolve_clicked()
             msgBox.exec();
         }
     }
-    else{
+    else
+    {
         for(int i = 0; i < threads.length(); i++)
         {
             threads[i]->terminate();
@@ -203,7 +233,8 @@ void BeeColonyDialog::singleProblem(QString stuff){
     series->clear();
     series->append(0, moreStuff[0].toInt());
     int range = moreStuff[0].toInt();
-    while(range % 1000 != 0){
+    while(range % 1000 != 0)
+    {
         range+=100;
     }
     chart->axisY()->setRange(0, range);
@@ -222,7 +253,8 @@ void BeeColonyDialog::onDataChanged(QString stuff)
     ui->labelDisconnected->setText("Disconnected: " + moreStuff[1]);
     ui->labelRegenerators->setText("Regenerators: " + moreStuff[2]);
     ui->labelFitness->setText("Fitness: " + moreStuff[0]);
-    if(moreStuff[4] == "1"){
+    if(moreStuff[4] == "1")
+    {
         enableForm();
     }
     ui->progressBar->setValue(moreStuff[5].toInt());
@@ -238,10 +270,14 @@ void BeeColonyDialog::disableForm(int batch)
     ui->lineEditSelectValue->setDisabled(true);
     ui->lineEditBestValue->setDisabled(true);
     ui->lineEditChangeValue->setDisabled(true);
-    if(batch == 1){
+    ui->comboBoxThreads->setDisabled(true);
+    if(batch == 1)
+    {
         ui->pushButtonSolve->setText("Stop");
         ui->pushButtonRead->setDisabled(true);
-    }else{
+    }
+    else
+    {
         ui->pushButtonRead->setText("Stop");
         ui->pushButtonSolve->setDisabled(true);
     }
@@ -257,12 +293,20 @@ void BeeColonyDialog::enableForm()
     ui->lineEditSelectValue->setDisabled(false);
     ui->lineEditBestValue->setDisabled(false);
     ui->lineEditChangeValue->setDisabled(false);
-    if(ui->pushButtonSolve->text() == "Stop"){
+    ui->comboBoxThreads->setDisabled(false);
+    if(ui->pushButtonSolve->text() == "Stop")
+    {
         ui->pushButtonSolve->setText("Batch Solve");
         ui->pushButtonRead->setDisabled(false);
-    }else{
-        ui->pushButtonRead->setText("Close");
+    }
+    else
+    {
+        ui->pushButtonRead->setText("Solve");
         ui->pushButtonSolve->setDisabled(false);
+    }
+    if(done == 1)
+    {
+        ui->pushButtonRead->setText("Close");
     }
 }
 
@@ -278,7 +322,8 @@ void BeeColonyDialog::newProblem(int thread, QString fileName, int percent)
 void BeeColonyDialog::problemEnded(QString stuff, int ended)
 {
     stream << stuff << endl;
-    if(ended == 1){
+    if(ended == 1)
+    {
         enableForm();
         ui->progressBar->setValue(100);
     }
@@ -289,17 +334,20 @@ void BeeColonyDialog::update()
     int time = elapsed.elapsed()/1000;
     int seconds = time%60;
     QString strsec="";
-    if(seconds < 10){
+    if(seconds < 10)
+    {
         strsec += "0";
     }
     strsec += QString::number(seconds);
     int minutes = (time%3600-seconds)/60;
     QString strmin;
     int hours = time/3600;
-    if(hours > 0){
+    if(hours > 0)
+    {
         strmin += "0" + QString::number(hours) + ":";
     }
-    if(minutes < 10){
+    if(minutes < 10)
+    {
         strmin += "0";
     }
     strmin += QString::number(minutes);

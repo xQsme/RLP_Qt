@@ -18,8 +18,6 @@ void BeeColonyAlgorithm::setUpAlgorithm(int generations, Problem* problem, Popul
     this->valueSelection=valueSelection; //n_mSelBees
     this->valueBest=valueBest; //n_eBestBees
     this->changeValue = changeValue;
-    this->bestBeeIteration = Individual(problem);
-    this->bestBeeRun = Individual(problem);
     evaluate();
 }
 
@@ -33,13 +31,9 @@ int BeeColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
     int number;
     Individual selected;
 
-    QVector<Individual> individuals = scoutBees->getIndividuals();
-
-    createSelectedBeePopulation();
     calculateBestBeesProbability();
     calculateSelBeesProbability();
 
-    QVector<Individual> selIndividuals = selBees.getIndividuals();
     for (int i = 0; i < selectedSize; i++)
     {
         if (i < bestSize )
@@ -52,8 +46,8 @@ int BeeColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
         }
         for (int j = 0; j< number; j++)
         {
-            selected = optimizeSolution(selIndividuals[i].clone()); //TO-DO
-            if ((selected.getFitness() < individuals[i].getFitness()) || (qrand() % 100 < qrand() % 100 && selected.getFitness()==individuals[i].getFitness()))
+            selected = optimizeSolution(scoutBees->getIndividual(i).clone());
+            if ((selected.getFitness() < scoutBees->getIndividual(i).getFitness()) || (qrand() % 100 < qrand() % 100 && selected.getFitness()==scoutBees->getIndividual(i).getFitness()))
             {
                 scoutBees->setIndividual(i, selected);
             }
@@ -68,32 +62,15 @@ int BeeColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
     return 1;
 }
 
-void BeeColonyAlgorithm::createSelectedBeePopulation()
-{
-    selBees.clearIndividuals();
-    QVector<Individual> individuals = scoutBees->getIndividuals();
-    for (int i = 0; i < selectedSize; i++)
-    {
-        selBees.addIndividual(individuals[i].clone());
-    }
-}
-
 void BeeColonyAlgorithm::evaluate()
 {
     scoutBees->calculateFitnesses(problem);
-    bestBeeIteration = scoutBees->getBestIndividual().clone();
-
-    if (generation == 0 || bestBeeRun.getFitness() > bestBeeIteration.getFitness())
-    {
-       bestBeeRun = bestBeeIteration.clone();
-       generationBestBeeRun = generation;
-    }
 }
 
 void BeeColonyAlgorithm::calculateBestBeesProbability()
 {
     double totalFitness=0;
-    QVector<Individual> individuals = selBees.getIndividuals();
+    QVector<Individual> individuals = scoutBees->getIndividuals();
     prob.clear();
     if (bestSize==1)
     {
@@ -115,7 +92,7 @@ void BeeColonyAlgorithm::calculateBestBeesProbability()
 void BeeColonyAlgorithm::calculateSelBeesProbability()
 {
     double totalFitness=0;
-    QVector<Individual> individuals = selBees.getIndividuals();
+    QVector<Individual> individuals = scoutBees->getIndividuals();
     if (selectedSize-bestSize==1)
     {
         prob << 1;
@@ -146,57 +123,105 @@ Individual BeeColonyAlgorithm::optimizeSolution(Individual individual)
     Individual toReturn = individual.clone();
     QVector<float> weights = problem->getConnectionsWeight();
 
-    for(int i = 0; i < changeValue; i++)
+    if(qrand() % 2 == 0)
     {
-        QVector<int> bestIndexes;
-        QVector<float> bestValues;
-        QVector<int> worstIndexes;
-        QVector<float> worstValues;
-        for(int k = 0; k < i+1; k++){
-            if(k <= toReturn.getRegenerators()){
-                worstIndexes << 0;
-                worstValues << 1;
+        for(int i = 0; i < changeValue; i++)
+        {
+            if(qrand() % 3 == 0){
+                toReturn = individual.clone();
             }
-            if(k <= problem->getTotal() - toReturn.getRegenerators()){
-                bestIndexes << 0;
-                bestValues << 0;
+            QVector<int> bestIndexes;
+            QVector<float> bestValues;
+            QVector<int> worstIndexes;
+            QVector<float> worstValues;
+            for(int k = 0; k < i+1; k++){
+                if(k <= toReturn.getRegenerators()){
+                    worstIndexes << 0;
+                    worstValues << 1;
+                }
+                if(k <= problem->getTotal() - toReturn.getRegenerators()){
+                    bestIndexes << 0;
+                    bestValues << 0;
+                }
             }
-        }
-        for(int j = 0; j < weights.length(); j++){
-            for(int k = 0; k < worstIndexes.length(); k++){
-                if(toReturn.getSolution()[j] == 1)
-                {
-                    if(weights[j] < worstValues[k])
+            for(int j = 0; j < weights.length(); j++){
+                for(int k = 0; k < worstIndexes.length(); k++){
+                    if(toReturn.getSolution()[j] == 1)
                     {
-                        worstIndexes[k] = j;
-                        worstValues[k] = weights[j];
-                        break;
+                        if(weights[j] < worstValues[k])
+                        {
+                            worstIndexes[k] = j;
+                            worstValues[k] = weights[j];
+                            break;
+                        }
+                    }
+                }
+                for(int k = 0; k < worstIndexes.length(); k++){
+                    if(toReturn.getSolution()[j] == 0)
+                    {
+                        if(weights[j] > bestValues[k])
+                        {
+                            bestIndexes[k] = j;
+                            bestValues[k] = weights[j];
+                            break;
+                        }
                     }
                 }
             }
-            for(int k = 0; k < worstIndexes.length(); k++){
-                if(toReturn.getSolution()[j] == 0)
+            if(qrand() % 3 == 0)
+            {
+                if(bestIndexes.length() != 0)
                 {
-                    if(weights[j] > bestValues[k])
-                    {
-                        bestIndexes[k] = j;
-                        bestValues[k] = weights[j];
-                        break;
-                    }
+                    toReturn.setValue(bestIndexes[qrand() % bestIndexes.length()], 1);
                 }
             }
+            else
+            {
+                if(worstIndexes.length() != 0)
+                {
+                    toReturn.setValue(worstIndexes[qrand() % worstIndexes.length()], 0);
+                }
+            }
+            if(toReturn.calculateFitness(problem) < individual.getFitness())
+            {
+                return toReturn;
+            }
         }
-        if(qrand() % 2 == 0)
+    }
+    else
+    {
+        for(int i = 0; i < changeValue; i++)
         {
-            toReturn.setValue(bestIndexes[qrand() % bestIndexes.length()], 1);
-        }
-        else
-        {
-            toReturn.setValue(worstIndexes[qrand() % worstIndexes.length()], 0);
-        }
-        if(toReturn.calculateFitness(problem) < individual.getFitness())
-        {
-            return toReturn;
+            QVector<int> regeneratorIndexes;
+            QVector<int> freeIndexes;
+            for(int k = 0; k < toReturn.getSolution().length(); k++){
+                if(toReturn.getSolution()[k] == 1)
+                {
+                    regeneratorIndexes << k;
+                }
+                else
+                {
+                    freeIndexes << k;
+                }
+            }
+            if(qrand() % 3 == 0)
+            {
+                if(freeIndexes.length() != 0)
+                {
+                   toReturn.setValue(freeIndexes[qrand() % freeIndexes.length()], 1);
+                }
+            }
+            else
+            {
+                if(regeneratorIndexes.length() != 0)
+                {
+                    toReturn.setValue(regeneratorIndexes[qrand() % regeneratorIndexes.length()], 0);
+                }
+            }
+            if(toReturn.calculateFitness(problem) < individual.getFitness())
+            {
+                return toReturn;
+            }
         }
     }
 

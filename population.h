@@ -12,6 +12,7 @@ public:
     QVector<Individual> getIndividuals();
     void setValue(int i, int j, int value);
     void setIndividual(int i, Individual individual);
+    Individual getIndividual(int i);
     void clearIndividuals();
     void addIndividual(Individual i);
     Individual getBestIndividual();

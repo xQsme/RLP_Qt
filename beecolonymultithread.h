@@ -14,6 +14,7 @@ public:
     BeeColonyMultiThread(QDir dir, int seed, int populationSize, int generations, int selectSize, int bestSize, int selectValue, int bestValue, int changeValue, int thread, int threads);
     void run();
 private:
+    QString getFileInfo(QString file);
     QDir dir;
     int seed;
     int populationSize;
