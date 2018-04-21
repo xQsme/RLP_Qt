@@ -11,15 +11,15 @@ class AntColonyAlgorithm
 public:
     AntColonyAlgorithm();
     void setUpAlgorithm(int generations, double probability_q,
-                        double Q, int numberOfMods, Population* population,
-                        Problem* problem, double pheromoneEvaportaion, double pheromoneInfluence);
+                        double q, int number_mods, Population* population,
+                        Problem* problem, double evaporation, double influence);
     int generateNewPopulation(Population* population, Problem* problem);
-    void initializePheromoneTrail(void);
-    void evaluate(void);
-    void updatePheromoneTrail(void);
     int getGeneration();
     int getGenerations();
 private:
+    void initializePheromoneTrail();
+    void evaluate();
+    void updatePheromoneTrail();
     int generation;
     int generations;
     int numberOfAnts; //nr total de individuos

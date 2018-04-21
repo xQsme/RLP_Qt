@@ -11,15 +11,26 @@ class AntColonyThread : public QThread
     Q_OBJECT
 public:
     AntColonyThread();
-    AntColonyThread(Population* population, Problem* problem, AntColonyAlgorithm* algorithm);
+    AntColonyThread(QString fileName, int seed, int populationSize, int generations, double probability_q,
+                                     double q, int number_mods, double evaporation, double influence);
     void run();
 private:
-    Population* population;
-    Problem* problem;
-    AntColonyAlgorithm* algorithm;
-    QElapsedTimer timer;
+    Population population;
+    Problem problem;
+    AntColonyAlgorithm algorithm;
+    //QElapsedTimer timer;
+    QString fileName;
+    int seed;
+    int populationSize;
+    int generations;
+    double probability_q;
+    double q;
+    int number_mods;
+    double evaporation;
+    double influence;
 signals:
-    void dataChanged(QString);
+    void dataChanged(QString stuff);
+    void singleProblem(QString stuff);
 };
 
 #endif // ANTCOLONYTHREAD_H

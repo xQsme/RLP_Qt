@@ -6,25 +6,24 @@ AntColonyAlgorithm::AntColonyAlgorithm()
 }
 
 void AntColonyAlgorithm::setUpAlgorithm(int generations, double probability_q,
-                                        double Q, int numberOfMods, Population* population,
-                                        Problem* problem, double pheromoneEvaportaion,
-                                        double pheromoneInfluence)
+                                        double q, int number_mods, Population* population,
+                                        Problem* problem, double evaporation,
+                                        double influence)
 {
-    this->generation=0;
     this->generations=generations;
     this->problem = problem;
     this->ants = population;
     this->probability_q = probability_q;
-    this->Q = Q;
+    this->Q = q;
     this->numberOfAnts = population->getPopulationSize();
     this->individualSize = population->getBestIndividual().getSolution().length();
-    this->numberOfMods = numberOfMods;
+    this->numberOfMods = number_mods;
     this->bestAntIteration = Individual(problem);
     this->bestAntRun = Individual(problem);
-    this->pheromoneEvaportaion = pheromoneEvaportaion;
-    this->pheromoneInfluence = pheromoneInfluence; //same as Q?
-    //this->userMaxNoImprovements = userMaxNoImprovements; //maximo de geracoes que podem decorrer sem uma melhoria
-    generationsWithoutImprovments = 0;
+    this->pheromoneEvaportaion = evaporation;
+    this->pheromoneInfluence = influence;
+    this->generationsWithoutImprovments = 0;
+    this->generation = 0;
 
     //iniciar o pheromonal trail
     for(int i=0; i<numberOfAnts; i++){
@@ -42,16 +41,15 @@ void AntColonyAlgorithm::setUpAlgorithm(int generations, double probability_q,
 
 int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* problem)
 {
-    bool cond;
-
-    int i, n, s, r, j, novo;
-    double maior, total, soma, probability;
-    Individual auxIndividual;
-
     if(generation++ >= generations)
     {
         return 0;
     }
+
+    bool cond;
+    int i, n, s, r, j, novo;
+    double maior, total, soma, probability;
+    Individual auxIndividual;
 
     cond=true;
     for(i = 0; i < ants->getPopulationSize(); i++) //Para cada individuo/formiga
@@ -60,7 +58,7 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
 
         for(n = 0; n < numberOfMods; n++) //Para cada modificao pretendida
         {
-            if(((qrand() % 101)/100.0) < probability_q)
+            if((qrand() % 101) < probability_q)
             {
                 maior = 0;
                 s = 0;
@@ -75,6 +73,7 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
                     }
                 }
                 // altera o valor desse elemento do individuo
+
                 auxIndividual.setValue(r,s);
             }
             else
@@ -100,6 +99,7 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
                     }
                 }
                 // altera o valor desse elemento do individuo
+
                 auxIndividual.setValue(r,novo);
             }
         }

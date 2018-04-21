@@ -1,0 +1,8 @@
+Seed: 50
+Population: 150
+Generations: 500
+Q probability: 100%
+Q: 50
+Modifications: 50
+Evaporation: 100%
+Influence: 100%

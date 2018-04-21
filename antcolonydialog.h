@@ -10,6 +10,7 @@
 #include "population.h"
 #include "antcolonyalgorithm.h"
 #include "antcolonythread.h"
+#include "antcolonymultithread.h"
 
 namespace Ui {
 class AntColonyDialog;
@@ -26,22 +27,32 @@ public:
 private slots:
     void on_pushButtonRead_clicked();
     void on_pushButtonSolve_clicked();
+    void update();
 
 private:
-    void clearGraph();
-    void disableForm();
+    void clearLayout();
+    void disableForm(int batch);
     void enableForm();
+    void enableGraph();
+    void enableThreads();
+
     Ui::AntColonyDialog *ui;
     QChart *chart;
     QLineSeries *series;
     QChartView *chartView;
-    Problem problem;
-    Population population;
-    AntColonyAlgorithm algorithm;
+    QVector<QLabel*> labels;
     AntColonyThread* mainThread;
+    QVector<AntColonyMultiThread*> threads;
+    QTextStream stream;
+    QFile file;
+    QTimer timer;
+    QElapsedTimer elapsed;
 
 public slots:
-    void onDataChanged(QString);
+    void onDataChanged(QString stuff);
+    void singleProblem(QString stuff);
+    void newProblem(int thread, QString fileName, int percent);
+    void problemEnded(QString stuff, int ended);
 };
 
 #endif // ANTCOLONYDIALOG_H
