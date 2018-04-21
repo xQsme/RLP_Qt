@@ -32,7 +32,7 @@ private:
     double Q;
     double pheromoneEvaportaion;
     double pheromoneInfluence;
-    QVector<QVector<QVector<double>>> t; //trilho feromonal
+    double ***t; //trilho feromonal
     Population* ants;
     Individual bestAntIteration;
     Individual bestAntRun;
