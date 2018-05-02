@@ -184,15 +184,14 @@ void BeeColonyDialog::on_pushButtonSolve_clicked()
             file.open(QIODevice::WriteOnly | QIODevice::Text);
             stream.setDevice(&file);
             stream << "sep=;" << endl;
-            stream << "Size;Problem;Instance;Generations;Time;Fitness;Regenerators;Disconnected;Seed" << endl;
+            stream << "Size;Problem;Instance;Seed;Generations;Time;Fitness;Regenerators;Disconnected" << endl;
             threads.clear();
             elapsed.start();
             connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
             timer.start(1000);
             for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++)
             {
-                threads << new BeeColonyMultiThread(dir, ui->lineEditSeed->text().toInt(),
-                                                    ui->lineEditPopulation->text().toInt(),
+                threads << new BeeColonyMultiThread(dir, ui->lineEditPopulation->text().toInt(),
                                                     ui->lineEditGenerations->text().toInt(),
                                                     ui->lineEditSelectSize->text().toInt(),
                                                     ui->lineEditBestSize->text().toInt(),
