@@ -61,7 +61,10 @@ void BeeColonyMultiThread::run()
                     }else{
                         value = thread-1;
                     }
-                    emit newProblem(value, fileFromDir.fileName(), 100*count/total);
+                    if(seed == 5)
+                    {
+                        emit newProblem(value, fileFromDir.fileName(), 100*count/total);
+                    }
                     while(algorithm.generateNewPopulation(&population, &problem) == 1)
                     {
                         population.calculateFitnesses(&problem);
