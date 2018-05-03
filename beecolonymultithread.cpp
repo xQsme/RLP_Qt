@@ -134,6 +134,9 @@ QString BeeColonyMultiThread::getFileInfo(QString file)
 QString BeeColonyMultiThread::getSeedString(int seed)
 {
     QString result;
+    if(seed < 100){
+        result += "0";
+    }
     if(seed < 10){
         result += "0";
     }
