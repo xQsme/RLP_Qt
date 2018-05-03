@@ -14,6 +14,11 @@ CustomDialog::CustomDialog(QWidget *parent) :
         ui->comboBoxThreads->addItem(QString::number(i));
     }
 
+    for(int i = 2; i < 100; i+=20)
+    {
+        ui->comboBoxSeeds->addItem(QString::number(i) + "-" + QString::number(i+18));
+    }
+
     ui->comboBoxThreads->setCurrentIndex(1);
 
     chart = new QChart();
@@ -166,17 +171,16 @@ void CustomDialog::on_pushButtonSolve_clicked()
         {
             ui->progressBar->setValue(0);
             enableThreads();
-            QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm_settings.csv");
+            QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm_settings_" + ui->comboBoxSeeds->currentText() + ".csv");
             info.open(QIODevice::WriteOnly | QIODevice::Text);
             QTextStream infoStream(&info);
-            infoStream << "Seed: " << ui->lineEditSeed->text() << endl;
             infoStream << "Population: " <<  ui->lineEditPopulation->text() << endl;
             infoStream << "Generations: " <<  ui->lineEditGenerations->text() << endl;
             infoStream << "Elitism: " <<  ui->lineEditElitism->text() << "%" << endl;
             infoStream << "Mutation: " <<  ui->lineEditMutation->text() << "%" << endl;
             info.close();
 
-            file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm.csv");
+            file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm_" + ui->comboBoxSeeds->currentText() + ".csv");
             file.open(QIODevice::WriteOnly | QIODevice::Text);
             stream.setDevice(&file);
             stream << "sep=;" << endl;
@@ -187,7 +191,8 @@ void CustomDialog::on_pushButtonSolve_clicked()
             timer.start(1000);
             for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++)
             {
-                threads << new CustomMultiThread(dir, ui->lineEditPopulation->text().toInt(),
+                threads << new CustomMultiThread(dir, ui->comboBoxSeeds->currentText().split("-")[0].toInt(),
+                                                    ui->lineEditPopulation->text().toInt(),
                                                     ui->lineEditGenerations->text().toInt(),
                                                     ui->lineEditElitism->text().toInt(),
                                                     ui->lineEditMutation->text().toInt(),

@@ -291,7 +291,28 @@
          <string/>
         </property>
         <property name="maxVisibleItems">
-         <number>2</number>
+         <number>5</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_7">
+      <item>
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>Seeds</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBoxSeeds">
+        <property name="currentText">
+         <string/>
+        </property>
+        <property name="maxVisibleItems">
+         <number>5</number>
         </property>
        </widget>
       </item>

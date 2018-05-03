@@ -167,10 +167,9 @@ void BeeColonyDialog::on_pushButtonSolve_clicked()
         {
             ui->progressBar->setValue(0);
             enableThreads();
-            QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_bee_colony_settings.csv");
+            QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_bee_colony_settings_" + ui->comboBoxSeeds->currentText() + ".csv");
             info.open(QIODevice::WriteOnly | QIODevice::Text);
             QTextStream infoStream(&info);
-            infoStream << "Seed: " << ui->lineEditSeed->text() << endl;
             infoStream << "Population: " <<  ui->lineEditPopulation->text() << endl;
             infoStream << "Generations: " <<  ui->lineEditGenerations->text() << endl;
             infoStream << "Select Size: " <<  ui->lineEditSelectSize->text() << endl;
@@ -180,7 +179,7 @@ void BeeColonyDialog::on_pushButtonSolve_clicked()
             infoStream << "Change Value: " <<  ui->lineEditChangeValue->text() << endl;
             info.close();
 
-            file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_bee_colony.csv");
+            file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_bee_colony_" + ui->comboBoxSeeds->currentText() + ".csv");
             file.open(QIODevice::WriteOnly | QIODevice::Text);
             stream.setDevice(&file);
             stream << "sep=;" << endl;
@@ -191,7 +190,8 @@ void BeeColonyDialog::on_pushButtonSolve_clicked()
             timer.start(1000);
             for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++)
             {
-                threads << new BeeColonyMultiThread(dir, ui->lineEditPopulation->text().toInt(),
+                threads << new BeeColonyMultiThread(dir, ui->comboBoxSeeds->currentText().split("-")[0].toInt(),
+                                                    ui->lineEditPopulation->text().toInt(),
                                                     ui->lineEditGenerations->text().toInt(),
                                                     ui->lineEditSelectSize->text().toInt(),
                                                     ui->lineEditBestSize->text().toInt(),

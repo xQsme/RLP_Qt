@@ -16,24 +16,28 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButtonCustom_clicked()
 {
     CustomDialog dialog;
+    dialog.setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
     dialog.exec();
 }
 
 void MainWindow::on_pushButtonAntColony_clicked()
 {
     AntColonyDialog dialog;
+    dialog.setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
     dialog.exec();
 }
 
 void MainWindow::on_pushButtonBeeColony_clicked()
 {
     BeeColonyDialog dialog;
+    dialog.setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
     dialog.exec();
 }
 
 void MainWindow::on_pushButtonGeneticAlgorithm_clicked()
 {
     GeneticDialog dialog;
+    dialog.setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
     dialog.exec();
 }
 
@@ -57,7 +61,7 @@ void MainWindow::on_actionSort_Results_triggered()
 
                 QString first = list.takeAt(0);
                 QString second = list.takeAt(0);
-                if(!first.contains("sep=;") || !second.contains("Size;Problem;Instance;Generations;Time;Fitness;Regenerators;Disconnected;Seed")){
+                if(!first.contains("sep=;") || !second.contains("Size;Problem;Instance;Seed;Generations;Time;Fitness;Regenerators;Disconnected")){
                     break;
                 }
                 list.sort();

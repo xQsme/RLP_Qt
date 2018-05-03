@@ -11,11 +11,13 @@ class CustomMultiThread : public QThread
     Q_OBJECT
 public:
     CustomMultiThread();
-    CustomMultiThread(QDir dir, int populationSize, int generations, int elitism, int mutation, int thread, int threads);
+    CustomMultiThread(QDir dir, int seed, int populationSize, int generations, int elitism, int mutation, int thread, int threads);
     void run();
 private:
     QString getFileInfo(QString file);
+    QString getSeedString(int seed);
     QDir dir;
+    int seed;
     int populationSize;
     int generations;
     int elitism;

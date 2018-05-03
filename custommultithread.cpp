@@ -5,9 +5,10 @@ CustomMultiThread::CustomMultiThread()
 
 }
 
-CustomMultiThread::CustomMultiThread(QDir dir, int populationSize, int generations, int elitism, int mutation, int thread, int threads)
+CustomMultiThread::CustomMultiThread(QDir dir, int seed, int populationSize, int generations, int elitism, int mutation, int thread, int threads)
 {
     this->dir=dir;
+    this->seed=seed;
     this->populationSize=populationSize;
     this->generations=generations;
     this->elitism=elitism;
@@ -36,7 +37,7 @@ void CustomMultiThread::run()
             count++;
             if(count % threads == thread)
             {
-                for(int seed = 5; seed <= 100; seed+=15)
+                for(int s = seed; s <= seed+18; s+=2)
                 {
                     currentTimer.restart();
                     previousFitness=999999;
@@ -49,7 +50,7 @@ void CustomMultiThread::run()
                     catch(const std::invalid_argument ex){
                         return;
                     }
-                    population.setUpPopulation(seed, populationSize, &problem);
+                    population.setUpPopulation(s, populationSize, &problem);
                     population.calculateFitnesses(&problem);
                     algorithm.setUpAlgorithm(elitism, mutation, generations);
                     int value;
@@ -58,7 +59,7 @@ void CustomMultiThread::run()
                     }else{
                         value = thread-1;
                     }
-                    if(seed == 5)
+                    if(s == seed)
                     {
                         emit newProblem(value, fileFromDir.fileName(), 100*count/total);
                     }
@@ -83,7 +84,7 @@ void CustomMultiThread::run()
                     }else{
                         ended = 0;
                     }
-                    emit problemEnded(getFileInfo(fileFromDir.fileName()) + QString::number(seed) + ";" +
+                    emit problemEnded(getFileInfo(fileFromDir.fileName()) + getSeedString(seed) +
                                                       QString::number(bestGeneration) + ";" + QString::number(bestTime) + ";" +
                                                       QString::number(population.getBestIndividual().getFitness()) + ";" +
                                                       QString::number(population.getBestIndividual().getRegenerators()) + ";" +
@@ -124,6 +125,16 @@ QString CustomMultiThread::getFileInfo(QString file)
         list[2] = "0" + list[2];
     }
     result = list.join(";");
+    return result;
+}
+
+QString CustomMultiThread::getSeedString(int seed)
+{
+    QString result;
+    if(seed < 10){
+        result += "0";
+    }
+    result += QString::number(seed) + ";";
     return result;
 }
 

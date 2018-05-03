@@ -5,9 +5,10 @@ BeeColonyMultiThread::BeeColonyMultiThread()
 
 }
 
-BeeColonyMultiThread::BeeColonyMultiThread(QDir dir, int populationSize, int generations, int selectSize, int bestSize, int selectValue, int bestValue, int changeValue, int thread, int threads)
+BeeColonyMultiThread::BeeColonyMultiThread(QDir dir, int seed, int populationSize, int generations, int selectSize, int bestSize, int selectValue, int bestValue, int changeValue, int thread, int threads)
 {
     this->dir=dir;
+    this->seed=seed;
     this->populationSize=populationSize;
     this->generations=generations;
     this->selectSize=selectSize;
@@ -39,7 +40,7 @@ void BeeColonyMultiThread::run()
             count++;
             if(count % threads == thread)
             {
-                for(int seed = 5; seed <= 100; seed+=15)
+                for(int s = seed; s <= seed+18; s+=2)
                 {
                     currentTimer.restart();
                     previousFitness=999999;
@@ -52,7 +53,7 @@ void BeeColonyMultiThread::run()
                     catch(const std::invalid_argument ex){
                         return;
                     }
-                    population.setUpPopulation(seed, populationSize, &problem);
+                    population.setUpPopulation(s, populationSize, &problem);
                     population.calculateFitnesses(&problem);
                     algorithm.setUpAlgorithm(generations, &problem, &population, selectSize, bestSize, selectValue, bestValue, changeValue);
                     int value;
@@ -61,7 +62,7 @@ void BeeColonyMultiThread::run()
                     }else{
                         value = thread-1;
                     }
-                    if(seed == 5)
+                    if(s == seed)
                     {
                         emit newProblem(value, fileFromDir.fileName(), 100*count/total);
                     }
@@ -86,7 +87,7 @@ void BeeColonyMultiThread::run()
                     }else{
                         ended = 0;
                     }
-                    emit problemEnded(getFileInfo(fileFromDir.fileName()) + QString::number(seed) + ";" +
+                    emit problemEnded(getFileInfo(fileFromDir.fileName()) + getSeedString(seed) +
                                                       QString::number(bestGeneration) + ";" + QString::number(bestTime) + ";" +
                                                       QString::number(population.getBestIndividual().getFitness()) + ";" +
                                                       QString::number(population.getBestIndividual().getRegenerators()) + ";" +
@@ -127,5 +128,15 @@ QString BeeColonyMultiThread::getFileInfo(QString file)
         list[2] = "0" + list[2];
     }
     result = list.join(";");
+    return result;
+}
+
+QString BeeColonyMultiThread::getSeedString(int seed)
+{
+    QString result;
+    if(seed < 10){
+        result += "0";
+    }
+    result += QString::number(seed) + ";";
     return result;
 }
