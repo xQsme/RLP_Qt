@@ -167,7 +167,7 @@ void BeeColonyDialog::on_pushButtonSolve_clicked()
         {
             ui->progressBar->setValue(0);
             enableThreads();
-            QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_bee_colony_settings_" + ui->comboBoxSeeds->currentText() + ".csv");
+            QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_bee_colony_settings_" + ui->comboBoxSeeds->currentText() + ".txt");
             info.open(QIODevice::WriteOnly | QIODevice::Text);
             QTextStream infoStream(&info);
             infoStream << "Population: " <<  ui->lineEditPopulation->text() << endl;

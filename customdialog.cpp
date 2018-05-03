@@ -171,7 +171,7 @@ void CustomDialog::on_pushButtonSolve_clicked()
         {
             ui->progressBar->setValue(0);
             enableThreads();
-            QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm_settings_" + ui->comboBoxSeeds->currentText() + ".csv");
+            QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm_settings_" + ui->comboBoxSeeds->currentText() + ".txt");
             info.open(QIODevice::WriteOnly | QIODevice::Text);
             QTextStream infoStream(&info);
             infoStream << "Population: " <<  ui->lineEditPopulation->text() << endl;
@@ -266,6 +266,7 @@ void CustomDialog::disableForm(int batch)
     ui->lineEditElitism->setDisabled(true);
     ui->lineEditMutation->setDisabled(true);
     ui->comboBoxThreads->setDisabled(true);
+    ui->comboBoxSeeds->setDisabled(true);
     if(batch == 1)
     {
         ui->pushButtonSolve->setText("Stop");
@@ -286,6 +287,7 @@ void CustomDialog::enableForm()
     ui->lineEditElitism->setDisabled(false);
     ui->lineEditMutation->setDisabled(false);
     ui->comboBoxThreads->setDisabled(false);
+    ui->comboBoxSeeds->setDisabled(false);
     if(ui->pushButtonSolve->text() == "Stop")
     {
         ui->pushButtonSolve->setText("Batch Solve");

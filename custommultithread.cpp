@@ -84,7 +84,7 @@ void CustomMultiThread::run()
                     }else{
                         ended = 0;
                     }
-                    emit problemEnded(getFileInfo(fileFromDir.fileName()) + getSeedString(seed) +
+                    emit problemEnded(getFileInfo(fileFromDir.fileName()) + getSeedString(s) +
                                                       QString::number(bestGeneration) + ";" + QString::number(bestTime) + ";" +
                                                       QString::number(population.getBestIndividual().getFitness()) + ";" +
                                                       QString::number(population.getBestIndividual().getRegenerators()) + ";" +
