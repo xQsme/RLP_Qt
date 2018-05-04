@@ -79,7 +79,7 @@ void CustomMultiThread::run()
                         }
                     }
                     int ended;
-                    if(count >= total){
+                    if(count >= total && s == seed+18){
                         ended = 1;
                     }else{
                         ended = 0;

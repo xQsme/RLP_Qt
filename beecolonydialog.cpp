@@ -12,6 +12,11 @@ BeeColonyDialog::BeeColonyDialog(QWidget *parent) :
         ui->comboBoxThreads->addItem(QString::number(i));
     }
 
+    for(int i = 2; i < 100; i+=20)
+    {
+        ui->comboBoxSeeds->addItem(QString::number(i) + "-" + QString::number(i+18));
+    }
+
     ui->comboBoxThreads->setCurrentIndex(1);
 
     chart = new QChart();
