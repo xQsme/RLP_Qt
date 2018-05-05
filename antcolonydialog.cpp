@@ -11,6 +11,11 @@ AntColonyDialog::AntColonyDialog(QWidget *parent) :
         ui->comboBoxThreads->addItem(QString::number(i));
     }
 
+    for(int i = 2; i < 100; i+=20)
+    {
+        ui->comboBoxSeeds->addItem(QString::number(i) + "-" + QString::number(i+18));
+    }
+
     ui->comboBoxThreads->setCurrentIndex(1);
 
     chart = new QChart();
@@ -46,36 +51,56 @@ void AntColonyDialog::clearLayout(){
 
 void AntColonyDialog::enableGraph()
 {
-    clearLayout();
-    ui->labelNodes->setVisible(true);
-    ui->gridLayout->addWidget(chartView, 0, 0);
+    if(previous != 0)
+    {
+        clearLayout();
+        ui->labelNodes->setVisible(true);
+        ui->labelDisconnected->setVisible(true);
+        ui->labelRegenerators->setVisible(true);
+        ui->labelFitness->setVisible(true);
+        ui->gridLayout->addWidget(chartView, 0, 0);
+        previous=0;
+    }
 }
 
 void AntColonyDialog::enableThreads(){
+    if(previous == 0)
+    {
+        done = 1;
+    }
+    previous=1;
     clearLayout();
     labels.clear();
     ui->labelNodes->setVisible(false);
-    for(int i = 0; i < 3; i++){
+    ui->labelDisconnected->setVisible(false);
+    ui->labelRegenerators->setVisible(false);
+    ui->labelFitness->setVisible(false);
+    for(int i = 0; i < 3; i++)
+    {
         QFrame* line = new QFrame();
         line->setFrameShape(QFrame::HLine);
         line->setFrameShadow(QFrame::Sunken);
         ui->gridLayout->addWidget(line, i*3, 0, 1, (ui->comboBoxThreads->currentText().toInt()+1)/2*2+1);
     }
-    for(int i = 0; i < (ui->comboBoxThreads->currentText().toInt()+1)/2+1; i++){
+    for(int i = 0; i < (ui->comboBoxThreads->currentText().toInt()+1)/2+1; i++)
+    {
         QFrame* line = new QFrame();
         line->setFrameShape(QFrame::VLine);
         line->setFrameShadow(QFrame::Sunken);
         ui->gridLayout->addWidget(line, 0, i*2, 7, 1);
     }
     for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++){
-        if(i < (ui->comboBoxThreads->currentText().toInt()+1)/2){
+        if(i < (ui->comboBoxThreads->currentText().toInt()+1)/2)
+        {
             labels << new QLabel("Thread " + QString::number(i));
             labels[labels.length()-1]->setAlignment(Qt::AlignCenter);
             ui->gridLayout->addWidget(labels[labels.length()-1], 1, i*2+1);
             labels << new QLabel("File");
             labels[labels.length()-1]->setAlignment(Qt::AlignCenter);
             ui->gridLayout->addWidget(labels[labels.length()-1], 2, i*2+1);
-        }else{
+        }
+        else
+        {
             labels << new QLabel("Thread " + QString::number(i));
             labels[labels.length()-1]->setAlignment(Qt::AlignCenter);
             ui->gridLayout->addWidget(labels[labels.length()-1], 4, (i-(ui->comboBoxThreads->currentText().toInt()+1)/2)*2+1);
@@ -100,11 +125,11 @@ void AntColonyDialog::on_pushButtonRead_clicked()
             mainThread = new AntColonyThread(fileName, ui->lineEditSeed->text().toInt(),
                                           ui->lineEditPopulation->text().toInt(),
                                           ui->lineEditGenerations->text().toInt(),
-                                          ui->lineEditQProb->text().toDouble(),
-                                          ui->lineEditQ->text().toDouble(),
+                                          ui->lineEditQProb->text().toInt(),
+                                          ui->lineEditQ->text().toInt(),
                                           ui->lineEditMods->text().toInt(),
-                                          ui->lineEditEvaporation->text().toDouble(),
-                                          ui->lineEditInflunce->text().toDouble());
+                                          ui->lineEditEvaporation->text().toInt(),
+                                          ui->lineEditInflunce->text().toInt());
             connect(mainThread, SIGNAL(dataChanged(QString)), this, SLOT(onDataChanged(QString)));
             connect(mainThread, SIGNAL(singleProblem(QString)), this, SLOT(singleProblem(QString)));
             mainThread->start();
@@ -140,10 +165,9 @@ void AntColonyDialog::on_pushButtonSolve_clicked()
         if(dir.dirName() != "."){
             ui->progressBar->setValue(0);
             enableThreads();
-            QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_ant_colony_settings.csv");
+            QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_ant_colony_settings_" + ui->comboBoxSeeds->currentText() + ".txt");
             info.open(QIODevice::WriteOnly | QIODevice::Text);
             QTextStream infoStream(&info);
-            infoStream << "Seed: " << ui->lineEditSeed->text() << endl;
             infoStream << "Population: " <<  ui->lineEditPopulation->text() << endl;
             infoStream << "Generations: " <<  ui->lineEditGenerations->text() << endl;
             infoStream << "Q probability: " <<  ui->lineEditQProb->text() << "%" << endl;
@@ -153,7 +177,7 @@ void AntColonyDialog::on_pushButtonSolve_clicked()
             infoStream << "Influence: " <<  ui->lineEditInflunce->text() << "%" << endl;
             info.close();
 
-            file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_ant_colony.csv");
+            file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_ant_colony_" + ui->comboBoxSeeds->currentText() + ".csv");
             file.open(QIODevice::WriteOnly | QIODevice::Text);
             stream.setDevice(&file);
             stream << "File;Generations;Time;Fitness;Regenerators;Disconnected" << endl;
@@ -163,14 +187,14 @@ void AntColonyDialog::on_pushButtonSolve_clicked()
             timer.start(1000);
             for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++)
             {
-                threads << new AntColonyMultiThread(dir, ui->lineEditSeed->text().toInt(),
+                threads << new AntColonyMultiThread(dir, ui->comboBoxSeeds->currentText().split("-")[0].toInt(),
                                                     ui->lineEditPopulation->text().toInt(),
                                                     ui->lineEditGenerations->text().toInt(),
-                                                    ui->lineEditQProb->text().toDouble(),
-                                                    ui->lineEditQ->text().toDouble(),
+                                                    ui->lineEditQProb->text().toInt(),
+                                                    ui->lineEditQ->text().toInt(),
                                                     ui->lineEditMods->text().toInt(),
-                                                    ui->lineEditEvaporation->text().toDouble(),
-                                                    ui->lineEditInflunce->text().toDouble(),
+                                                    ui->lineEditEvaporation->text().toInt(),
+                                                    ui->lineEditInflunce->text().toInt(),
                                                     i, ui->comboBoxThreads->currentText().toInt());
                 connect(threads[i], SIGNAL(newProblem(int, QString, int)), this, SLOT(newProblem(int, QString, int)));
                 connect(threads[i], SIGNAL(problemEnded(QString, int)), this, SLOT(problemEnded(QString, int)));
@@ -204,7 +228,8 @@ void AntColonyDialog::singleProblem(QString stuff){
     series->clear();
     series->append(0, moreStuff[0].toInt());
     int range = moreStuff[0].toInt();
-    while(range % 1000 != 0){
+    while(range % 1000 != 0)
+    {
         range+=100;
     }
     chart->axisY()->setRange(0, range);
@@ -223,12 +248,12 @@ void AntColonyDialog::onDataChanged(QString stuff)
     ui->labelDisconnected->setText("Disconnected: " + moreStuff[1]);
     ui->labelRegenerators->setText("Regenerators: " + moreStuff[2]);
     ui->labelFitness->setText("Fitness: " + moreStuff[0]);
-    if(moreStuff[4] == "1"){
+    if(moreStuff[4] == "1")
+    {
         enableForm();
     }
     ui->progressBar->setValue(moreStuff[5].toInt());
 }
-
 
 void AntColonyDialog::disableForm(int batch)
 {
@@ -240,6 +265,8 @@ void AntColonyDialog::disableForm(int batch)
     ui->lineEditMods->setDisabled(true);
     ui->lineEditEvaporation->setDisabled(true);
     ui->lineEditInflunce->setDisabled(true);
+    ui->comboBoxThreads->setDisabled(true);
+    ui->comboBoxSeeds->setDisabled(true);
     if(batch == 1){
         ui->pushButtonSolve->setText("Stop");
         ui->pushButtonRead->setDisabled(true);
@@ -259,12 +286,21 @@ void AntColonyDialog::enableForm()
     ui->lineEditMods->setDisabled(false);
     ui->lineEditEvaporation->setDisabled(false);
     ui->lineEditInflunce->setDisabled(false);
-    if(ui->pushButtonSolve->text() == "Stop"){
+    ui->comboBoxThreads->setDisabled(false);
+    ui->comboBoxSeeds->setDisabled(false);
+    if(ui->pushButtonSolve->text() == "Stop")
+    {
         ui->pushButtonSolve->setText("Batch Solve");
         ui->pushButtonRead->setDisabled(false);
-    }else{
-        ui->pushButtonRead->setText("Close");
+    }
+    else
+    {
+        ui->pushButtonRead->setText("Solve");
         ui->pushButtonSolve->setDisabled(false);
+    }
+    if(done == 1)
+    {
+        ui->pushButtonRead->setText("Close");
     }
 }
 

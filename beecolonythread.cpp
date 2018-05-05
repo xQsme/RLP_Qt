@@ -40,14 +40,14 @@ void BeeColonyThread::run()
         population.calculateFitnesses(&problem);
         QString ended;
         if(algorithm.getGeneration() >= algorithm.getGenerations()){
-            ended = " 1";
+            ended = " 1 ";
         }else{
-            ended = " 0";
+            ended = " 0 ";
         }
         stuff = QString::number(population.getBestIndividual().getFitness()) + " " +
                 QString::number(population.getBestIndividual().getDisconnected()) + " " +
                 QString::number(population.getBestIndividual().getRegenerators()) + " " +
-                QString::number(algorithm.getGeneration()) + ended + " " +
+                QString::number(algorithm.getGeneration()) + ended +
                 QString::number(100*algorithm.getGeneration()/algorithm.getGenerations());
 
         emit dataChanged(stuff);

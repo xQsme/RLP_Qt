@@ -146,7 +146,7 @@
         <item>
          <widget class="QLineEdit" name="lineEditPopulation">
           <property name="text">
-           <string>150</string>
+           <string>50</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -166,7 +166,7 @@
         <item>
          <widget class="QLineEdit" name="lineEditQ">
           <property name="text">
-           <string>50</string>
+           <string>100</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -178,7 +178,7 @@
           <item>
            <widget class="QLineEdit" name="lineEditQProb">
             <property name="text">
-             <string>100</string>
+             <string>70</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -197,7 +197,7 @@
         <item>
          <widget class="QLineEdit" name="lineEditMods">
           <property name="text">
-           <string>50</string>
+           <string>5</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -209,7 +209,7 @@
           <item>
            <widget class="QLineEdit" name="lineEditEvaporation">
             <property name="text">
-             <string>100</string>
+             <string>60</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -230,7 +230,7 @@
           <item>
            <widget class="QLineEdit" name="lineEditInflunce">
             <property name="text">
-             <string>100</string>
+             <string>70</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -303,6 +303,27 @@
         </property>
         <property name="maxVisibleItems">
          <number>2</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_7">
+      <item>
+       <widget class="QLabel" name="label_14">
+        <property name="text">
+         <string>Seeds</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBoxSeeds">
+        <property name="currentText">
+         <string/>
+        </property>
+        <property name="maxVisibleItems">
+         <number>5</number>
         </property>
        </widget>
       </item>

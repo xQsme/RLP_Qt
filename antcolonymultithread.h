@@ -11,9 +11,11 @@ class AntColonyMultiThread : public QThread
     Q_OBJECT
 public:
     AntColonyMultiThread();
-    AntColonyMultiThread(QDir dir, int seed, int populationSize, int generations, double probability_q, double q, int number_mods, double evaporation, double influence, int thread, int threads);
+    AntColonyMultiThread(QDir dir, int seed, int populationSize, int generations, int probability_q, int q, int number_mods, int evaporation, int influence, int thread, int threads);
     void run();
 private:
+    QString getFileInfo(QString file);
+    QString getSeedString(int seed);
     QDir dir;
     int seed;
     int populationSize;
