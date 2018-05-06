@@ -92,7 +92,7 @@ void Problem::setUpProblem(QString filename){
                    QStringList list;
                    if(hasWeight==1)
                    {
-                       list = line.split("\t");
+                       list = line.split("\t\t");
                    }
                    else
                    {

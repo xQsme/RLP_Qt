@@ -1,4 +1,0 @@
-Population: 500
-Generations: 500
-Elitism: 50%
-Mutation: 5%
