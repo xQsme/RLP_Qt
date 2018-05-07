@@ -6,13 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>772</width>
-    <height>444</height>
+    <width>773</width>
+    <height>467</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>RLP - Genetic Algorithm</string>
   </property>
+  <widget class="QProgressBar" name="progressBar">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>430</y>
+     <width>581</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="value">
+    <number>0</number>
+   </property>
+  </widget>
   <widget class="QLabel" name="labelNodes">
    <property name="geometry">
     <rect>
@@ -29,9 +42,9 @@
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>190</x>
      <y>27</y>
-     <width>581</width>
+     <width>571</width>
      <height>401</height>
     </rect>
    </property>
@@ -44,10 +57,10 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>11</x>
-     <y>11</y>
+     <x>10</x>
+     <y>12</y>
      <width>171</width>
-     <height>421</height>
+     <height>441</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -105,16 +118,6 @@
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Threads</string>
-          </property>
-          <property name="buddy">
-           <cstring>lineEditThreads</cstring>
-          </property>
-         </widget>
-        </item>
        </layout>
       </item>
       <item>
@@ -135,7 +138,7 @@
         <item>
          <widget class="QLineEdit" name="lineEditPopulation">
           <property name="text">
-           <string>150</string>
+           <string>500</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -194,22 +197,6 @@
           </item>
          </layout>
         </item>
-        <item>
-         <widget class="QLineEdit" name="lineEditThreads">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>1</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-          <property name="readOnly">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
        </layout>
       </item>
      </layout>
@@ -232,7 +219,7 @@
       <item>
        <widget class="QPushButton" name="pushButtonRead">
         <property name="text">
-         <string>Read File</string>
+         <string>Solve</string>
         </property>
        </widget>
       </item>
@@ -248,6 +235,48 @@
          </size>
         </property>
        </spacer>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <item>
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Threads</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBoxThreads">
+        <property name="currentText">
+         <string/>
+        </property>
+        <property name="maxVisibleItems">
+         <number>5</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_7">
+      <item>
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Seeds</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBoxSeeds">
+        <property name="currentText">
+         <string/>
+        </property>
+        <property name="maxVisibleItems">
+         <number>5</number>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -269,7 +298,7 @@
       <item>
        <widget class="QPushButton" name="pushButtonSolve">
         <property name="text">
-         <string>Solve</string>
+         <string>Batch Solve</string>
         </property>
        </widget>
       </item>
@@ -308,6 +337,13 @@
        <widget class="QLabel" name="labelFitness">
         <property name="text">
          <string>Fitness: </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelElapsed">
+        <property name="text">
+         <string>Elapsed Time:</string>
         </property>
        </widget>
       </item>

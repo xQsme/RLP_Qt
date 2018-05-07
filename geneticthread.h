@@ -10,14 +10,21 @@ class GeneticThread : public QThread
     Q_OBJECT
 public:
     GeneticThread();
-    GeneticThread(Population* population, Problem* problem, GeneticAlgorithm* algorithm);
+    GeneticThread(QString fileName, int seed, int populationSize, int generations, int elitism, int mutation);
     void run();
 private:
-    Population* population;
-    Problem* problem;
-    GeneticAlgorithm* algorithm;
+    Population population;
+    Problem problem;
+    GeneticAlgorithm algorithm;
+    QString fileName;
+    int seed;
+    int populationSize;
+    int generations;
+    int elitism;
+    int mutation;
 signals:
-    void dataChanged(QString);
+    void dataChanged(QString stuff);
+    void singleProblem(QString stuff);
 };
 
 #endif // GENETICTHREAD_H

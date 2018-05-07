@@ -43,7 +43,8 @@ SOURCES += \
     geneticdialog.cpp \
     geneticthread.cpp \
     beecolonymultithread.cpp \
-    antcolonymultithread.cpp
+    antcolonymultithread.cpp \
+    geneticmultithread.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -64,7 +65,8 @@ HEADERS += \
     geneticdialog.h \
     geneticthread.h \
     beecolonymultithread.h \
-    antcolonymultithread.h
+    antcolonymultithread.h \
+    geneticmultithread.h
 
 FORMS += \
         mainwindow.ui \

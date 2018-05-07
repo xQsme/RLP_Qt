@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>RLP - Artificial Bee Colony</string>
+   <string>RLP - Bee Colony Optimization</string>
   </property>
   <widget class="QLabel" name="labelNodes">
    <property name="geometry">
