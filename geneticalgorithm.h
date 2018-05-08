@@ -14,6 +14,7 @@ public:
     int getGeneration();
     int getGenerations();
 private:
+    Individual tournament(QVector<Individual> individuals);
     int generation;
     int generations;
     float elitism;

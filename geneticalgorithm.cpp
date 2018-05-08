@@ -19,81 +19,63 @@ int GeneticAlgorithm::generateNewPopulation(Population* population, Problem* pro
     {
         return 0;
     }
+
     QVector<Individual> individuals = population->getIndividuals();
-    //Selected é o indice onde acabam os individuos que foram mantidos (Elitismo), estes não são alterados
+
     int selected = elitism * individuals.length();
-    //Reprodução
-    if (selected != 0) { //Para nao dividir por 0
-        for (int i = selected; i < individuals.length(); i++)
-        {
-            for (int j = 0; j < problem->getTotal(); j++)
-            {
-                population->setValue(i, j, individuals[qrand() % selected].getSolution()[j]);
-                //cada nó dum individuo não selecionado, toma um valor dum nó dum individuo selecionado
-            }
-        }
-    }
-    //Mutação
-    int zeroes, ones;
-    for (int j = 0; j < problem->getTotal(); j++)
+
+    //Seleção através de torneiro
+    QVector<Individual> populationAux;
+    for(int i=0; i<individuals.size(); i++)
     {
-        zeroes = ones = 0;
-        for (int i = 0; i < selected; i++)
+        populationAux.append(tournament(individuals));
+    }
+
+    //Recombinação Uniforme
+    int recombinationProb = 70; //probabilidade de recombinar
+    for(int j=selected; j< individuals.length(); j+=2)
+    {
+        if(qrand() % 100 < recombinationProb)
         {
-            if (individuals[i].getSolution()[j] == 0)
+            for(int n=0; n < individuals[j].getSolution().length(); n++)
             {
-                zeroes++;
-            }
-            else
-            {
-                ones++;
-            }
-        }
-        //A partir do selecionados até metade dos restantes
-        //quando naquela coluna os selecionados apenas têm 1s
-        if (zeroes == 0)
-        {
-            for (int i = selected; i < (individuals.length() - selected) / 2 + selected; i++)
-            {
-                if (qrand() % (int)(1 / mutation) == 0)
-                { //conforme a probabilidade de mutação
-                    population->setValue(i, j, 0); //alguns nós passam a 0
-                }
-            }
-        }
-        //quando naquela coluna os selecionados apenas têm 0s
-        if (ones == 0)
-        {
-            for (int i = selected; i < (individuals.length() - selected) / 2 + selected; i++)
-            {
-                if (qrand() % (int)(1 / mutation) == 0)
+                //0 or 1 ?
+                if(qrand() % 2 == 0 && n+1 != individuals[j].getSolution().length())
                 {
-                    population->setValue(i, j, 1); //alguns nós passam a 1
+                    individuals[j].setValue(n,individuals[j-selected].getSolution()[n]);
                 }
             }
         }
-
-        //A partir de metade dos restantes até ao final da população
-        for (int i = (individuals.length() - selected) / 2 + selected; i < individuals.length(); i++)
-        {
-            if (qrand() % (int)(1 / mutation) == 0)
-            { //Conforme a probabilidade de mutação
-                population->setValue(i, j, qrand() % 2); //É atribuido um valor 0 ou 1 random
-            }
-        }
     }
 
-    if (selected/2 != 0) { //Para nao dividir por 0
-    //Recombinar a segunda metade dos selecionados com base na primeira metade
-        for(int i=selected/2; i < selected; i++)
+    //Mutação
+    int newValue; //valor que ira ser colocado ao mutar
+    for(int m = selected; m < individuals.size(); m++)
+    {
+        for(int k = 0; k < individuals[m].getSolution().size(); k++)
         {
-            for (int j = 0; j < problem->getTotal(); j++)
+            if(qrand() % (int)(1 / mutation) == 0)
             {
-                population->setValue(i, j, individuals[qrand() % (selected/2)].getSolution()[j]);
-                //cada nó dum individuo não selecionado, toma um valor dum nó dum individuo selecionado
+                if(individuals[m].getSolution()[k] != 1)
+                {
+                    newValue = 1;
+                }
+                else
+                {
+                    newValue = 0;
+                }
+                individuals[m].setValue(k, newValue);
             }
         }
     }
+
+    int index = 0;
+    foreach(Individual ind, individuals)
+    {
+        population->setIndividual(index,ind);
+        index++;
+    }
+    population->calculateFitnesses(problem);
 
     return 1;
 }
@@ -106,4 +88,22 @@ int GeneticAlgorithm::getGeneration()
 int GeneticAlgorithm::getGenerations()
 {
     return generations;
+}
+
+Individual GeneticAlgorithm::tournament(QVector<Individual> individuals)
+{
+    int size = 2; //tamanho do torneio
+    //Vai buscar um individuo ao calhas
+    Individual best = individuals[qrand() % individuals.size()];
+    for(int i = 0; i < size; i++)
+    {
+        //vai buscar outro individuo ao calhas
+        Individual aux = individuals[qrand() % individuals.size()];
+        //substitui sempre, caso o fitness seja melhor
+        if(aux.getFitness() > best.getFitness()){
+            best = aux;
+        }
+    }
+    //devolve o vencedor do torneio
+    return best.clone();
 }
