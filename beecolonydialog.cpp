@@ -238,12 +238,12 @@ void BeeColonyDialog::on_pushButtonSolve_2_clicked()
         QDir dir = QFileDialog::getExistingDirectory(0, ("Select Directory"), "../RLP_Qt/DataSets/test");
         if(dir.dirName() != ".")
         {
-            CustomTestDialog dialog;
+            BeeColonyTestDialog dialog;
             dialog.setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
             if(dialog.exec() == QDialog::Accepted){
                 ui->progressBar->setValue(0);
                 enableThreads();
-                QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm_settings.txt");
+                QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_bee_colony_settings.txt");
                 info.open(QIODevice::WriteOnly | QIODevice::Text);
                 QTextStream infoStream(&info);
                 infoStream << "Seed: " <<  ui->lineEditSeed->text() << endl;
@@ -259,7 +259,7 @@ void BeeColonyDialog::on_pushButtonSolve_2_clicked()
                            << dialog.getChangeIncrement() << endl;
                 info.close();
 
-                file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm.csv");
+                file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_bee_colony.csv");
                 file.open(QIODevice::WriteOnly | QIODevice::Text);
                 stream.setDevice(&file);
                 stream << "sep=;" << endl;
