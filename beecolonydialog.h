@@ -11,6 +11,8 @@
 #include "beecolonyalgorithm.h"
 #include "beecolonythread.h"
 #include "beecolonymultithread.h"
+#include "beecolonytestdialog.h"
+#include "beecolonytestmultithread.h"
 
 namespace Ui {
 class BeeColonyDialog;
@@ -29,6 +31,8 @@ private slots:
     void on_pushButtonSolve_clicked();
     void update();
 
+    void on_pushButtonSolve_2_clicked();
+
 private:
     void clearLayout();
     void disableForm(int batch);
@@ -42,6 +46,7 @@ private:
     QVector<QLabel*> labels;
     BeeColonyThread* mainThread;
     QVector<BeeColonyMultiThread*> threads;
+    QVector<BeeColonyTestMultiThread*> test;
     QTextStream stream;
     QFile file;
     QTimer timer;

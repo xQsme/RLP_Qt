@@ -11,7 +11,8 @@ class BeeColonyMultiThread : public QThread
     Q_OBJECT
 public:
     BeeColonyMultiThread();
-    BeeColonyMultiThread(QDir dir, int seed, int populationSize, int generations, int selectSize, int bestSize, int selectValue, int bestValue, int changeValue, int thread, int threads);
+    BeeColonyMultiThread(QDir dir, int seed, int populationSize, int generations, int selectSize, int bestSize,
+                         int selectValue, int bestValue, int changeValue, int thread, int threads);
     void run();
 private:
     QString getFileInfo(QString file);

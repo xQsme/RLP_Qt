@@ -44,7 +44,11 @@ SOURCES += \
     geneticthread.cpp \
     beecolonymultithread.cpp \
     antcolonymultithread.cpp \
-    geneticmultithread.cpp
+    geneticmultithread.cpp \
+    customtestdialog.cpp \
+    customtestmultithread.cpp \
+    beecolonytestdialog.cpp \
+    beecolonytestmultithread.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -66,14 +70,20 @@ HEADERS += \
     geneticthread.h \
     beecolonymultithread.h \
     antcolonymultithread.h \
-    geneticmultithread.h
+    geneticmultithread.h \
+    customtestdialog.h \
+    customtestmultithread.h \
+    beecolonytestdialog.h \
+    beecolonytestmultithread.h
 
 FORMS += \
         mainwindow.ui \
     antcolonydialog.ui \
     beecolonydialog.ui \
     customdialog.ui \
-    geneticdialog.ui
+    geneticdialog.ui \
+    customtestdialog.ui \
+    beecolonytestdialog.ui
 
 DISTFILES += \
     qml.qml

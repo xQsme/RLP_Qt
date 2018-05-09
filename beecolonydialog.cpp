@@ -231,6 +231,88 @@ void BeeColonyDialog::on_pushButtonSolve_clicked()
     }
 }
 
+void BeeColonyDialog::on_pushButtonSolve_2_clicked()
+{
+    if(ui->pushButtonSolve_2->text() == "Test")
+    {
+        QDir dir = QFileDialog::getExistingDirectory(0, ("Select Directory"), "../RLP_Qt/DataSets/test");
+        if(dir.dirName() != ".")
+        {
+            CustomTestDialog dialog;
+            dialog.setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
+            if(dialog.exec() == QDialog::Accepted){
+                ui->progressBar->setValue(0);
+                enableThreads();
+                QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm_settings.txt");
+                info.open(QIODevice::WriteOnly | QIODevice::Text);
+                QTextStream infoStream(&info);
+                infoStream << "Seed: " <<  ui->lineEditSeed->text() << endl;
+                infoStream << "Population: " <<  ui->lineEditPopulation->text() << endl;
+                infoStream << "Generations: " <<  ui->lineEditGenerations->text() << endl;
+                infoStream << "Select Size: " <<  ui->lineEditSelectSize->text() << endl;
+                infoStream << "Best Size: " <<  ui->lineEditBestSize->text() << endl;
+                infoStream << "Selected Value: " <<  dialog.getSelectStart() << " to " << dialog.getSelectEnd() << " by "
+                           << dialog.getSelectIncrement() << endl;
+                infoStream << "Best Value: " <<  dialog.getBestStart() << " to " << dialog.getBestEnd() << " by "
+                           << dialog.getBestIncrement() << endl;
+                infoStream << "Change Value: " <<  dialog.getChangeStart() << " to " << dialog.getChangeEnd() << " by "
+                           << dialog.getChangeIncrement() << endl;
+                info.close();
+
+                file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_custom_algorithm.csv");
+                file.open(QIODevice::WriteOnly | QIODevice::Text);
+                stream.setDevice(&file);
+                stream << "sep=;" << endl;
+                stream << "Select;Best;Change;Generations;Time;Regenerators;Disconnected" << endl;
+                threads.clear();
+                elapsed.start();
+                connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
+                timer.start(1000);
+                for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++)
+                {
+                    test << new BeeColonyTestMultiThread(dir, ui->lineEditSeed->text().toInt(),
+                                                          ui->lineEditPopulation->text().toInt(),
+                                                          ui->lineEditGenerations->text().toInt(),
+                                                          ui->lineEditSelectSize->text().toInt(),
+                                                          ui->lineEditBestSize->text().toInt(),
+                                                          dialog.getSelectStart(),
+                                                          dialog.getSelectEnd(),
+                                                          dialog.getSelectIncrement(),
+                                                          dialog.getBestStart(),
+                                                          dialog.getBestEnd(),
+                                                          dialog.getBestIncrement(),
+                                                          dialog.getChangeStart(),
+                                                          dialog.getChangeEnd(),
+                                                          dialog.getChangeIncrement(),
+                                                          i, ui->comboBoxThreads->currentText().toInt());
+                    connect(test[i], SIGNAL(newProblem(int, QString, int)), this, SLOT(newProblem(int, QString, int)));
+                    connect(test[i], SIGNAL(problemEnded(QString, int)), this, SLOT(problemEnded(QString, int)));
+                    test[i]->start();
+                }
+                disableForm(2);
+            }
+        }
+        else
+        {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Error");
+            msgBox.setText("Please select a directory.");
+            msgBox.addButton("Whatever", QMessageBox::AcceptRole);
+            msgBox.exec();
+        }
+    }
+    else
+    {
+        for(int i = 0; i < test.length(); i++)
+        {
+            test[i]->terminate();
+        }
+        enableForm();
+        file.close();
+        timer.stop();
+    }
+}
+
 void BeeColonyDialog::singleProblem(QString stuff){
     QList<QString> moreStuff = stuff.split(" ");
     ui->labelNodes->setText("Nodes: " + moreStuff[3]  + " Connections: " + moreStuff[4]);
@@ -276,15 +358,22 @@ void BeeColonyDialog::disableForm(int batch)
     ui->lineEditChangeValue->setDisabled(true);
     ui->comboBoxThreads->setDisabled(true);
     ui->comboBoxSeeds->setDisabled(true);
-    if(batch == 1)
-    {
-        ui->pushButtonSolve->setText("Stop");
-        ui->pushButtonRead->setDisabled(true);
-    }
-    else
-    {
+    switch(batch){
+    case 0:
         ui->pushButtonRead->setText("Stop");
         ui->pushButtonSolve->setDisabled(true);
+        ui->pushButtonSolve_2->setDisabled(true);
+        break;
+    case 1:
+        ui->pushButtonSolve->setText("Stop");
+        ui->pushButtonRead->setDisabled(true);
+        ui->pushButtonSolve_2->setDisabled(true);
+        break;
+    case 2:
+        ui->pushButtonSolve_2->setText("Stop");
+        ui->pushButtonRead->setDisabled(true);
+        ui->pushButtonSolve->setDisabled(true);
+        break;
     }
 }
 
@@ -304,11 +393,19 @@ void BeeColonyDialog::enableForm()
     {
         ui->pushButtonSolve->setText("Batch Solve");
         ui->pushButtonRead->setDisabled(false);
+        ui->pushButtonSolve_2->setDisabled(false);
+    }
+    else if(ui->pushButtonSolve_2->text() == "Stop")
+    {
+        ui->pushButtonSolve_2->setText("Test");
+        ui->pushButtonRead->setDisabled(false);
+        ui->pushButtonSolve->setDisabled(false);
     }
     else
     {
         ui->pushButtonRead->setText("Solve");
         ui->pushButtonSolve->setDisabled(false);
+        ui->pushButtonSolve_2->setDisabled(false);
     }
     if(done == 1)
     {

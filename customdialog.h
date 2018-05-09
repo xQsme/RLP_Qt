@@ -12,6 +12,8 @@
 #include "customalgorithm.h"
 #include "customthread.h"
 #include "custommultithread.h"
+#include "customtestdialog.h"
+#include "customtestmultithread.h"
 
 namespace Ui {
 class CustomDialog;
@@ -30,6 +32,8 @@ private slots:
     void on_pushButtonSolve_clicked();
     void update();
 
+    void on_pushButtonSolve_2_clicked();
+
 private:
     void clearLayout();
     void disableForm(int batch);
@@ -43,6 +47,7 @@ private:
     QVector<QLabel*> labels;
     CustomThread* mainThread;
     QVector<CustomMultiThread*> threads;
+    QVector<CustomTestMultiThread*> test;
     QTextStream stream;
     QFile file;
     QElapsedTimer elapsed;
