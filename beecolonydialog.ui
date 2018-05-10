@@ -208,7 +208,7 @@
         <item>
          <widget class="QLineEdit" name="lineEditSelectValue">
           <property name="text">
-           <string>40</string>
+           <string>30</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

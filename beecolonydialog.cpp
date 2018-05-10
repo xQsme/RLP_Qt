@@ -342,6 +342,7 @@ void BeeColonyDialog::onDataChanged(QString stuff)
     if(moreStuff[4] == "1")
     {
         enableForm();
+        timer.stop();
     }
     ui->progressBar->setValue(moreStuff[5].toInt());
 }
@@ -428,6 +429,7 @@ void BeeColonyDialog::problemEnded(QString stuff, int ended)
     if(ended == 1)
     {
         enableForm();
+        timer.stop();
         ui->progressBar->setValue(100);
     }
 }

@@ -251,6 +251,7 @@ void AntColonyDialog::onDataChanged(QString stuff)
     if(moreStuff[4] == "1")
     {
         enableForm();
+        timer.stop();
     }
     ui->progressBar->setValue(moreStuff[5].toInt());
 }
@@ -318,6 +319,7 @@ void AntColonyDialog::problemEnded(QString stuff, int ended)
     stream << stuff << endl;
     if(ended == 1){
         enableForm();
+        timer.stop();
         ui->progressBar->setValue(100);
     }
 }

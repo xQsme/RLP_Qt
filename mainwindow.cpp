@@ -15,30 +15,34 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButtonCustom_clicked()
 {
-    CustomDialog dialog;
-    dialog.setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
-    dialog.exec();
+    CustomDialog* dialog =  new CustomDialog();
+    dialog->setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
 }
 
 void MainWindow::on_pushButtonAntColony_clicked()
 {
-    AntColonyDialog dialog;
-    dialog.setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
-    dialog.exec();
+    AntColonyDialog* dialog =  new AntColonyDialog();
+    dialog->setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
 }
 
 void MainWindow::on_pushButtonBeeColony_clicked()
 {
-    BeeColonyDialog dialog;
-    dialog.setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
-    dialog.exec();
+    BeeColonyDialog* dialog =  new BeeColonyDialog();
+    dialog->setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
 }
 
 void MainWindow::on_pushButtonGeneticAlgorithm_clicked()
 {
-    GeneticDialog dialog;
-    dialog.setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
-    dialog.exec();
+    GeneticDialog* dialog =  new GeneticDialog();
+    dialog->setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
 }
 
 void MainWindow::on_actionSort_Results_triggered()
