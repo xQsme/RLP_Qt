@@ -5,11 +5,11 @@ BeeColonyTestMultiThread::BeeColonyTestMultiThread()
 
 }
 
-BeeColonyTestMultiThread::BeeColonyTestMultiThread(QDir dir, int seed, int populationSize, int generations, int selectSize, int bestSize,
+BeeColonyTestMultiThread::BeeColonyTestMultiThread(QString dir, int seed, int populationSize, int generations, int selectSize, int bestSize,
                                                    int selectStart, int selectEnd, int selectIncrement, int bestStart, int bestEnd,
                                                    int bestIncrement, int changeStart, int changeEnd, int changeIncrement, int thread, int threads)
 {
-    this->dir=dir;
+    this->dir=QDir(dir);
     this->seed=seed;
     this->populationSize=populationSize;
     this->generations=generations;

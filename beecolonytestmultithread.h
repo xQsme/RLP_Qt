@@ -11,7 +11,7 @@ class BeeColonyTestMultiThread : public QThread
     Q_OBJECT
 public:
     BeeColonyTestMultiThread();
-    BeeColonyTestMultiThread(QDir dir, int seed, int populationSize, int generations, int selectSize, int bestSize,
+    BeeColonyTestMultiThread(QString dir, int seed, int populationSize, int generations, int selectSize, int bestSize,
                              int selectStart, int selectEnd, int selectIncrement, int bestStart, int bestEnd,
                              int bestIncrement, int changeStart, int changeEnd, int changeIncrement, int thread, int threads);
     void run();

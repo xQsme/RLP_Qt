@@ -195,7 +195,7 @@ void BeeColonyDialog::on_pushButtonSolve_clicked()
             timer.start(1000);
             for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++)
             {
-                threads << new BeeColonyMultiThread(dir, ui->comboBoxSeeds->currentText().split("-")[0].toInt(),
+                threads << new BeeColonyMultiThread(dir.absolutePath(), ui->comboBoxSeeds->currentText().split("-")[0].toInt(),
                                                     ui->lineEditPopulation->text().toInt(),
                                                     ui->lineEditGenerations->text().toInt(),
                                                     ui->lineEditSelectSize->text().toInt(),
@@ -270,7 +270,7 @@ void BeeColonyDialog::on_pushButtonSolve_2_clicked()
                 timer.start(1000);
                 for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++)
                 {
-                    test << new BeeColonyTestMultiThread(dir, ui->lineEditSeed->text().toInt(),
+                    test << new BeeColonyTestMultiThread(dir.absolutePath(), ui->lineEditSeed->text().toInt(),
                                                           ui->lineEditPopulation->text().toInt(),
                                                           ui->lineEditGenerations->text().toInt(),
                                                           ui->lineEditSelectSize->text().toInt(),

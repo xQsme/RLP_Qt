@@ -191,7 +191,7 @@ void CustomDialog::on_pushButtonSolve_clicked()
             timer.start(1000);
             for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++)
             {
-                threads << new CustomMultiThread(dir, ui->comboBoxSeeds->currentText().split("-")[0].toInt(),
+                threads << new CustomMultiThread(dir.absolutePath(), ui->comboBoxSeeds->currentText().split("-")[0].toInt(),
                                                     ui->lineEditPopulation->text().toInt(),
                                                     ui->lineEditGenerations->text().toInt(),
                                                     ui->lineEditElitism->text().toInt(),
@@ -259,7 +259,7 @@ void CustomDialog::on_pushButtonSolve_2_clicked()
                 timer.start(1000);
                 for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++)
                 {
-                    test << new CustomTestMultiThread(dir, ui->lineEditSeed->text().toInt(),
+                    test << new CustomTestMultiThread(dir.absolutePath(), ui->lineEditSeed->text().toInt(),
                                                         ui->lineEditPopulation->text().toInt(),
                                                         ui->lineEditGenerations->text().toInt(),
                                                         dialog.getStartElitism(),

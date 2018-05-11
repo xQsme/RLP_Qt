@@ -5,9 +5,9 @@ CustomTestMultiThread::CustomTestMultiThread()
 
 }
 
-CustomTestMultiThread::CustomTestMultiThread(QDir dir, int seed, int populationSize, int generations, int startElitism, int endElitism, int incrementElitism, int startMutation, int endMutation, int incrementMutation, int thread, int threads)
+CustomTestMultiThread::CustomTestMultiThread(QString dir, int seed, int populationSize, int generations, int startElitism, int endElitism, int incrementElitism, int startMutation, int endMutation, int incrementMutation, int thread, int threads)
 {
-    this->dir=dir;
+    this->dir=QDir(dir);
     this->seed=seed;
     this->populationSize=populationSize;
     this->generations=generations;

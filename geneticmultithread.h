@@ -11,7 +11,7 @@ class GeneticMultiThread : public QThread
     Q_OBJECT
 public:
     GeneticMultiThread();
-    GeneticMultiThread(QDir dir, int seed, int populationSize, int generations, int elitism, int mutation, int thread, int threads);
+    GeneticMultiThread(QString dir, int seed, int populationSize, int generations, int elitism, int mutation, int thread, int threads);
     void run();
 private:
     QString getFileInfo(QString file);

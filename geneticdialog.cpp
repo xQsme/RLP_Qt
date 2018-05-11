@@ -189,7 +189,7 @@ void GeneticDialog::on_pushButtonSolve_clicked()
             timer.start(1000);
             for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++)
             {
-                threads << new GeneticMultiThread(dir, ui->comboBoxSeeds->currentText().split("-")[0].toInt(),
+                threads << new GeneticMultiThread(dir.absolutePath(), ui->comboBoxSeeds->currentText().split("-")[0].toInt(),
                                                     ui->lineEditPopulation->text().toInt(),
                                                     ui->lineEditGenerations->text().toInt(),
                                                     ui->lineEditElitism->text().toInt(),

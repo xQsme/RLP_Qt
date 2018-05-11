@@ -5,9 +5,9 @@ CustomMultiThread::CustomMultiThread()
 
 }
 
-CustomMultiThread::CustomMultiThread(QDir dir, int seed, int populationSize, int generations, int elitism, int mutation, int thread, int threads)
+CustomMultiThread::CustomMultiThread(QString dir, int seed, int populationSize, int generations, int elitism, int mutation, int thread, int threads)
 {
-    this->dir=dir;
+    this->dir=QDir(dir);
     this->seed=seed;
     this->populationSize=populationSize;
     this->generations=generations;

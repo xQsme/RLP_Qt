@@ -187,7 +187,7 @@ void AntColonyDialog::on_pushButtonSolve_clicked()
             timer.start(1000);
             for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++)
             {
-                threads << new AntColonyMultiThread(dir, ui->comboBoxSeeds->currentText().split("-")[0].toInt(),
+                threads << new AntColonyMultiThread(dir.absolutePath(), ui->comboBoxSeeds->currentText().split("-")[0].toInt(),
                                                     ui->lineEditPopulation->text().toInt(),
                                                     ui->lineEditGenerations->text().toInt(),
                                                     ui->lineEditQProb->text().toInt(),
