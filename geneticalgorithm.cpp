@@ -32,6 +32,7 @@ int GeneticAlgorithm::generateNewPopulation(Population* population, Problem* pro
     }
 
     //Recombinação Uniforme
+    /*
     int recombinationProb = 70; //probabilidade de recombinar
     for(int j=selected; j< individuals.length(); j+=2)
     {
@@ -44,6 +45,23 @@ int GeneticAlgorithm::generateNewPopulation(Population* population, Problem* pro
                 {
                     individuals[j].setValue(n,individuals[j-selected].getSolution()[n]);
                 }
+            }
+        }
+    }
+    */
+
+    //Recombinação 1 corte
+    int recombinationProb = 70; //probabilidade de recombinar
+    int cut; //local onde será o corte
+    for(int j = selected; j< individuals.length(); j+=2)
+    {
+        if(qrand() % 100 < recombinationProb)
+        {
+            cut = qrand() % individuals[j].getSolution().length();
+
+            for(int n = 0; n < cut; n++)
+            {
+                individuals[j].setValue(n, individuals[j+1].getSolution()[n]);
             }
         }
     }
