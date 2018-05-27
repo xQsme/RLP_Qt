@@ -53,7 +53,7 @@ int GeneticAlgorithm::generateNewPopulation(Population* population, Problem* pro
     //Recombinação 1 corte
     int recombinationProb = 70; //probabilidade de recombinar
     int cut; //local onde será o corte
-    for(int j = selected; j< individuals.length(); j+=2)
+    for(int j = selected; j < individuals.length()-1; j+=2)
     {
         if(qrand() % 100 < recombinationProb)
         {
