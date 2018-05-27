@@ -48,7 +48,9 @@ SOURCES += \
     customtestdialog.cpp \
     customtestmultithread.cpp \
     beecolonytestdialog.cpp \
-    beecolonytestmultithread.cpp
+    beecolonytestmultithread.cpp \
+    genetictestdialog.cpp \
+    genetictestmultithread.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -74,7 +76,9 @@ HEADERS += \
     customtestdialog.h \
     customtestmultithread.h \
     beecolonytestdialog.h \
-    beecolonytestmultithread.h
+    beecolonytestmultithread.h \
+    genetictestdialog.h \
+    genetictestmultithread.h
 
 FORMS += \
         mainwindow.ui \
@@ -83,7 +87,8 @@ FORMS += \
     customdialog.ui \
     geneticdialog.ui \
     customtestdialog.ui \
-    beecolonytestdialog.ui
+    beecolonytestdialog.ui \
+    genetictestdialog.ui
 
 DISTFILES += \
     qml.qml

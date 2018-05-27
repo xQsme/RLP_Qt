@@ -12,6 +12,8 @@
 #include "geneticalgorithm.h"
 #include "geneticthread.h"
 #include "geneticmultithread.h"
+#include "genetictestdialog.h"
+#include "genetictestmultithread.h"
 
 namespace Ui {
 class GeneticDialog;
@@ -30,6 +32,8 @@ private slots:
     void on_pushButtonSolve_clicked();
     void update();
 
+    void on_pushButtonSolve_2_clicked();
+
 private:
     void clearLayout();
     void disableForm(int batch);
@@ -43,6 +47,7 @@ private:
     QVector<QLabel*> labels;
     GeneticThread* mainThread;
     QVector<GeneticMultiThread*> threads;
+    QVector<GeneticTestMultiThread*> test;
     QTextStream stream;
     QFile file;
     QElapsedTimer elapsed;
