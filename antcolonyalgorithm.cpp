@@ -130,6 +130,43 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
             ants->setIndividual(i, auxIndividual);
         }
     }
+    //BUSCA LOCAL
+    //1)
+    //passar os nós a 1 para zero e testar sempre
+    //se a solucao for uma das solucoes possiveis
+    //só testando uma vez cada um e verificar de cada
+
+    //2)
+    //tentar verificar pares que não estão concectados
+    //e tentar verificar se inserindo 1 é possivel
+
+    //3)
+    //Se um deles estiver conectado a mais que um regenerador, tentar tirar
+
+    //4)
+    //Tentar trocar duas posicaoes aleatoriamente e verificar se ha melhoria
+
+
+    Individual lsIndividual;
+    for(int ind = 0; ind < ants->getPopulationSize();ind++)
+    {
+        lsIndividual = ants->getIndividuals()[ind].clone();
+        for(int o = 0; o < lsIndividual.getSolution().length(); o++)
+        {
+            if(lsIndividual.getSolution()[o] == 1)
+            {
+                lsIndividual.setValue(0,0);
+                lsIndividual.calculateFitness(problem);
+
+                if(lsIndividual.getFitness() <= ants->getIndividuals()[ind].getFitness())
+                {
+                    ants->setIndividual(ind, lsIndividual);
+                    ants->getIndividuals()[ind].calculateFitness(problem);
+                }
+            }
+        }
+    }
+
 
     //se não foi possivel melhorar nenhuma solucao
     if(cond)
