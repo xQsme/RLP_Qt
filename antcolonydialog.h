@@ -11,6 +11,8 @@
 #include "antcolonyalgorithm.h"
 #include "antcolonythread.h"
 #include "antcolonymultithread.h"
+#include "antcolonytestdialog.h"
+#include "antcolonytestmultithread.h"
 
 namespace Ui {
 class AntColonyDialog;
@@ -29,6 +31,8 @@ private slots:
     void on_pushButtonSolve_clicked();
     void update();
 
+    void on_pushButtonSolve_2_clicked();
+
 private:
     void clearLayout();
     void disableForm(int batch);
@@ -43,6 +47,7 @@ private:
     QVector<QLabel*> labels;
     AntColonyThread* mainThread;
     QVector<AntColonyMultiThread*> threads;
+    QVector<AntColonyTestMultiThread*> test;
     QTextStream stream;
     QFile file;
     QTimer timer;

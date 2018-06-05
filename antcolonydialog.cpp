@@ -222,6 +222,94 @@ void AntColonyDialog::on_pushButtonSolve_clicked()
     }
 }
 
+void AntColonyDialog::on_pushButtonSolve_2_clicked()
+{
+    if(ui->pushButtonSolve_2->text() == "Test")
+    {
+        QDir dir = QFileDialog::getExistingDirectory(0, ("Select Directory"), "../RLP_Qt/DataSets/test");
+        if(dir.dirName() != ".")
+        {
+            AntColonyTestDialog dialog;
+            dialog.setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
+            if(dialog.exec() == QDialog::Accepted){
+                ui->progressBar->setValue(0);
+                enableThreads();
+                QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_antcolony_algorithm_settings.txt");
+                info.open(QIODevice::WriteOnly | QIODevice::Text);
+                QTextStream infoStream(&info);
+                infoStream << "Population: " <<  ui->lineEditPopulation->text() << endl;
+                infoStream << "Generations: " <<  ui->lineEditGenerations->text() << endl;
+                infoStream << "Q probability: " <<  dialog.getStartQprob() << "% to " << dialog.getEndQprob() << "% by "
+                           << dialog.getIncrementQprob() << "%" << endl;
+                infoStream << "Q: " <<  dialog.getStartQ() << " to " << dialog.getEndQ() << " by "
+                           << dialog.getIncrementQ() << endl;
+                infoStream << "Modifications: " <<  dialog.getStartMods() << " to " << dialog.getEndMods() << " by "
+                           << dialog.getIncrementMods() << endl;
+                infoStream << "Evaporation: " <<  dialog.getStartEvaporation() << "% to " << dialog.getEndEvaporation() << "% by "
+                           << dialog.getIncrementEvaporation() << "%" << endl;
+                infoStream << "Influence: " <<  dialog.getStartInfluence() << "% to " << dialog.getEndInfluence() << "% by "
+                           << dialog.getIncrementInfluence() << "%" << endl;;
+                info.close();
+
+                file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_antcolony_algorithm.csv");
+                file.open(QIODevice::WriteOnly | QIODevice::Text);
+                stream.setDevice(&file);
+                stream << "sep=;" << endl;
+                stream << "QProb;Q;Modifications;Evaporation;Influence;Generations;Time;Regenerators;Disconnected" << endl;
+                threads.clear();
+                elapsed.start();
+                connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
+                timer.start(1000);
+                for(int i = 0; i < ui->comboBoxThreads->currentText().toInt(); i++)
+                {
+                    test << new AntColonyTestMultiThread(dir.absolutePath(), ui->lineEditSeed->text().toInt(),
+                                                        ui->lineEditPopulation->text().toInt(),
+                                                        ui->lineEditGenerations->text().toInt(),
+                                                        dialog.getStartQprob(),
+                                                        dialog.getEndQprob(),
+                                                        dialog.getIncrementQprob(),
+                                                        dialog.getStartQ(),
+                                                        dialog.getEndQ(),
+                                                        dialog.getIncrementQ(),
+                                                        dialog.getStartMods(),
+                                                        dialog.getEndMods(),
+                                                        dialog.getIncrementMods(),
+                                                        dialog.getStartEvaporation(),
+                                                        dialog.getEndEvaporation(),
+                                                        dialog.getIncrementEvaporation(),
+                                                        dialog.getStartInfluence(),
+                                                        dialog.getEndInfluence(),
+                                                        dialog.getIncrementInfluence(),
+                                                        i, ui->comboBoxThreads->currentText().toInt());
+                    connect(test[i], SIGNAL(newProblem(int, QString, int)), this, SLOT(newProblem(int, QString, int)));
+                    connect(test[i], SIGNAL(problemEnded(QString, int)), this, SLOT(problemEnded(QString, int)));
+                    test[i]->start();
+                }
+                disableForm(2);
+            }
+        }
+        else
+        {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Error");
+            msgBox.setText("Please select a directory.");
+            msgBox.addButton("Whatever", QMessageBox::AcceptRole);
+            msgBox.exec();
+        }
+    }
+    else
+    {
+        for(int i = 0; i < test.length(); i++)
+        {
+            test[i]->terminate();
+        }
+        enableForm();
+        file.close();
+        timer.stop();
+    }
+}
+
+
 void AntColonyDialog::singleProblem(QString stuff){
     QList<QString> moreStuff = stuff.split(" ");
     ui->labelNodes->setText("Nodes: " + moreStuff[3]  + " Connections: " + moreStuff[4]);
