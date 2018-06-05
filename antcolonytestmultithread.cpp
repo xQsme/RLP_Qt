@@ -53,12 +53,6 @@ void AntColonyTestMultiThread::run()
             count++;
             if(count % threads == thread)
             {
-                /*
-                for(int elitism = startElitism; elitism <= endElitism; elitism+=incrementElitism)
-                {
-                    for(int mutation = startMutation; mutation <= endMutation; mutation+=incrementMutation)
-                    {
-                    */
                 for(int qprob = startQprob; qprob <= endQprob; qprob+=incrementQprob)
                 {
                     for(int q = startQ; q <= endQ; q+= incrementQ)

@@ -16,6 +16,7 @@ public:
     int generateNewPopulation(Population* population, Problem* problem);
     int getGeneration();
     int getGenerations();
+    int getGenerationsWithoutImprovements();
 private:
     void initializePheromoneTrail();
     void evaluate();

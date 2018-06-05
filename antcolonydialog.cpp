@@ -248,7 +248,7 @@ void AntColonyDialog::on_pushButtonSolve_2_clicked()
                 infoStream << "Evaporation: " <<  dialog.getStartEvaporation() << "% to " << dialog.getEndEvaporation() << "% by "
                            << dialog.getIncrementEvaporation() << "%" << endl;
                 infoStream << "Influence: " <<  dialog.getStartInfluence() << "% to " << dialog.getEndInfluence() << "% by "
-                           << dialog.getIncrementInfluence() << "%" << endl;;
+                           << dialog.getIncrementInfluence() << "%" << endl;
                 info.close();
 
                 file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_antcolony_algorithm.csv");
