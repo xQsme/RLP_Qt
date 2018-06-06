@@ -353,12 +353,22 @@ void AntColonyDialog::disableForm(int batch)
     ui->lineEditInflunce->setDisabled(true);
     ui->comboBoxThreads->setDisabled(true);
     ui->comboBoxSeeds->setDisabled(true);
-    if(batch == 1){
-        ui->pushButtonSolve->setText("Stop");
-        ui->pushButtonRead->setDisabled(true);
-    }else{
+    switch(batch){
+    case 0:
         ui->pushButtonRead->setText("Stop");
         ui->pushButtonSolve->setDisabled(true);
+        ui->pushButtonSolve_2->setDisabled(true);
+        break;
+    case 1:
+        ui->pushButtonSolve->setText("Stop");
+        ui->pushButtonRead->setDisabled(true);
+        ui->pushButtonSolve_2->setDisabled(true);
+        break;
+    case 2:
+        ui->pushButtonSolve_2->setText("Stop");
+        ui->pushButtonRead->setDisabled(true);
+        ui->pushButtonSolve->setDisabled(true);
+        break;
     }
 }
 
@@ -378,11 +388,19 @@ void AntColonyDialog::enableForm()
     {
         ui->pushButtonSolve->setText("Batch Solve");
         ui->pushButtonRead->setDisabled(false);
+        ui->pushButtonSolve_2->setDisabled(false);
+    }
+    else if(ui->pushButtonSolve_2->text() == "Stop")
+    {
+        ui->pushButtonSolve_2->setText("Test");
+        ui->pushButtonRead->setDisabled(false);
+        ui->pushButtonSolve->setDisabled(false);
     }
     else
     {
         ui->pushButtonRead->setText("Solve");
         ui->pushButtonSolve->setDisabled(false);
+        ui->pushButtonSolve_2->setDisabled(false);
     }
     if(done == 1)
     {
