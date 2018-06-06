@@ -1,6 +1,6 @@
 #ifndef ANTCOLONYALGORITHM_H
 #define ANTCOLONYALGORITHM_H
-#include <QTcore>
+#include <QtCore>
 #include <QVector>
 #include "problem.h"
 #include "population.h"

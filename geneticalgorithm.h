@@ -1,6 +1,6 @@
 #ifndef GENETICALGORITHM_H
 #define GENETICALGORITHM_H
-#include <QTcore>
+#include <QtCore>
 #include <QVector>
 #include "problem.h"
 #include "population.h"

@@ -1,6 +1,6 @@
 #ifndef BEECOLONYALGORITHM_H
 #define BEECOLONYALGORITHM_H
-#include <QTcore>
+#include <QtCore>
 #include <QVector>
 #include "problem.h"
 #include "population.h"
