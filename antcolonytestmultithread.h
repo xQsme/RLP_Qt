@@ -11,8 +11,7 @@ class AntColonyTestMultiThread : public QThread
     Q_OBJECT
 public:
     AntColonyTestMultiThread();
-    AntColonyTestMultiThread(QString dir, int seed, int populationSize, int generations, int startQprob, int endQprob,
-                          int incrementQprob, int startQ, int endQ, int incrementQ, int startMods, int endMods, int incrementMods,
+    AntColonyTestMultiThread(QString dir, int seed, int populationSize, int generations, int Qprob, int startQ, int endQ, int incrementQ, int startMods, int endMods, int incrementMods,
                           int startEvaporation, int endEvaporation, int incrementEvaporation, int startInfluence, int endInfluence, int incrementInfluence,
                           int thread, int threads);
 
@@ -22,9 +21,7 @@ private:
     int seed;
     int populationSize;
     int generations;
-    int startQprob;
-    int endQprob;
-    int incrementQprob;
+    int Qprob;
     int startQ;
     int endQ;
     int incrementQ;

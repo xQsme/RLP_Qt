@@ -239,8 +239,7 @@ void AntColonyDialog::on_pushButtonSolve_2_clicked()
                 QTextStream infoStream(&info);
                 infoStream << "Population: " <<  ui->lineEditPopulation->text() << endl;
                 infoStream << "Generations: " <<  ui->lineEditGenerations->text() << endl;
-                infoStream << "Q probability: " <<  dialog.getStartQprob() << "% to " << dialog.getEndQprob() << "% by "
-                           << dialog.getIncrementQprob() << "%" << endl;
+                infoStream << "Q probability: " <<  ui->lineEditQProb->text() << "%" << endl;
                 infoStream << "Q: " <<  dialog.getStartQ() << " to " << dialog.getEndQ() << " by "
                            << dialog.getIncrementQ() << endl;
                 infoStream << "Modifications: " <<  dialog.getStartMods() << " to " << dialog.getEndMods() << " by "
@@ -255,7 +254,7 @@ void AntColonyDialog::on_pushButtonSolve_2_clicked()
                 file.open(QIODevice::WriteOnly | QIODevice::Text);
                 stream.setDevice(&file);
                 stream << "sep=;" << endl;
-                stream << "QProb;Q;Modifications;Evaporation;Influence;Generations;Time;Regenerators;Disconnected" << endl;
+                stream << "Q;Modifications;Evaporation;Influence;Generations;Time;Regenerators;Disconnected" << endl;
                 threads.clear();
                 elapsed.start();
                 connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -265,9 +264,7 @@ void AntColonyDialog::on_pushButtonSolve_2_clicked()
                     test << new AntColonyTestMultiThread(dir.absolutePath(), ui->lineEditSeed->text().toInt(),
                                                         ui->lineEditPopulation->text().toInt(),
                                                         ui->lineEditGenerations->text().toInt(),
-                                                        dialog.getStartQprob(),
-                                                        dialog.getEndQprob(),
-                                                        dialog.getIncrementQprob(),
+                                                        ui->lineEditQProb->text().toInt(),
                                                         dialog.getStartQ(),
                                                         dialog.getEndQ(),
                                                         dialog.getIncrementQ(),

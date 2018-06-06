@@ -56,7 +56,7 @@ void AntColonyThread::run()
         //CODIGO OTIMIZAÇÃO
         //caso passe 50 gerações sem ter melhorias, pára
         /*
-        if(algorithm.getGenerationsWithoutImprovements() >= 50)
+        if(algorithm.getGenerationsWithoutImprovements() >= 100)
         {
             stuff = QString::number(population.getBestIndividual().getFitness()) + " " +
                     QString::number(population.getBestIndividual().getDisconnected()) + " " +

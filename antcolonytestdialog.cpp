@@ -23,21 +23,6 @@ void AntColonyTestDialog::on_pushButtonCancel_clicked()
     this->close();
 }
 
-int AntColonyTestDialog::getStartQprob()
-{
-    return ui->lineEditStartQprob->text().toInt();
-}
-
-int AntColonyTestDialog::getEndQprob()
-{
-    return ui->lineEditEndQprob->text().toInt();
-}
-
-int AntColonyTestDialog::getIncrementQprob()
-{
-    return ui->lineEditIncrementQprob->text().toInt();
-}
-
 int AntColonyTestDialog::getStartQ()
 {
     return ui->lineEditStartQ->text().toInt();
