@@ -17,23 +17,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Start Q prob</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEditStartQprob">
-       <property name="text">
-        <string>5</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
         <string>Start Q</string>
@@ -43,7 +26,7 @@
      <item>
       <widget class="QLineEdit" name="lineEditStartQ">
        <property name="text">
-        <string>50</string>
+        <string>15</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -60,7 +43,7 @@
      <item>
       <widget class="QLineEdit" name="lineEditStartMods">
        <property name="text">
-        <string>1</string>
+        <string>3</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -94,7 +77,7 @@
      <item>
       <widget class="QLineEdit" name="lineEditStartInfluence">
        <property name="text">
-        <string>50</string>
+        <string>40</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -106,23 +89,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>End Q prob</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEditEndQprob">
-       <property name="text">
-        <string>100</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QLabel" name="label_5">
        <property name="text">
         <string>End Q</string>
@@ -132,7 +98,7 @@
      <item>
       <widget class="QLineEdit" name="lineEditEndQ">
        <property name="text">
-        <string>100</string>
+        <string>35</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -149,7 +115,7 @@
      <item>
       <widget class="QLineEdit" name="lineEditEndMods">
        <property name="text">
-        <string>10</string>
+        <string>7</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -195,23 +161,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Increment</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEditIncrementQprob">
-       <property name="text">
-        <string>5</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QLabel" name="label_6">
        <property name="text">
         <string>Increment</string>
@@ -221,7 +170,7 @@
      <item>
       <widget class="QLineEdit" name="lineEditIncrementQ">
        <property name="text">
-        <string>10</string>
+        <string>5</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -255,7 +204,7 @@
      <item>
       <widget class="QLineEdit" name="lineEditIncrementEvaporation">
        <property name="text">
-        <string>10</string>
+        <string>20</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -272,7 +221,7 @@
      <item>
       <widget class="QLineEdit" name="lineEditIncrementInfluence">
        <property name="text">
-        <string>10</string>
+        <string>20</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

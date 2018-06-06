@@ -14,9 +14,6 @@ class AntColonyTestDialog : public QDialog
 public:
     explicit AntColonyTestDialog(QWidget *parent = 0);
     ~AntColonyTestDialog();
-    int getStartQprob();
-    int getEndQprob();
-    int getIncrementQprob();
     int getStartQ();
     int getEndQ();
     int getIncrementQ();

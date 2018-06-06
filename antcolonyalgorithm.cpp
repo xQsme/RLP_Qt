@@ -199,6 +199,11 @@ void AntColonyAlgorithm::initializePheromoneTrail()
     }
 }
 
+int AntColonyAlgorithm::getGenerationsWithoutImprovements()
+{
+    return generationsWithoutImprovments;
+}
+
 void AntColonyAlgorithm::updatePheromoneTrail()
 {
     int g;

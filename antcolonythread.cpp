@@ -52,6 +52,22 @@ void AntColonyThread::run()
                 QString::number(algorithm.getGeneration()) + ended +
                 QString::number(100*algorithm.getGeneration()/algorithm.getGenerations());
 
+
+        //CODIGO OTIMIZAÇÃO
+        //caso passe 50 gerações sem ter melhorias, pára
+        /*
+        if(algorithm.getGenerationsWithoutImprovements() >= 100)
+        {
+            stuff = QString::number(population.getBestIndividual().getFitness()) + " " +
+                    QString::number(population.getBestIndividual().getDisconnected()) + " " +
+                    QString::number(population.getBestIndividual().getRegenerators()) + " " +
+                    QString::number(algorithm.getGeneration()) + " 1 " +
+                    QString::number(100);
+            emit dataChanged(stuff);
+            break;
+        }
+        */
+
         emit dataChanged(stuff);
     }
 }
