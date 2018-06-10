@@ -1,4 +1,4 @@
-File;Generations;Time;Fitness;Regenerators;Disconnected
+Size;Problem;Instance;Seed;Generations;Time;Fitness;Regenerators;Disconnected
 100;1;02;002;100;9573;1700;17;0
 100;1;01;002;66;6938;1600;16;0
 100;1;06;002;115;11802;1900;19;0

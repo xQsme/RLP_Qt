@@ -180,7 +180,7 @@ void AntColonyDialog::on_pushButtonSolve_clicked()
             file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_ant_colony_" + ui->comboBoxSeeds->currentText() + ".csv");
             file.open(QIODevice::WriteOnly | QIODevice::Text);
             stream.setDevice(&file);
-            stream << "File;Generations;Time;Fitness;Regenerators;Disconnected" << endl;
+            stream << "Size;Problem;Instance;Seed;Generations;Time;Fitness;Regenerators;Disconnected" << endl;
             threads.clear();
             elapsed.start();
             connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
