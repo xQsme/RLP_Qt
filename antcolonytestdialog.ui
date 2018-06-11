@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>692</width>
-    <height>230</height>
+    <width>458</width>
+    <height>180</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>RLP - Test Genetic Algorithm</string>
+   <string>RLP - Test Ant Colony Algorithm</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

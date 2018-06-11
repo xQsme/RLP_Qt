@@ -10,7 +10,6 @@ class Problem
 {
 public:
     Problem();
-    void libertarMemoria();
     void setUpProblem(QString filename);
     QVector<QVector<int>> getNodes();
     QVector<int> getWeights();
