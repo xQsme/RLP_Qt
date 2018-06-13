@@ -25,11 +25,17 @@ int GeneticAlgorithm::generateNewPopulation(Population* population, Problem* pro
     int selected = elitism * individuals.length();
 
     //Seleção através de torneiro
-    QVector<Individual> populationAux;
-    for(int i=0; i<individuals.size(); i++)
+    Population populationAux;
+    for(int i=0; i<selected; i++)
     {
-        populationAux.append(tournament(individuals));
+        populationAux.addIndividual(individuals[i]);
     }
+
+    for(int i=selected; i<individuals.size(); i++)
+    {
+        populationAux.addIndividual(tournament(individuals));
+    }
+    individuals = populationAux.getIndividuals();
 
     //Recombinação Uniforme
     /*
@@ -51,13 +57,13 @@ int GeneticAlgorithm::generateNewPopulation(Population* population, Problem* pro
     */
 
     //Recombinação 1 corte
-    int recombinationProb = 70; //probabilidade de recombinar
+    int recombinationProb = 80; //probabilidade de recombinar
     int cut; //local onde será o corte
-    for(int j = selected; j < individuals.length()-1; j+=2)
+    for(int j = 0; j < individuals.size()-1; j+=2)
     {
         if(qrand() % 100 < recombinationProb)
         {
-            cut = qrand() % individuals[j].getSolution().length();
+            cut = qrand() % individuals[j].getSolution().size();
 
             for(int n = 0; n < cut; n++)
             {
@@ -68,7 +74,7 @@ int GeneticAlgorithm::generateNewPopulation(Population* population, Problem* pro
 
     //Mutação
     int newValue; //valor que ira ser colocado ao mutar
-    for(int m = selected; m < individuals.size(); m++)
+    for(int m = 0; m < individuals.size(); m++)
     {
         for(int k = 0; k < individuals[m].getSolution().size(); k++)
         {
@@ -86,11 +92,19 @@ int GeneticAlgorithm::generateNewPopulation(Population* population, Problem* pro
             }
         }
     }
-
     int index = 0;
     foreach(Individual ind, individuals)
     {
-        population->setIndividual(index,ind);
+        populationAux.setIndividual(index,ind);
+        index++;
+    }
+    populationAux.calculateFitnesses(problem);
+
+    index = 0;
+
+    for(int i=selected;i<individuals.size();i++)
+    {
+        population->setIndividual(i,populationAux.getIndividual(index));
         index++;
     }
     population->calculateFitnesses(problem);
