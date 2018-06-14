@@ -83,7 +83,9 @@ void AntColonyTestMultiThread::run()
                                         emit newProblem(value, fileFromDir.fileName(), 100*count/total);
                                     }
                                     //otimizacao
-                                    while(algorithm.generateNewPopulation(&population, &problem) == 1 && algorithm.getGenerationsWithoutImprovements() != 50)
+                                    //haveria a possibilidade de parar de ler passadas x geracoes sem melhorias
+                                    //algorithm.getGenerationsWithoutImprovements()
+                                    while(algorithm.generateNewPopulation(&population, &problem) == 1)
                                     {
                                         population.calculateFitnesses(&problem);
                                         if(previousFitness > population.getBestIndividual().getFitness()){
