@@ -52,3 +52,33 @@ int GeneticTestDialog::getIncrementMutation()
 {
     return ui->lineEditIncrementMutation->text().toInt();
 }
+
+int GeneticTestDialog::getStartRecombination()
+{
+    return ui->lineEditStartRecombination->text().toInt();
+}
+
+int GeneticTestDialog::getEndRecombination()
+{
+    return ui->lineEditEndRecombination->text().toInt();
+}
+
+int GeneticTestDialog::getIncrementRecombination()
+{
+    return ui->lineEditIncrementRecombination->text().toInt();
+}
+
+int GeneticTestDialog::getStartTournament()
+{
+    return ui->lineEditStartTournament->text().toInt();
+}
+
+int GeneticTestDialog::getEndTournament()
+{
+    return ui->lineEditEndTournament->text().toInt();
+}
+
+int GeneticTestDialog::getIncrementTournament()
+{
+    return ui->lineEditIncrementTournament->text().toInt();
+}

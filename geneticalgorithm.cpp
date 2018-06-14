@@ -5,12 +5,14 @@ GeneticAlgorithm::GeneticAlgorithm()
 
 }
 
-void GeneticAlgorithm::setUpAlgorithm(int elitism, int mutation, int generations)
+void GeneticAlgorithm::setUpAlgorithm(int elitism, int mutation, int generations, int recombination, int tournament)
 {
     this->generation=0;
     this->generations=generations;
     this->elitism=elitism * 0.01;
     this->mutation=mutation * 0.01;
+    this->recombination = recombination * 0.01;
+    this->tournamentSize = tournament;
 }
 
 int GeneticAlgorithm::generateNewPopulation(Population* population, Problem* problem)
@@ -22,46 +24,31 @@ int GeneticAlgorithm::generateNewPopulation(Population* population, Problem* pro
 
     QVector<Individual> individuals = population->getIndividuals();
 
+    //Aplica o Elitismo
     int selected = elitism * individuals.length();
 
-    //Seleção através de torneiro
+    //Declaração da população auxiliar
     Population populationAux;
+
+    //Guarda na PopulaçãoAux os melhores individuos
     for(int i=0; i<selected; i++)
     {
         populationAux.addIndividual(individuals[i]);
     }
 
+    //Aplica o torneio aos restantes individuos
     for(int i=selected; i<individuals.size(); i++)
     {
         populationAux.addIndividual(tournament(individuals));
     }
+
     individuals = populationAux.getIndividuals();
 
-    //Recombinação Uniforme
-    /*
-    int recombinationProb = 70; //probabilidade de recombinar
-    for(int j=selected; j< individuals.length(); j+=2)
-    {
-        if(qrand() % 100 < recombinationProb)
-        {
-            for(int n=0; n < individuals[j].getSolution().length(); n++)
-            {
-                //0 or 1 ?
-                if(qrand() % 2 == 0 && n+1 != individuals[j].getSolution().length())
-                {
-                    individuals[j].setValue(n,individuals[j-selected].getSolution()[n]);
-                }
-            }
-        }
-    }
-    */
-
     //Recombinação 1 corte
-    int recombinationProb = 80; //probabilidade de recombinar
     int cut; //local onde será o corte
     for(int j = 0; j < individuals.size()-1; j+=2)
     {
-        if(qrand() % 100 < recombinationProb)
+        if(qrand() % 100 < (int)(1/recombination))
         {
             cut = qrand() % individuals[j].getSolution().size();
 
@@ -78,7 +65,8 @@ int GeneticAlgorithm::generateNewPopulation(Population* population, Problem* pro
     {
         for(int k = 0; k < individuals[m].getSolution().size(); k++)
         {
-            if(qrand() % (int)(1 / mutation) == 0)
+            //if(qrand() % (int)(1 / mutation) == 0)
+            if(qrand() % 100 <= (int)(1/mutation))
             {
                 if(individuals[m].getSolution()[k] != 1)
                 {
@@ -124,15 +112,15 @@ int GeneticAlgorithm::getGenerations()
 
 Individual GeneticAlgorithm::tournament(QVector<Individual> individuals)
 {
-    int size = 2; //tamanho do torneio
     //Vai buscar um individuo ao calhas
     Individual best = individuals[qrand() % individuals.size()];
-    for(int i = 0; i < size; i++)
+
+    for(int i = 1; i < tournamentSize; i++)
     {
         //vai buscar outro individuo ao calhas
         Individual aux = individuals[qrand() % individuals.size()];
         //substitui sempre, caso o fitness seja melhor
-        if(aux.getFitness() > best.getFitness()){
+        if(aux.getFitness() < best.getFitness()){
             best = aux;
         }
     }

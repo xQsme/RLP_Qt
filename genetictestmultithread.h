@@ -12,7 +12,9 @@ class GeneticTestMultiThread : public QThread
 public:
     GeneticTestMultiThread();
     GeneticTestMultiThread(QString dir, int seed, int populationSize, int generations, int startElitism, int endElitism,
-                          int incrementElitism, int startMutation, int endMutation, int incrementMutation, int thread, int threads);
+                          int incrementElitism, int startMutation, int endMutation, int incrementMutation,
+                          int startRecombination, int endRecombination, int incrementRecombination,int startTournament,
+                          int endTournament, int incrementTournament, int thread, int threads);
     void run();
 private:
     QDir dir;
@@ -25,6 +27,12 @@ private:
     int startMutation;
     int endMutation;
     int incrementMutation;
+    int startRecombination;
+    int endRecombination;
+    int incrementRecombination;
+    int startTournament;
+    int endTournament;
+    int incrementTournament;
     int thread;
     int threads;
 signals:

@@ -20,6 +20,12 @@ public:
     int getStartMutation();
     int getEndMutation();
     int getIncrementMutation();
+    int getStartRecombination();
+    int getEndRecombination();
+    int getIncrementRecombination();
+    int getStartTournament();
+    int getEndTournament();
+    int getIncrementTournament();
 
 private slots:
     void on_pushButtonAccept_clicked();

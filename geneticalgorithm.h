@@ -9,7 +9,7 @@ class GeneticAlgorithm
 {
 public:
     GeneticAlgorithm();
-    void setUpAlgorithm(int elitism, int mutation, int generations);
+    void setUpAlgorithm(int elitism, int mutation, int generations, int recombination, int tournament);
     int generateNewPopulation(Population* population, Problem* problem);
     int getGeneration();
     int getGenerations();
@@ -19,6 +19,8 @@ private:
     int generations;
     float elitism;
     float mutation;
+    float recombination;
+    int tournamentSize;
 };
 
 #endif // GENETICALGORITHM_H

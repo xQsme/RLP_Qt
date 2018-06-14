@@ -10,7 +10,7 @@ class GeneticThread : public QThread
     Q_OBJECT
 public:
     GeneticThread();
-    GeneticThread(QString fileName, int seed, int populationSize, int generations, int elitism, int mutation);
+    GeneticThread(QString fileName, int seed, int populationSize, int generations, int elitism, int mutation, int recombination, int tournament);
     void run();
 private:
     Population population;
@@ -22,6 +22,8 @@ private:
     int generations;
     int elitism;
     int mutation;
+    int recombination;
+    int tournament;
 signals:
     void dataChanged(QString stuff);
     void singleProblem(QString stuff);

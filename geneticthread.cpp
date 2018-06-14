@@ -5,7 +5,7 @@ GeneticThread::GeneticThread()
 
 }
 
-GeneticThread::GeneticThread(QString fileName, int seed, int populationSize, int generations, int elitism, int mutation)
+GeneticThread::GeneticThread(QString fileName, int seed, int populationSize, int generations, int elitism, int mutation, int recombination, int tournament)
 {
     this->fileName=fileName;
     this->seed=seed;
@@ -13,6 +13,8 @@ GeneticThread::GeneticThread(QString fileName, int seed, int populationSize, int
     this->generations=generations;
     this->elitism=elitism;
     this->mutation=mutation;
+    this->recombination=recombination;
+    this->tournament=tournament;
 }
 
 void GeneticThread::run()
@@ -26,7 +28,7 @@ void GeneticThread::run()
     }
     population.setUpPopulation(seed, populationSize, &problem);
     population.calculateFitnesses(&problem);
-    algorithm.setUpAlgorithm(elitism, mutation, generations);
+    algorithm.setUpAlgorithm(elitism, mutation, generations, recombination, tournament);
     QString stuff = QString::number(population.getBestIndividual().getFitness()) + " " +
             QString::number(population.getBestIndividual().getDisconnected()) + " " +
             QString::number(population.getBestIndividual().getRegenerators()) + " " +

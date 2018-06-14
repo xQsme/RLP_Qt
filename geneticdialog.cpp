@@ -132,7 +132,9 @@ void GeneticDialog::on_pushButtonRead_clicked()
                                           ui->lineEditPopulation->text().toInt(),
                                           ui->lineEditGenerations->text().toInt(),
                                           ui->lineEditElitism->text().toInt(),
-                                          ui->lineEditMutation->text().toInt());
+                                          ui->lineEditMutation->text().toInt(),
+                                           ui->lineEditRecombination->text().toInt(),
+                                           ui->lineEditTournament->text().toInt());
             connect(mainThread, SIGNAL(dataChanged(QString)), this, SLOT(onDataChanged(QString)));
             connect(mainThread, SIGNAL(singleProblem(QString)), this, SLOT(singleProblem(QString)));
             mainThread->start();
@@ -176,6 +178,8 @@ void GeneticDialog::on_pushButtonSolve_clicked()
             infoStream << "Generations: " <<  ui->lineEditGenerations->text() << endl;
             infoStream << "Elitism: " <<  ui->lineEditElitism->text() << "%" << endl;
             infoStream << "Mutation: " <<  ui->lineEditMutation->text() << "%" << endl;
+            infoStream << "Mutation: " <<  ui->lineEditRecombination->text() << "%" << endl;
+            infoStream << "Mutation: " <<  ui->lineEditTournament->text() << endl;
             info.close();
 
             file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_genetic_algorithm_" + ui->comboBoxSeeds->currentText() + ".csv");
@@ -194,6 +198,8 @@ void GeneticDialog::on_pushButtonSolve_clicked()
                                                     ui->lineEditGenerations->text().toInt(),
                                                     ui->lineEditElitism->text().toInt(),
                                                     ui->lineEditMutation->text().toInt(),
+                                                    ui->lineEditRecombination->text().toInt(),
+                                                    ui->lineEditTournament->text().toInt(),
                                                     i, ui->comboBoxThreads->currentText().toInt());
                 connect(threads[i], SIGNAL(newProblem(int, QString, int)), this, SLOT(newProblem(int, QString, int)));
                 connect(threads[i], SIGNAL(problemEnded(QString, int)), this, SLOT(problemEnded(QString, int)));
@@ -244,13 +250,17 @@ void GeneticDialog::on_pushButtonSolve_2_clicked()
                            << dialog.getIncrementElitism() << "%" << endl;
                 infoStream << "Mutation: " <<  dialog.getStartMutation() << "% to " << dialog.getEndMutation() << "% by "
                            << dialog.getIncrementMutation() << "%" << endl;
+                infoStream << "Recombination: " <<  dialog.getStartRecombination() << "% to " << dialog.getEndRecombination() << "% by "
+                           << dialog.getIncrementRecombination() << "%" << endl;
+                infoStream << "Tournament: " <<  dialog.getStartTournament() << " to " << dialog.getEndTournament() << " by "
+                           << dialog.getIncrementTournament() << endl;
                 info.close();
 
                 file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_genetic_algorithm.csv");
                 file.open(QIODevice::WriteOnly | QIODevice::Text);
                 stream.setDevice(&file);
                 stream << "sep=;" << endl;
-                stream << "Elitism;Mutation;Generations;Time;Regenerators;Disconnected" << endl;
+                stream << "Elitism;Mutation;Recombination;Tournament;Generations;Time;Regenerators;Disconnected" << endl;
                 threads.clear();
                 elapsed.start();
                 connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -266,6 +276,12 @@ void GeneticDialog::on_pushButtonSolve_2_clicked()
                                                         dialog.getStartMutation(),
                                                         dialog.getEndMutation(),
                                                         dialog.getIncrementMutation(),
+                                                        dialog.getStartRecombination(),
+                                                        dialog.getEndRecombination(),
+                                                        dialog.getIncrementRecombination(),
+                                                        dialog.getStartTournament(),
+                                                        dialog.getEndTournament(),
+                                                        dialog.getIncrementTournament(),
                                                         i, ui->comboBoxThreads->currentText().toInt());
                     connect(test[i], SIGNAL(newProblem(int, QString, int)), this, SLOT(newProblem(int, QString, int)));
                     connect(test[i], SIGNAL(problemEnded(QString, int)), this, SLOT(problemEnded(QString, int)));
@@ -336,6 +352,8 @@ void GeneticDialog::disableForm(int batch)
     ui->lineEditGenerations->setDisabled(true);
     ui->lineEditElitism->setDisabled(true);
     ui->lineEditMutation->setDisabled(true);
+    ui->lineEditRecombination->setDisabled(true);
+    ui->lineEditTournament->setDisabled(true);
     ui->comboBoxThreads->setDisabled(true);
     ui->comboBoxSeeds->setDisabled(true);
     switch(batch){
@@ -364,6 +382,8 @@ void GeneticDialog::enableForm()
     ui->lineEditGenerations->setDisabled(false);
     ui->lineEditElitism->setDisabled(false);
     ui->lineEditMutation->setDisabled(false);
+    ui->lineEditRecombination->setDisabled(false);
+    ui->lineEditTournament->setDisabled(false);
     ui->comboBoxThreads->setDisabled(false);
     ui->comboBoxSeeds->setDisabled(false);
     if(ui->pushButtonSolve->text() == "Stop")

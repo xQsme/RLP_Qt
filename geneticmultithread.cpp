@@ -5,7 +5,7 @@ GeneticMultiThread::GeneticMultiThread()
 
 }
 
-GeneticMultiThread::GeneticMultiThread(QString dir, int seed, int populationSize, int generations, int elitism, int mutation, int thread, int threads)
+GeneticMultiThread::GeneticMultiThread(QString dir, int seed, int populationSize, int generations, int elitism, int mutation, int recombination, int tournament, int thread, int threads)
 {
     this->dir=QDir(dir);
     this->seed=seed;
@@ -13,6 +13,8 @@ GeneticMultiThread::GeneticMultiThread(QString dir, int seed, int populationSize
     this->generations=generations;
     this->elitism=elitism;
     this->mutation=mutation;
+    this->recombination=recombination;
+    this->tournament=tournament;
     this->thread=thread == threads - 1 ? 0 : thread+1;
     this->threads=threads;
 }
@@ -52,7 +54,7 @@ void GeneticMultiThread::run()
                     }
                     population.setUpPopulation(s, populationSize, &problem);
                     population.calculateFitnesses(&problem);
-                    algorithm.setUpAlgorithm(elitism, mutation, generations);
+                    algorithm.setUpAlgorithm(elitism, mutation, generations, recombination, tournament);
                     int value;
                     if(thread == 0){
                         value = threads-1;

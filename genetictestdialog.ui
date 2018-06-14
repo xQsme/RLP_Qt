@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>360</width>
-    <height>160</height>
+    <width>655</width>
+    <height>174</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -43,10 +43,38 @@
      <item>
       <widget class="QLineEdit" name="lineEditStartMutation">
        <property name="text">
-        <string>1</string>
+        <string>20</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Start Recomb</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEditStartRecombination">
+       <property name="text">
+        <string>40</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>Start Tournament</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEditStartTournament">
+       <property name="text">
+        <string>2</string>
        </property>
       </widget>
      </item>
@@ -64,7 +92,7 @@
      <item>
       <widget class="QLineEdit" name="lineEditEndElitism">
        <property name="text">
-        <string>50</string>
+        <string>20</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -81,10 +109,38 @@
      <item>
       <widget class="QLineEdit" name="lineEditEndMutation">
        <property name="text">
-        <string>10</string>
+        <string>40</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>End Recomb</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEditEndRecombination">
+       <property name="text">
+        <string>80</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_11">
+       <property name="text">
+        <string>End Tournament</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEditEndTournament">
+       <property name="text">
+        <string>10</string>
        </property>
       </widget>
      </item>
@@ -119,10 +175,38 @@
      <item>
       <widget class="QLineEdit" name="lineEditIncrementMutation">
        <property name="text">
-        <string>1</string>
+        <string>10</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Increment</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEditIncrementRecombination">
+       <property name="text">
+        <string>20</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_12">
+       <property name="text">
+        <string>Increment</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEditIncrementTournament">
+       <property name="text">
+        <string>2</string>
        </property>
       </widget>
      </item>
