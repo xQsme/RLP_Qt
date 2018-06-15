@@ -17,7 +17,7 @@ void MainWindow::on_pushButtonCustom_clicked()
 {
     CustomDialog* dialog =  new CustomDialog();
     dialog->setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
-    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->setAttribute(Qt::WA_DeleteOnClose, true);
     dialog->show();
 }
 
@@ -25,7 +25,7 @@ void MainWindow::on_pushButtonAntColony_clicked()
 {
     AntColonyDialog* dialog =  new AntColonyDialog();
     dialog->setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
-    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->setAttribute(Qt::WA_DeleteOnClose, true);
     dialog->show();
 }
 
@@ -33,7 +33,7 @@ void MainWindow::on_pushButtonBeeColony_clicked()
 {
     BeeColonyDialog* dialog =  new BeeColonyDialog();
     dialog->setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
-    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->setAttribute(Qt::WA_DeleteOnClose, true);
     dialog->show();
 }
 
@@ -41,7 +41,7 @@ void MainWindow::on_pushButtonGeneticAlgorithm_clicked()
 {
     GeneticDialog* dialog =  new GeneticDialog();
     dialog->setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
-    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->setAttribute(Qt::WA_DeleteOnClose, true);
     dialog->show();
 }
 
