@@ -1,5 +1,7 @@
 Seed: 50
 Population: 500
 Generations: 500
-Elitism: 5% to 50% by 5%
-Mutation: 1% to 10% by 1%
+Elitism: 5% to 20% by 5%
+Mutation: 20% to 40% by 10%
+Recombination: 40% to 80% by 20%
+Tournament: 2 to 10 by 2
