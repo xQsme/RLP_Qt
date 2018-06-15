@@ -180,7 +180,7 @@
           <item>
            <widget class="QLineEdit" name="lineEditElitism">
             <property name="text">
-             <string>40</string>
+             <string>15</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -201,7 +201,7 @@
           <item>
            <widget class="QLineEdit" name="lineEditMutation">
             <property name="text">
-             <string>15</string>
+             <string>40</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -220,7 +220,7 @@
         <item>
          <widget class="QLineEdit" name="lineEditTournament">
           <property name="text">
-           <string>2</string>
+           <string>4</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -232,7 +232,7 @@
           <item>
            <widget class="QLineEdit" name="lineEditRecombination">
             <property name="text">
-             <string>80</string>
+             <string>40</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
