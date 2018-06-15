@@ -26,7 +26,7 @@ void AntColonyAlgorithm::setUpAlgorithm(int generations, double probability_q,
     this->generation = 0;
 
     //iniciar o pheromonal trail
-    /*
+    t.clear();
     for(int i=0; i<numberOfAnts; i++){
         t << QVector<QVector<double>>();
         for(int j = 0; j < individualSize; j++)
@@ -34,9 +34,9 @@ void AntColonyAlgorithm::setUpAlgorithm(int generations, double probability_q,
             t[i] << QVector<double>();
         }
     }
-    */
 
-    t = new double**[numberOfAnts];
+
+    /*t = new double**[numberOfAnts];
     for (int j = 0; j < numberOfAnts; j++)
     {
         t[j] = new double*[individualSize];
@@ -44,7 +44,7 @@ void AntColonyAlgorithm::setUpAlgorithm(int generations, double probability_q,
         {
             t[j][i] = new double[2];
         }
-    }
+    }*/
 
     evaluate(); //procura a melhor solucao
     initializePheromoneTrail(); //inicia o trilho de feromonas
@@ -193,7 +193,7 @@ void AntColonyAlgorithm::initializePheromoneTrail()
         {
             for(int j = 0; j < 2; j++)
             {
-                t[a][i][j] = 1.0/(Q*bestAntIteration.getFitness());
+                t[a][i] << 1.0/(Q*bestAntIteration.getFitness());
             }
         }
     }
