@@ -241,7 +241,7 @@
         <item>
          <widget class="QLineEdit" name="lineEditTournament">
           <property name="text">
-           <string>4</string>
+           <string>10</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

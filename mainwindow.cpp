@@ -52,7 +52,7 @@ void MainWindow::on_actionSort_Results_triggered()
     {
         foreach(QFileInfo fileToRead, dir.entryInfoList())
         {
-            if(!dir.absolutePath().contains(fileToRead.absoluteFilePath()) && !fileToRead.fileName().contains("settings"))
+            if(!fileToRead.fileName().contains("settings") && !fileToRead.isDir())
             {
                 QList<QString> list;
                 QFile file(fileToRead.absoluteFilePath());
