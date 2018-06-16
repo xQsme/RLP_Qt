@@ -60,7 +60,7 @@
      <x>10</x>
      <y>12</y>
      <width>183</width>
-     <height>496</height>
+     <height>535</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -119,9 +119,9 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_8">
+         <widget class="QLabel" name="label_11">
           <property name="text">
-           <string>Tournament</string>
+           <string>Recombination</string>
           </property>
           <property name="buddy">
            <cstring>lineEditMutation</cstring>
@@ -129,9 +129,9 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_11">
+         <widget class="QLabel" name="label_8">
           <property name="text">
-           <string>Recombination</string>
+           <string>Tournament</string>
           </property>
           <property name="buddy">
            <cstring>lineEditMutation</cstring>
@@ -180,7 +180,7 @@
           <item>
            <widget class="QLineEdit" name="lineEditElitism">
             <property name="text">
-             <string>15</string>
+             <string>10</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -201,7 +201,7 @@
           <item>
            <widget class="QLineEdit" name="lineEditMutation">
             <property name="text">
-             <string>40</string>
+             <string>30</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -218,21 +218,11 @@
          </layout>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEditTournament">
-          <property name="text">
-           <string>4</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
          <layout class="QHBoxLayout" name="horizontalLayout_9">
           <item>
            <widget class="QLineEdit" name="lineEditRecombination">
             <property name="text">
-             <string>40</string>
+             <string>60</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -247,6 +237,16 @@
            </widget>
           </item>
          </layout>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEditTournament">
+          <property name="text">
+           <string>4</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

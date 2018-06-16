@@ -178,8 +178,8 @@ void GeneticDialog::on_pushButtonSolve_clicked()
             infoStream << "Generations: " <<  ui->lineEditGenerations->text() << endl;
             infoStream << "Elitism: " <<  ui->lineEditElitism->text() << "%" << endl;
             infoStream << "Mutation: " <<  ui->lineEditMutation->text() << "%" << endl;
-            infoStream << "Mutation: " <<  ui->lineEditRecombination->text() << "%" << endl;
-            infoStream << "Mutation: " <<  ui->lineEditTournament->text() << endl;
+            infoStream << "Recombination: " <<  ui->lineEditRecombination->text() << "%" << endl;
+            infoStream << "Tournament: " <<  ui->lineEditTournament->text() << endl;
             info.close();
 
             file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_genetic_algorithm_" + ui->comboBoxSeeds->currentText() + ".csv");
