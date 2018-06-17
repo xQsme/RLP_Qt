@@ -45,7 +45,7 @@ void AntColonyTestMultiThread::run()
 
     foreach(QFileInfo fileFromDir, dir.entryInfoList())
     {
-        if(!dir.absolutePath().contains(fileFromDir.absoluteFilePath()))
+        if(!fileFromDir.isDir())
         {
             count++;
             if(count % threads == thread)
@@ -67,6 +67,7 @@ void AntColonyTestMultiThread::run()
                                         problem.setUpProblem(fileFromDir.absoluteFilePath());
                                     }
                                     catch(const std::invalid_argument ex){
+                                        emit wrongFile();
                                         return;
                                     }
                                     population.setUpPopulation(seed, populationSize, &problem);

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>773</width>
-    <height>514</height>
+    <height>502</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>430</y>
+     <y>470</y>
      <width>571</width>
      <height>23</height>
     </rect>
@@ -45,7 +45,7 @@
      <x>200</x>
      <y>27</y>
      <width>561</width>
-     <height>401</height>
+     <height>441</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -59,8 +59,8 @@
     <rect>
      <x>10</x>
      <y>12</y>
-     <width>183</width>
-     <height>535</height>
+     <width>191</width>
+     <height>481</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_4">

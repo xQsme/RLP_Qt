@@ -26,6 +26,7 @@ private:
 signals:
     void dataChanged(QString stuff);
     void singleProblem(QString stuff);
+    void wrongFile();
 };
 
 #endif // CUSTOMTHREAD_H

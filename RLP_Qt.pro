@@ -6,6 +6,8 @@
 
 QT       += core gui charts
 
+CONFIG+= static
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = RLP_Qt

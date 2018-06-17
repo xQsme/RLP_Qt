@@ -35,17 +35,6 @@ void AntColonyAlgorithm::setUpAlgorithm(int generations, double probability_q,
         }
     }
 
-
-    /*t = new double**[numberOfAnts];
-    for (int j = 0; j < numberOfAnts; j++)
-    {
-        t[j] = new double*[individualSize];
-        for (int i = 0; i < individualSize; i++)
-        {
-            t[j][i] = new double[2];
-        }
-    }*/
-
     evaluate(); //procura a melhor solucao
     initializePheromoneTrail(); //inicia o trilho de feromonas
     intensification = true;

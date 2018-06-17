@@ -34,7 +34,7 @@ void GeneticMultiThread::run()
 
     foreach(QFileInfo fileFromDir, dir.entryInfoList())
     {
-        if(!dir.absolutePath().contains(fileFromDir.absoluteFilePath()))
+        if(!fileFromDir.isDir())
         {
             count++;
             if(count % threads == thread)
@@ -50,6 +50,7 @@ void GeneticMultiThread::run()
                         problem.setUpProblem(fileFromDir.absoluteFilePath());
                     }
                     catch(const std::invalid_argument ex){
+                        emit wrongFile();
                         return;
                     }
                     population.setUpPopulation(s, populationSize, &problem);

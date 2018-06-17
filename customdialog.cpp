@@ -137,16 +137,9 @@ void CustomDialog::on_pushButtonRead_clicked()
                                           ui->lineEditMutation->text().toInt());
             connect(mainThread, SIGNAL(dataChanged(QString)), this, SLOT(onDataChanged(QString)));
             connect(mainThread, SIGNAL(singleProblem(QString)), this, SLOT(singleProblem(QString)));
+            connect(mainThread, SIGNAL(wrongFile()), this, SLOT(wrongFile()));
             mainThread->start();
             disableForm(0);
-        }
-        else
-        {
-            QMessageBox msgBox;
-            msgBox.setWindowTitle("Error");
-            msgBox.setText("Please select a file.");
-            msgBox.addButton("Whatever", QMessageBox::AcceptRole);
-            msgBox.exec();
         }
     }
     else if(ui->pushButtonRead->text() == "Close")
@@ -199,17 +192,12 @@ void CustomDialog::on_pushButtonSolve_clicked()
                                                     i, ui->comboBoxThreads->currentText().toInt());
                 connect(threads[i], SIGNAL(newProblem(int, QString, int)), this, SLOT(newProblem(int, QString, int)));
                 connect(threads[i], SIGNAL(problemEnded(QString, int)), this, SLOT(problemEnded(QString, int)));
+                if(i==0){
+                    connect(threads[i], SIGNAL(wrongFile()), this, SLOT(wrongFile()));
+                }
                 threads[i]->start();
             }
             disableForm(1);
-        }
-        else
-        {
-            QMessageBox msgBox;
-            msgBox.setWindowTitle("Error");
-            msgBox.setText("Please select a directory.");
-            msgBox.addButton("Whatever", QMessageBox::AcceptRole);
-            msgBox.exec();
         }
     }
     else
@@ -271,18 +259,13 @@ void CustomDialog::on_pushButtonSolve_2_clicked()
                                                         i, ui->comboBoxThreads->currentText().toInt());
                     connect(test[i], SIGNAL(newProblem(int, QString, int)), this, SLOT(newProblem(int, QString, int)));
                     connect(test[i], SIGNAL(problemEnded(QString, int)), this, SLOT(problemEnded(QString, int)));
+                    if(i==0){
+                        connect(test[i], SIGNAL(wrongFile()), this, SLOT(wrongFile()));
+                    }
                     test[i]->start();
                 }
                 disableForm(2);
             }
-        }
-        else
-        {
-            QMessageBox msgBox;
-            msgBox.setWindowTitle("Error");
-            msgBox.setText("Please select a directory.");
-            msgBox.addButton("Whatever", QMessageBox::AcceptRole);
-            msgBox.exec();
         }
     }
     else
@@ -435,4 +418,16 @@ void CustomDialog::update()
     }
     strmin += QString::number(minutes);
     ui->labelElapsed->setText("Elapsed Time: " + strmin + ":" + strsec);
+}
+
+void CustomDialog::wrongFile()
+{
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Error");
+    msgBox.setText("Wrong file formatting.");
+    msgBox.addButton("Ok", QMessageBox::AcceptRole);
+    msgBox.exec();
+    enableForm();
+    ui->progressBar->setValue(100);
+    timer.stop();
 }

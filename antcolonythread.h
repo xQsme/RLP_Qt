@@ -30,6 +30,7 @@ private:
 signals:
     void dataChanged(QString stuff);
     void singleProblem(QString stuff);
+    void wrongFile();
 };
 
 #endif // ANTCOLONYTHREAD_H

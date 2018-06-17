@@ -59,6 +59,7 @@ public slots:
     void singleProblem(QString stuff);
     void newProblem(int thread, QString fileName, int percent);
     void problemEnded(QString stuff, int ended);
+    void wrongFile();
 };
 
 #endif // BEECOLONYDIALOG_H

@@ -22,6 +22,7 @@ void CustomThread::run()
         problem.setUpProblem(fileName);
     }
     catch(const std::invalid_argument ex){
+        emit wrongFile();
         return;
     }
     population.setUpPopulation(seed, populationSize, &problem);

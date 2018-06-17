@@ -48,7 +48,7 @@ void Problem::setUpProblem(QString filename){
            else if (total != 0) { //Total de ligações
                if (line.indexOf("=") == -1)
                {
-                   throw std::invalid_argument("wrong file!");
+                    throw std::invalid_argument("wrong file!");
                }
                if (line.indexOf(";") == -1)
                {
@@ -64,10 +64,16 @@ void Problem::setUpProblem(QString filename){
            { //Total de nós
                if (line.indexOf(";") == -1)
                {
+                   if(line.indexOf("=")==-1){
+                       throw std::invalid_argument("wrong file!");
+                   }
                    total = line.mid(line.indexOf("=") + 2).toInt();
                }
                else
                {
+                   if(line.indexOf("=")==-1){
+                       throw std::invalid_argument("wrong file!");
+                   }
                    line = line.left(line.indexOf(";"));
                    total = line.mid(line.indexOf("=")+1).toInt();
                }

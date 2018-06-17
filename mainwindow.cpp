@@ -47,7 +47,7 @@ void MainWindow::on_pushButtonGeneticAlgorithm_clicked()
 
 void MainWindow::on_actionSort_Results_triggered()
 {
-    QDir dir = QFileDialog::getExistingDirectory(0, ("Select Directory"), "../RLP_Qt/Results");
+    QDir dir = QFileDialog::getExistingDirectory(0, ("Select Directory"), "../RLP_Qt");
     if(dir.dirName() != ".")
     {
         foreach(QFileInfo fileToRead, dir.entryInfoList())
@@ -62,34 +62,27 @@ void MainWindow::on_actionSort_Results_triggered()
                     list.append(file.readLine());
                 }
                 file.close();
+                if(list.length() > 2){
+                    QString first = list.takeAt(0);
+                    QString second = list.takeAt(0);
+                    if(first.contains("sep=;") && second.contains("Size;Problem;Instance;Seed;Generations;Time;Fitness;Regenerators;Disconnected")){
+                        list.sort();
 
-                QString first = list.takeAt(0);
-                QString second = list.takeAt(0);
-                if(first.contains("sep=;") && second.contains("Size;Problem;Instance;Seed;Generations;Time;Fitness;Regenerators;Disconnected")){
-                    list.sort();
-
-                    file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text);
-                    QTextStream in(&file);
-                    in << first;
-                    in << second;
-                    for(int i = 0; i < list.length(); i++){
-                        in << list.at(i);
+                        file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text);
+                        QTextStream in(&file);
+                        in << first;
+                        in << second;
+                        for(int i = 0; i < list.length(); i++){
+                            in << list.at(i);
+                        }
+                        file.close();
                     }
-                    file.close();
                 }
             }
         }
         QMessageBox msgBox;
         msgBox.setWindowTitle("Success");
         msgBox.setText("All files sorted.");
-        msgBox.addButton("Whatever", QMessageBox::AcceptRole);
-        msgBox.exec();
-    }
-    else
-    {
-        QMessageBox msgBox;
-        msgBox.setWindowTitle("Error");
-        msgBox.setText("Please select a directory.");
         msgBox.addButton("Whatever", QMessageBox::AcceptRole);
         msgBox.exec();
     }
