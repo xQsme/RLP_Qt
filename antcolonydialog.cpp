@@ -234,7 +234,7 @@ void AntColonyDialog::on_pushButtonSolve_2_clicked()
             if(dialog.exec() == QDialog::Accepted){
                 ui->progressBar->setValue(0);
                 enableThreads();
-                QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_antcolony_algorithm_settings.txt");
+                QFile info("../RLP_Qt/DataSets/" + dir.dirName() + "_ant_colony_algorithm_settings.txt");
                 info.open(QIODevice::WriteOnly | QIODevice::Text);
                 QTextStream infoStream(&info);
                 infoStream << "Population: " <<  ui->lineEditPopulation->text() << endl;
@@ -250,7 +250,7 @@ void AntColonyDialog::on_pushButtonSolve_2_clicked()
                            << dialog.getIncrementInfluence() << "%" << endl;
                 info.close();
 
-                file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_antcolony_algorithm.csv");
+                file.setFileName("../RLP_Qt/DataSets/" + dir.dirName() + "_ant_colony_algorithm.csv");
                 file.open(QIODevice::WriteOnly | QIODevice::Text);
                 stream.setDevice(&file);
                 stream << "sep=;" << endl;
