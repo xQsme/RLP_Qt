@@ -68,15 +68,7 @@ int GeneticAlgorithm::generateNewPopulation(Population* population, Problem* pro
             //if(qrand() % (int)(1 / mutation) == 0)
             if(qrand() % 100 <= (int)(1/mutation))
             {
-                if(individuals[m].getSolution()[k] != 1)
-                {
-                    newValue = 1;
-                }
-                else
-                {
-                    newValue = 0;
-                }
-                individuals[m].setValue(k, newValue);
+                individuals[m].invertValue(k);
             }
         }
     }

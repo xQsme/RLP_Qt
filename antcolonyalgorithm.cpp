@@ -104,7 +104,7 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
                 auxIndividual.setValue(r,novo);
             }
         }
-
+        auxIndividual.calculateFitness(problem);
         if(intensification == true) //se a intensificacao estiver ativa
         {
             //se o fitness do individuo atual for menor que o já existente, substitui
@@ -142,20 +142,18 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
         lsIndividual = ants->getIndividuals()[ind].clone();
         for(int o = 0; o < lsIndividual.getSolution().length(); o++)
         {
-            if(lsIndividual.getSolution()[o] == 1)
-            {
-                lsIndividual.setValue(0,0);
-                lsIndividual.calculateFitness(problem);
+            lsIndividual.invertValue(o);
+            lsIndividual.calculateFitness(problem);
 
-                if(lsIndividual.getFitness() <= ants->getIndividuals()[ind].getFitness())
-                {
-                    ants->setIndividual(ind, lsIndividual);
-                    ants->getIndividuals()[ind].calculateFitness(problem);
-                }
+            if(lsIndividual.getFitness() <= ants->getIndividuals()[ind].getFitness())
+            {
+                ants->setIndividual(ind, lsIndividual);
+                ants->getIndividuals()[ind].calculateFitness(problem);
+            }else{
+                lsIndividual.invertValue(o);
             }
         }
     }
-
 
     //se não foi possivel melhorar nenhuma solucao
     if(cond)

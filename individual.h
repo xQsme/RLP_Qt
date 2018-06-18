@@ -19,6 +19,7 @@ public:
     void setRegenerators(int regenerators);
     Individual clone();
     void addValue(int i);
+    void invertValue(int pos);
 private:
     QVector<int> solution;
     int fitness=0;

@@ -105,6 +105,12 @@ Individual Individual::clone()
     return aux;
 }
 
-void Individual::addValue(int i){
+void Individual::addValue(int i)
+{
     solution << i;
+}
+
+void Individual::invertValue(int pos)
+{
+    solution[pos]=qAbs(solution[pos]-1);
 }
