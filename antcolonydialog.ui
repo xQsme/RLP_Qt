@@ -178,7 +178,7 @@
           <item>
            <widget class="QLineEdit" name="lineEditQProb">
             <property name="text">
-             <string>70</string>
+             <string>80</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -197,7 +197,7 @@
         <item>
          <widget class="QLineEdit" name="lineEditMods">
           <property name="text">
-           <string>7</string>
+           <string>5</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -209,7 +209,7 @@
           <item>
            <widget class="QLineEdit" name="lineEditEvaporation">
             <property name="text">
-             <string>40</string>
+             <string>50</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -230,7 +230,7 @@
           <item>
            <widget class="QLineEdit" name="lineEditInflunce">
             <property name="text">
-             <string>80</string>
+             <string>60</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
