@@ -16,7 +16,7 @@ void AntColonyAlgorithm::setUpAlgorithm(int generations, double probability_q,
     this->probability_q = probability_q;
     this->Q = q;
     this->numberOfAnts = population->getPopulationSize();
-    this->individualSize = population->getBestIndividual().getSolution().length();
+    this->individualSize = population->getBestIndividual().getSolution().size();
     this->numberOfMods = number_mods;
     this->bestAntIteration = Individual(problem);
     this->bestAntRun = Individual(problem);
@@ -59,7 +59,7 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
 
         for(n = 0; n < numberOfMods; n++) //Para cada modificao pretendida
         {
-            if((qrand() % 101) < probability_q)
+            if((qrand() % 100) < probability_q) //probability [0;100]
             {
                 maior = 0;
                 s = 0;
@@ -88,7 +88,7 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
                 {
                     total += t[i][r][j];
                 }
-                probability = (qrand() % 101)/100.0;
+                probability = (qrand() % 100)/100.0;
                 novo=1;
                 for(j = 0; j < 2; j++)
                 {
@@ -136,6 +136,7 @@ int AntColonyAlgorithm::generateNewPopulation(Population* population, Problem* p
     //Tentar trocar duas posicaoes aleatoriamente e verificar se ha melhoria
 
 
+    ants->calculateFitnesses(problem);
     Individual lsIndividual;
     for(int ind = 0; ind < ants->getPopulationSize();ind++)
     {
@@ -180,7 +181,7 @@ void AntColonyAlgorithm::initializePheromoneTrail()
         {
             for(int j = 0; j < 2; j++)
             {
-                t[a][i] << 1.0/(Q*bestAntIteration.getFitness());
+                t[a][i] << 1.0/(Q*bestAntIteration.getFitness()); //Q is [0;100]?
             }
         }
     }
@@ -201,7 +202,7 @@ void AntColonyAlgorithm::updatePheromoneTrail()
         {
             for(int j = 0; j < 2; j++)
             {
-                t[a][i][j] = (1.0 - pheromoneEvaportaion) * t[a][i][j];
+                t[a][i][j] = (1.0 - (pheromoneEvaportaion * 0.01)) * t[a][i][j]; //pheromoneEvaportaion is [0;1]
             }
         }
     }
@@ -218,7 +219,7 @@ void AntColonyAlgorithm::updatePheromoneTrail()
                 g = 0;
             }
 
-            t[a][i][g]=t[a][i][g]+(pheromoneInfluence/bestAntIteration.getFitness());
+            t[a][i][g]=t[a][i][g]+((pheromoneInfluence * 0.01)/bestAntIteration.getFitness()); //pheromoneInfluence is [0;1]
         }
     }
 }
