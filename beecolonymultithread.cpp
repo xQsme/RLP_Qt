@@ -56,7 +56,6 @@ void BeeColonyMultiThread::run()
                         return;
                     }
                     population.setUpPopulation(s, populationSize, &problem);
-                    population.calculateFitnesses(&problem);
                     algorithm.setUpAlgorithm(generations, &problem, &population, selectSize, bestSize, selectValue, bestValue, changeValue);
                     int value;
                     if(thread == 0){

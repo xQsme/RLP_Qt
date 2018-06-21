@@ -57,7 +57,6 @@ void AntColonyMultiThread::run()
                         return;
                     }
                     population.setUpPopulation(s, populationSize, &problem);
-                    population.calculateFitnesses(&problem);
                     algorithm.setUpAlgorithm(generations, probability_q, q, number_mods, &population, &problem, evaporation, influence);
                     int value;
                     if(thread == 0){
@@ -71,7 +70,6 @@ void AntColonyMultiThread::run()
                     }
                     while(algorithm.generateNewPopulation(&population, &problem) == 1)
                     {
-                        population.calculateFitnesses(&problem);
                         if(previousFitness > population.getBestIndividual().getFitness()){
                             previousFitness = population.getBestIndividual().getFitness();
                             bestGeneration = algorithm.getGeneration();

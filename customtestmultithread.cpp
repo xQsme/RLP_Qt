@@ -72,7 +72,6 @@ void CustomTestMultiThread::run()
                         }
                         while(algorithm.generateNewPopulation(&population, &problem) == 1)
                         {
-                            population.calculateFitnesses(&problem);
                             if(previousFitness > population.getBestIndividual().getFitness()){
                                 previousFitness = population.getBestIndividual().getFitness();
                                 bestGeneration = algorithm.getGeneration();

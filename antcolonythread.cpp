@@ -31,7 +31,6 @@ void AntColonyThread::run()
         return;
     }
     population.setUpPopulation(seed, populationSize, &problem);
-    population.calculateFitnesses(&problem);
     algorithm.setUpAlgorithm(generations, probability_q, q, number_mods, &population, &problem, evaporation, influence);
     QString stuff = QString::number(population.getBestIndividual().getFitness()) + " " +
             QString::number(population.getBestIndividual().getDisconnected()) + " " +
@@ -40,7 +39,6 @@ void AntColonyThread::run()
             QString::number(problem.getConnections());
     emit singleProblem(stuff);
     while(algorithm.generateNewPopulation(&population, &problem) == 1){
-        population.calculateFitnesses(&problem);
         QString ended;
         if(algorithm.getGeneration() >= algorithm.getGenerations()){
             ended = " 1 ";

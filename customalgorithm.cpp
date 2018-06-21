@@ -95,6 +95,8 @@ int CustomAlgorithm::generateNewPopulation(Population* population, Problem* prob
         }
     }
 
+    population->calculateFitnesses(problem);
+
     return 1;
 }
 
