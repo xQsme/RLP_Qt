@@ -1,0 +1,7 @@
+Population: 50
+Generations: 500
+Q probability: 80%
+Q: 35
+Modifications: 5
+Evaporation: 50%
+Influence: 60%
