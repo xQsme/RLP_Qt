@@ -1,5 +1,0 @@
-Seed: 50
-Population: 500
-Generations: 500
-Elitism: 5% to 50% by 5%
-Mutation: 1% to 10% by 1%

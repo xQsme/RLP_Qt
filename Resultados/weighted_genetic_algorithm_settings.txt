@@ -1,0 +1,6 @@
+Population: 500
+Generations: 500
+Elitism: 10%
+Mutation: 30%
+Recombination: 60%
+Tournament: 10
