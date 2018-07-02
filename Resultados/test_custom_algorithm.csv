@@ -1,3 +1,4 @@
+sep=;
 Elitism;Mutation;Generations;Time;Regenerators;Disconnected
 5;1;10;154;4;0
 5;1;10;140;14;0
