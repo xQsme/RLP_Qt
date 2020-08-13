@@ -21,4 +21,4 @@ In optical networks, the strength of an optical signal deteriorates as it gets f
 
 ## Data Sources
 
-Data Sources were obtained from the [website](https://homepage.univie.ac.at/ivana.ljubic/research/rlp/) of the University of Wien.
+Data Sources were obtained from the [this article](https://homepage.univie.ac.at/ivana.ljubic/research/rlp/) on the website of the University of Wien.
